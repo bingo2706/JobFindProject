@@ -1,5 +1,5 @@
 import db from "../models/index";
-
+const cloudinary = require('../utils/cloudinary');
 let handleCreateNewAllCode = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -20,10 +20,18 @@ let handleCreateNewAllCode = (data) => {
                         errMessage: 'Mã code đã tồn tại !'
                     })
                 } else {
+                    let imageUrl = ""
+                    if (data.image) {
+                        const uploadedResponse = await cloudinary.uploader.upload(data.image, {
+                            upload_preset: 'dev_setups'
+                        })
+                        imageUrl = uploadedResponse.url
+                    }
                     await db.Allcode.create({
                         type: data.type,
                         value: data.value,
-                        code: data.code
+                        code: data.code,
+                        image: imageUrl
                     })
                 }
 
@@ -76,6 +84,14 @@ let handleUpdateAllCode = (data) => {
                     raw: false
                 })
                 if (res) {
+                    let imageUrl = ""
+                    if (data.image) {
+                        const uploadedResponse = await cloudinary.uploader.upload(data.image, {
+                            upload_preset: 'dev_setups'
+                        })
+                        imageUrl = uploadedResponse.url
+                        res.image = imageUrl
+                    }
                     res.value = data.value
                     res.code = data.code
                     await res.save();

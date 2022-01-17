@@ -2,6 +2,7 @@ import express from "express";
 import userController from '../controllers/userController';
 import allcodeController from '../controllers/allcodeController';
 import companyController from '../controllers/companyController';
+import postController from '../controllers/postController';
 let router = express.Router();
 
 let initWebRoutes = (app) => {
@@ -27,6 +28,12 @@ let initWebRoutes = (app) => {
     router.post('/api/create-new-company', companyController.handleCreateNewCompany)
     router.put('/api/update-company', companyController.handleUpdateCompany)
     router.delete('/api/delete-company', companyController.handleDeleteCompany)
+    router.put('/api/add-user-company', companyController.handleAddUserCompany)
+    router.get('/api/get-list-company', companyController.getListCompany)
+    router.get('/api/get-detail-company-by-id', companyController.getDetailCompanyById)
+
+    //==================API POST==========================//
+    router.post('/api/create-new-post', postController.handleCreateNewPost)
     return app.use("/", router);
 }
 

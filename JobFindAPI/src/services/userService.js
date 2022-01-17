@@ -1,6 +1,6 @@
 import db from "../models/index";
 import bcrypt from "bcryptjs";
-
+const cloudinary = require('../utils/cloudinary');
 const salt = bcrypt.genSaltSync(10);
 
 let hashUserPasswordFromBcrypt = (password) => {
@@ -45,7 +45,14 @@ let handleCreateNewUser = (data) => {
                         errMessage: 'Your phonenumber is already in used, Plz try another phonenumber!'
                     })
                 } else {
+                    let imageUrl = ""
                     let hashPassword = await hashUserPasswordFromBcrypt(data.password);
+                    if (data.image) {
+                        const uploadedResponse = await cloudinary.uploader.upload(data.image, {
+                            upload_preset: 'dev_setups'
+                        })
+                        imageUrl = uploadedResponse.url
+                    }
                     await db.User.create({
                         password: hashPassword,
                         firstName: data.firstName,
@@ -54,9 +61,10 @@ let handleCreateNewUser = (data) => {
                         roleId: data.roleId,
                         genderId: data.genderId,
                         phonenumber: data.phonenumber,
-                        image: data.avatar,
+                        image: imageUrl,
                         dob: data.dob,
                         statusId: 'S1',
+
                     })
                     resolve({
                         errCode: 0,
@@ -126,7 +134,12 @@ let updateUserData = (data) => {
                     user.genderId = data.genderId
                     user.dob = data.dob
                     if (data.image) {
-                        user.image = data.image
+                        let imageUrl = ""
+                        const uploadedResponse = await cloudinary.uploader.upload(data.image, {
+                            upload_preset: 'dev_setups'
+                        })
+                        imageUrl = uploadedResponse.url
+                        user.image = imageUrl
                     }
                     await user.save();
                     resolve({

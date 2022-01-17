@@ -26,7 +26,8 @@ module.exports = (sequelize, DataTypes) => {
         category_joblevel_code: DataTypes.STRING,
         category_worktype_id: DataTypes.STRING,
         experience: DataTypes.STRING,
-        genderPostCode: DataTypes.STRING
+        genderPostCode: DataTypes.STRING,
+        userId: DataTypes.INTEGER
     }, {
         sequelize,
         modelName: 'Post',
