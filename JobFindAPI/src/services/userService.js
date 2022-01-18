@@ -265,6 +265,7 @@ let getAllUser = (data) => {
                     include: [
                         { model: db.Allcode, as: 'roleData', attributes: ['value', 'code'] },
                         { model: db.Allcode, as: 'genderData', attributes: ['value', 'code'] },
+                        { model: db.Allcode, as: 'statusData', attributes: ['value', 'code'] },
                     ],
                     raw: true,
                     nest: true

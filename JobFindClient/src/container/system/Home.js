@@ -18,7 +18,7 @@ const Home = () => {
                 <div className="col-md-6 grid-margin stretch-card">
                     <div className="card tale-bg">
                         <div className="card-people mt-auto">
-                            <img src="assetsAdmin/images/dashboard/people.svg" alt="people" />
+                            <img src="/assetsAdmin/images/dashboard/people.svg" alt="people" />
                             <div className="weather-info">
                                 <div className="d-flex">
                                     <div>
