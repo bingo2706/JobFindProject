@@ -21,14 +21,14 @@ module.exports = {
             statusId: {
                 type: Sequelize.STRING
             },
-            category_job_code: {
+            category_job_id: {
                 type: Sequelize.STRING
             },
             address: {
                 type: Sequelize.STRING
             },
 
-            salary: {
+            salary_job_id: {
                 type: Sequelize.STRING
             },
             amount: {
@@ -37,13 +37,13 @@ module.exports = {
             time_end: {
                 type: Sequelize.STRING
             },
-            category_joblevel_code: {
+            category_joblevel_id: {
                 type: Sequelize.STRING
             },
             category_worktype_id: {
                 type: Sequelize.STRING
             },
-            experience: {
+            experience_job_id: {
                 type: Sequelize.STRING
             },
             genderPostCode: {

@@ -124,7 +124,7 @@ const AddUser = () => {
             <div className="col-12 grid-margin">
                 <div className="card">
                     <div className="card-body">
-                        <h4 className="card-title">Thêm mới người dùng</h4>
+                        <h4 className="card-title">{isActionADD === true ? 'Thêm mới người dùng' : 'Cập nhật người dùng'}</h4>
                         <br></br>
                         <form className="form-sample">
 

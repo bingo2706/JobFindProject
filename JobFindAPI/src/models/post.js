@@ -18,14 +18,14 @@ module.exports = (sequelize, DataTypes) => {
         descriptionHTML: DataTypes.TEXT('long'),
         descriptionMarkdown: DataTypes.TEXT('long'),
         statusId: DataTypes.STRING,
-        category_job_code: DataTypes.STRING,
+        category_job_id: DataTypes.STRING,
         address: DataTypes.STRING,
-        salary: DataTypes.STRING,
+        salary_job_id: DataTypes.STRING,
         amount: DataTypes.INTEGER,
         time_end: DataTypes.STRING,
-        category_joblevel_code: DataTypes.STRING,
+        category_joblevel_id: DataTypes.STRING,
         category_worktype_id: DataTypes.STRING,
-        experience: DataTypes.STRING,
+        experience_job_id: DataTypes.STRING,
         genderPostCode: DataTypes.STRING,
         userId: DataTypes.INTEGER
     }, {
