@@ -13,8 +13,10 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
+  Link,
+  Redirect
 } from "react-router-dom";
+import header from './container/header/header'
 function App() {
   return (
     <Router>
@@ -53,8 +55,17 @@ function App() {
 
 
           {/* <DetailPage /> */}
+          <Route path="/detail-job">
+            <Header />
+            <DetailPage />
+            <Footer />
+          </Route>
 
 
+
+          {/* Đoạn này để config các đường dẫn k tồn tại đều chuyển về trang mình muốn tạm thời để tạm trang chủ lun */}
+          <Redirect to="/" />
+          
           <ToastContainer
             position="top-right"
             autoClose={4000}
