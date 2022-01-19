@@ -13,9 +13,10 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
+  Link,
+  Redirect
 } from "react-router-dom";
-import { Redirect } from 'react-router';
+
 import Otp from './container/login/Otp'
 import Login from './container/login/Login'
 import Register from './container/login/Register'
@@ -62,6 +63,14 @@ function App() {
 
 
           {/* <DetailPage /> */}
+          <Route path="/detail-job">
+            <Header />
+            <DetailPage />
+            <Footer />
+          </Route>
+
+
+
 
 
           <ToastContainer

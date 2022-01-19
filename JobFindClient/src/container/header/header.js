@@ -1,6 +1,6 @@
 import React from 'react'
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import './header.scss';
 
 const Header = () => {
@@ -26,26 +26,26 @@ const Header = () => {
         <>
             <header>
                 {/* <!-- Header Start --> */}
-                <div class="header-area header-transparrent">
-                    <div class="headder-top header-sticky">
-                        <div class="container">
-                            <div class="row align-items-center">
-                                <div class="col-lg-3 col-md-2">
+                <div className="header-area header-transparrent">
+                    <div className="headder-top header-sticky">
+                        <div className="container">
+                            <div className="row align-items-center">
+                                <div className="col-lg-3 col-md-2">
                                     {/* <!-- Logo --> */}
-                                    <div class="logo">
-                                        <Link to={'/'}><img src="assets/img/logo/logo.png" alt="" /></Link>
+                                    <div className="logo">
+                                        <NavLink to="/"><img src="assets/img/logo/logo.png" alt="" /></NavLink>
                                     </div>
                                 </div>
-                                <div class="col-lg-9 col-md-9">
-                                    <div class="menu-wrapper">
+                                <div className="col-lg-9 col-md-9">
+                                    <div className="menu-wrapper">
                                         {/* <!-- Main-menu --> */}
-                                        <div class="main-menu">
-                                            <nav class="d-none d-lg-block">
+                                        <div className="main-menu">
+                                            <nav className="d-none d-lg-block">
                                                 <ul id="navigation">
-                                                    <li><Link to={'/'}>Home</Link></li>
-                                                    <li><Link to={'/job'}>Find a Jobs </Link></li>
-                                                    <li><Link to={'/about'}>About</Link></li>
-                                                    <li><Link to={'/contact'}>Contact</Link></li>
+                                                    <li><NavLink to="/" isActive={() => window.scrollTo(0, 0)}>Home</NavLink></li>
+                                                    <li><NavLink to="/job" isActive={() => window.scrollTo(0, 0)}>Find a Jobs </NavLink></li>
+                                                    <li><NavLink to="/about" isActive={() => window.scrollTo(0, 0)}>About</NavLink></li>
+                                                    <li><NavLink to="/contact" >Contact</NavLink></li>
                                                 </ul>
                                             </nav>
                                         </div>
@@ -68,8 +68,8 @@ const Header = () => {
                                     </div>
                                 </div>
                                 {/* <!-- Mobile Menu --> */}
-                                <div class="col-12">
-                                    <div class="mobile_menu d-block d-lg-none"></div>
+                                <div className="col-12">
+                                    <div className="mobile_menu d-block d-lg-none"></div>
                                 </div>
                             </div>
                         </div>

@@ -60,6 +60,7 @@ const Otp = (props) => {
 
                 // ...
             }).catch((error) => {
+                console.log(error)
                 toast.error("Gửi mã thất bại !")
             });
     }
