@@ -1,13 +1,18 @@
 import React from 'react'
-
+import { useEffect, useState } from 'react';
 const Home = () => {
+    const [user, setUser] = useState({})
+    useEffect(() => {
+        const userData = JSON.parse(localStorage.getItem('userData'));
+        setUser(userData)
+    }, [])
     return (
         <>
             <div className="row">
                 <div className="col-md-12 grid-margin">
                     <div className="row">
                         <div className="col-12 col-xl-8 mb-4 mb-xl-0">
-                            <h3 className="font-weight-bold">Welcome Aamir</h3>
+                            <h3 className="font-weight-bold">Xin chào {user.firstName + " " + user.lastName}</h3>
                             <h6 className="font-weight-normal mb-0">All systems are running smoothly! You have <span className="text-primary">3 unread alerts!</span></h6>
                         </div>
 

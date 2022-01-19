@@ -15,6 +15,10 @@ import {
   Route,
   Link
 } from "react-router-dom";
+import { Redirect } from 'react-router';
+import Otp from './container/login/Otp'
+import Login from './container/login/Login'
+import Register from './container/login/Register'
 function App() {
   return (
     <Router>
@@ -40,16 +44,21 @@ function App() {
             <JobPage />
             <Footer />
           </Route>
-          <Route path="/admin/">
-
-            <HomeAdmin />
-
+          <Route path="/admin/" render={() => {
+            return JSON.parse(localStorage.getItem("userData")) && JSON.parse(localStorage.getItem("userData")).roleId === "ADMIN" ? <HomeAdmin /> : <Redirect to={"/login"} />
+          }}>
           </Route>
-          <Route path="/sign-in">
+          <Route path="/login">
             <Header />
-
+            <Login />
             <Footer />
           </Route>
+          <Route path="/register">
+            <Header />
+            <Register />
+            <Footer />
+          </Route>
+
 
 
           {/* <DetailPage /> */}

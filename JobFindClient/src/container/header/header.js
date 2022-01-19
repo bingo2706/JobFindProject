@@ -1,8 +1,15 @@
 import React from 'react'
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom'
 import './header.scss';
 
-const header = () => {
+const Header = () => {
+
+    const [user, setUser] = useState({})
+    useEffect(() => {
+        const userData = JSON.parse(localStorage.getItem('userData'));
+        setUser(userData)
+    }, [])
 
     let scrollHeader = () => {
         window.addEventListener("scroll", function () {
@@ -26,7 +33,7 @@ const header = () => {
                                 <div class="col-lg-3 col-md-2">
                                     {/* <!-- Logo --> */}
                                     <div class="logo">
-                                        <a href="index.html"><img src="assets/img/logo/logo.png" alt="" /></a>
+                                        <Link to={'/'}><img src="assets/img/logo/logo.png" alt="" /></Link>
                                     </div>
                                 </div>
                                 <div class="col-lg-9 col-md-9">
@@ -35,17 +42,28 @@ const header = () => {
                                         <div class="main-menu">
                                             <nav class="d-none d-lg-block">
                                                 <ul id="navigation">
-                                                    <li><a>Home</a></li>
-                                                    <li><a href="job_listing.html">Find a Jobs </a></li>
-                                                    <li><a href="about.html">About</a></li>
-                                                    <li><a href="contact.html">Contact</a></li>
+                                                    <li><Link to={'/'}>Home</Link></li>
+                                                    <li><Link to={'/job'}>Find a Jobs </Link></li>
+                                                    <li><Link to={'/about'}>About</Link></li>
+                                                    <li><Link to={'/contact'}>Contact</Link></li>
                                                 </ul>
                                             </nav>
                                         </div>
                                         {/* <!-- Header-btn --> */}
                                         <div class="header-btn d-none f-right d-lg-block">
-                                            <a href="#" class="btn head-btn1">Register</a>
-                                            <a href="#" class="btn head-btn2">Login</a>
+                                            {user ?
+                                                <div>
+                                                    <a>
+                                                        Xin chào {user.firstName + " " + user.lastName}
+                                                    </a>
+                                                </div>
+                                                :
+                                                <>
+                                                    <Link to={'/register'} class="btn head-btn1">Register</Link>
+                                                    <Link to={'/login'} class="btn head-btn2">Login</Link>
+                                                </>
+                                            }
+
                                         </div>
                                     </div>
                                 </div>
@@ -64,4 +82,4 @@ const header = () => {
     )
 }
 
-export default header
+export default Header

@@ -1,7 +1,20 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+const Header = () => {
 
-const HomeAdmin = () => {
+    let history = useHistory();
+    const [user, setUser] = useState({})
+    let handleLogout = () => {
+        localStorage.removeItem("userData");
+        window.location.href = '/login'
+    }
+    useEffect(() => {
+        const userData = JSON.parse(localStorage.getItem('userData'));
+        setUser(userData)
+    }, [])
+
     return (
         <nav className="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
             <div className="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
@@ -75,14 +88,14 @@ const HomeAdmin = () => {
                     </li>
                     <li className="nav-item nav-profile dropdown">
                         <a className="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-                            <img src="/assetsAdmin/images/faces/face28.jpg" alt="profile" />
+                            <img style={{ objectFit: 'cover' }} src={user.image} alt="profile" />
                         </a>
                         <div className="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
                             <a className="dropdown-item">
                                 <i className="ti-settings text-primary" />
                                 Settings
                             </a>
-                            <a className="dropdown-item">
+                            <a onClick={() => handleLogout()} className="dropdown-item">
                                 <i className="ti-power-off text-primary" />
                                 Logout
                             </a>
@@ -102,4 +115,4 @@ const HomeAdmin = () => {
     )
 }
 
-export default HomeAdmin
+export default Header

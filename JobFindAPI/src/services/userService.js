@@ -32,7 +32,7 @@ let checkUserPhone = (userPhone) => {
 let handleCreateNewUser = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
-            if (!data.phonenumber || !data.lastName) {
+            if (!data.phonenumber || !data.lastName || !data.firstName || !data.password) {
                 resolve({
                     errCode: 2,
                     errMessage: 'Missing required parameters !'
@@ -42,7 +42,7 @@ let handleCreateNewUser = (data) => {
                 if (check === true) {
                     resolve({
                         errCode: 1,
-                        errMessage: 'Your phonenumber is already in used, Plz try another phonenumber!'
+                        errMessage: 'Số điện thoại đã tồn tại !'
                     })
                 } else {
                     let imageUrl = ""
@@ -116,7 +116,7 @@ let deleteUser = (userId) => {
 let updateUserData = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
-            if (!data.id || !data.genderId) {
+            if (!data.id) {
                 resolve({
                     errCode: 2,
                     errMessage: `Missing required parameters`
@@ -176,7 +176,7 @@ let handleLogin = (data) => {
 
                 if (isExist === true) {
                     let user = await db.User.findOne({
-                        attributes: ['phonenumber', 'roleId', 'password', 'firstName', 'lastName', 'id'],
+                        attributes: ['phonenumber', 'roleId', 'password', 'firstName', 'lastName', 'id', 'image'],
                         where: { phonenumber: data.phonenumber, statusId: 'S1' },
                         raw: true
                     })
@@ -190,7 +190,7 @@ let handleLogin = (data) => {
                             userData.user = user;
                         } else {
                             userData.errCode = 3;
-                            userData.errMessage = 'Wrong password';
+                            userData.errMessage = 'Sai mật khẩu !';
                         }
                     } else {
                         userData.errCode = 2;
@@ -198,7 +198,7 @@ let handleLogin = (data) => {
                     }
                 } else {
                     userData.errCode = 1;
-                    userData.errMessage = `Your's email isn't exist in your system. plz try other email`
+                    userData.errMessage = `Số điện thoại không tồn tại !`
                 }
                 resolve(userData)
             }
