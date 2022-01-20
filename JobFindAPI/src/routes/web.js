@@ -3,6 +3,7 @@ import userController from '../controllers/userController';
 import allcodeController from '../controllers/allcodeController';
 import companyController from '../controllers/companyController';
 import postController from '../controllers/postController';
+import cvController from '../controllers/cvController'
 let router = express.Router();
 
 let initWebRoutes = (app) => {
@@ -32,9 +33,15 @@ let initWebRoutes = (app) => {
     router.get('/api/get-list-company', companyController.getListCompany)
     router.get('/api/get-detail-company-by-id', companyController.getDetailCompanyById)
 
+    //==================API CV==========================//
+    router.post('/api/create-new-cv', cvController.handleCreateNewCV)
+
+
+
     //==================API POST==========================//
     router.post('/api/create-new-post', postController.handleCreateNewPost)
     return app.use("/", router);
+
 }
 
 module.exports = initWebRoutes;

@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
+import SendCvModal from '../../components/modal/SendCvModal'
 const JobDetail = () => {
 
     const [isActiveModal, setAcitveModal] = useState(false)
+    console.log(isActiveModal)
     return (
         <>
             {/* <div id="preloader-active">
@@ -135,7 +137,7 @@ const JobDetail = () => {
                     </div>
                 </div>
                 {/* <!-- job post company End --> */}
-
+                <SendCvModal isOpen={isActiveModal} onHide={() => setAcitveModal(false)} />
             </main>
         </>
     )
