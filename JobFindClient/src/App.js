@@ -46,9 +46,15 @@ function App() {
             <Footer />
           </Route>
           <Route path="/admin/" render={() => {
-            return JSON.parse(localStorage.getItem("userData")) && JSON.parse(localStorage.getItem("userData")).roleId === "ADMIN" ? <HomeAdmin /> : <Redirect to={"/login"} />
+            if (JSON.parse(localStorage.getItem("userData")) && (JSON.parse(localStorage.getItem("userData")).roleId === "ADMIN" || JSON.parse(localStorage.getItem("userData")).roleId === "EMPLOYER")) {
+              return <HomeAdmin />
+            } else {
+              return <Redirect to={"/login"} />
+            }
           }}>
+
           </Route>
+
           <Route path="/login">
             <Header />
             <Login />

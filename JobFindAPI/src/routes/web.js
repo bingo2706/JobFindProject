@@ -32,7 +32,7 @@ let initWebRoutes = (app) => {
     router.put('/api/add-user-company', companyController.handleAddUserCompany)
     router.get('/api/get-list-company', companyController.getListCompany)
     router.get('/api/get-detail-company-by-id', companyController.getDetailCompanyById)
-
+    router.get('/api/get-detail-company-by-userId', companyController.getDetailCompanyByUserId)
     //==================API CV==========================//
     router.post('/api/create-new-cv', cvController.handleCreateNewCV)
 

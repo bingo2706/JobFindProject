@@ -24,7 +24,7 @@ const Login = () => {
 
 
             localStorage.setItem("userData", JSON.stringify(res.user))
-            if (res.user.roleId === "ADMIN") {
+            if (res.user.roleId === "ADMIN" || res.user.roleId === "EMPLOYER") {
                 window.location.href = "/admin/"
 
             }

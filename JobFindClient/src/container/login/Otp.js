@@ -77,7 +77,8 @@ const Otp = (props) => {
                     firstName: props.dataUser.firstName,
                     lastName: props.dataUser.lastName,
                     phonenumber: props.dataUser.phonenumber,
-                    roleId: 'EMPLOYER'
+                    roleId: 'EMPLOYER',
+                    image: 'https://res.cloudinary.com/bingo2706/image/upload/v1642521841/dev_setups/l60Hf_blyqhb.png',
                 })
                 if (res && res.errCode === 0) {
                     toast.success("Tạo tài khoản thành công")

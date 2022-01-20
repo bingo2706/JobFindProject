@@ -64,8 +64,21 @@ const DeleteAllcodeService = (allcodeId) => {
         }
     })
 }
+//================================== COMPANY ============================
+const createCompanyService = (data) => {
+    return axios.post(`/api/create-new-company`, data)
 
+}
+const getDetailCompanyByUserId = (userId) => {
+    return axios.get(`/api/get-detail-company-by-userId?userId=${userId}`)
+
+}
+const updateCompanyService = (data) => {
+    return axios.put(`/api/update-company`, data)
+
+}
 export {
     DeleteAllcodeService, UpdateAllcodeService, getDetailAllcodeById, createAllCodeService, getListAllCodeService, getAllCodeService,
-    getAllUsers, createNewUser, UpdateUserService, DeleteUserService, getDetailUserById, handleChangePassword, handleLoginService
+    getAllUsers, createNewUser, UpdateUserService, DeleteUserService, getDetailUserById, handleChangePassword, handleLoginService,
+    createCompanyService, getDetailCompanyByUserId, updateCompanyService
 }

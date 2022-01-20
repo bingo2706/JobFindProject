@@ -3,15 +3,16 @@ const cloudinary = require('../utils/cloudinary');
 let handleCreateNewCompany = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
-            if (!data.name || !data.phonenumber || !data.address || !data.thumbnail || !data.coverimage || !data.description || !data.amountemployer || !data.userId) {
+            if (!data.name || !data.phonenumber || !data.address || !data.thumbnail || !data.coverimage || !data.descriptionHTML || !data.descriptionMarkdown || !data.amountemployer || !data.userId) {
                 resolve({
                     errCode: 1,
                     errMessage: 'Missing required parameters !'
                 })
             } else {
+                let thumbnailUrl = ""
+                let coverimageUrl = ""
                 if (data.thumbnail && data.coverimage) {
-                    let thumbnailUrl = ""
-                    let coverimageUrl = ""
+
                     const uploadedThumbnailResponse = await cloudinary.uploader.upload(data.thumbnail, {
                         upload_preset: 'dev_setups'
                     })
@@ -23,18 +24,19 @@ let handleCreateNewCompany = (data) => {
                 }
 
 
-                let company = await db.Company.findOne({
+                let company = await db.Company.create({
                     name: data.name,
                     thumbnail: thumbnailUrl,
                     coverimage: coverimageUrl,
-                    description: data.description,
+                    descriptionHTML: data.descriptionHTML,
+                    descriptionMarkdown: data.descriptionMarkdown,
                     website: data.website,
                     address: data.address,
                     phonenumber: data.phonenumber,
                     amountemployer: data.amountemployer,
                     taxnumber: data.taxnumber
                 })
-                let user = await db.User.find({
+                let user = await db.User.findOne({
                     where: { id: data.userId },
                     raw: false
                 })
@@ -55,7 +57,7 @@ let handleCreateNewCompany = (data) => {
 let handleUpdateCompany = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
-            if (!data.id || !data.name || !data.phonenumber || !data.address || !data.thumbnail || !data.coverimage || !data.description || !data.amountemployer) {
+            if (!data.id || !data.name || !data.phonenumber || !data.address || !data.thumbnail || !data.coverimage || !data.descriptionHTML || !data.descriptionMarkdown || !data.amountemployer) {
                 resolve({
                     errCode: 1,
                     errMessage: 'Missing required parameters !'
@@ -86,13 +88,13 @@ let handleUpdateCompany = (data) => {
                     }
 
                     res.name = data.name
-                    res.thumbnail = data.thumbnail
-                    res.coverimage = data.coverimage
-                    res.description = data.description
+                    res.descriptionHTML = data.descriptionHTML
+                    res.descriptionMarkdown = data.descriptionMarkdown
                     res.website = data.website
                     res.address = data.address
                     res.amountemployer = data.amountemployer
                     res.taxnumber = data.taxnumber
+                    res.phonenumber = data.phonenumber
                     await res.save();
                 }
 
@@ -142,25 +144,35 @@ let handleDeleteCompany = (companyId) => {
 let handleAddUserCompany = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
-            if (!data.userId || !data.companyId) {
+            if (!data.phonenumber || !data.companyId) {
                 resolve({
                     errCode: 1,
                     errMessage: 'Missing required parameters !'
                 })
             } else {
-                let user = await db.User.findOne({
-                    where: {
-                        id: data.id
-                    },
-                    raw: false
-                })
-                if (user) {
-                    user.company_id = data.companyId
+                let isExist = await checkUserPhone(data.phonenumber);
+                if (isExist === true) {
+                    let user = await db.User.findOne({
+                        where: {
+                            phonenumber: data.phonenumber
+                        },
+                        raw: false
+                    })
+                    if (user) {
+                        user.company_id = data.companyId
+                    }
+                    resolve({
+                        errCode: 0,
+                        errMessage: 'ok'
+                    })
+                } else {
+                    resolve({
+                        errCode: 2,
+                        errMessage: 'Số điện thoại không tồn tại !'
+                    })
                 }
-                resolve({
-                    errCode: 0,
-                    errMessage: 'ok'
-                })
+
+
             }
         } catch (error) {
             reject(error)
@@ -224,11 +236,40 @@ let getDetailCompanyById = (id) => {
         }
     })
 }
+let getDetailCompanyByUserId = (userId) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (!userId) {
+                resolve({
+                    errCode: 1,
+                    errMessage: 'Missing required parameters !'
+                })
+            } else {
+                let user = await db.User.findOne({
+                    where: {
+                        id: userId
+                    }
+                })
+                let company = await db.Company.findOne({
+                    where: { id: user.company_id }
+                })
+                resolve({
+                    errCode: 0,
+                    data: company,
+
+                })
+            }
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
 module.exports = {
     handleCreateNewCompany: handleCreateNewCompany,
     handleUpdateCompany: handleUpdateCompany,
     handleDeleteCompany: handleDeleteCompany,
     handleAddUserCompany: handleAddUserCompany,
     getListCompany: getListCompany,
-    getDetailCompanyById: getDetailCompanyById
+    getDetailCompanyById: getDetailCompanyById,
+    getDetailCompanyByUserId: getDetailCompanyByUserId
 }
