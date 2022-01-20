@@ -65,7 +65,7 @@ function SendCvModal(props) {
                             ...inputValue,
                             ["user_id"]: '', ["post_id"]: '', ["file"]: '', ["description"]: ''
                         })
-                        props.onHide
+                        props.onHide()
                     }}>
                         Hủy
                     </Button>
