@@ -1,5 +1,23 @@
 import db from "../models/index";
 const cloudinary = require('../utils/cloudinary');
+
+let checkUserPhone = (userPhone) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let user = await db.User.findOne({
+                where: { phonenumber: userPhone }
+            })
+            if (user) {
+                resolve(true)
+            } else {
+                resolve(false)
+            }
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
+
 let handleCreateNewCompany = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -160,6 +178,7 @@ let handleAddUserCompany = (data) => {
                     })
                     if (user) {
                         user.company_id = data.companyId
+                        await user.save()
                     }
                     resolve({
                         errCode: 0,
@@ -264,6 +283,77 @@ let getDetailCompanyByUserId = (userId) => {
         }
     })
 }
+let getAllUserByCompanyId = (data) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (!data.limit || !data.offset || !data.companyId) {
+                resolve({
+                    errCode: 1,
+                    errMessage: 'Missing required parameter !'
+                })
+            } else {
+
+                let res = await db.User.findAndCountAll({
+                    where: { statusId: 'S1', company_id: data.companyId },
+                    limit: +data.limit,
+                    offset: +data.offset,
+                    attributes: {
+                        exclude: ['password']
+                    },
+                    include: [
+                        { model: db.Allcode, as: 'roleData', attributes: ['value', 'code'] },
+                        { model: db.Allcode, as: 'genderData', attributes: ['value', 'code'] },
+                        { model: db.Allcode, as: 'statusData', attributes: ['value', 'code'] },
+                    ],
+                    raw: true,
+                    nest: true
+                })
+                resolve({
+                    errCode: 0,
+                    data: res.rows,
+                    count: res.count
+                })
+            }
+
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
+let handleQuitCompany = (data) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (!data.userId) {
+                resolve({
+                    errCode: 1,
+                    errMessage: 'Missing required parameters !'
+                })
+            } else {
+
+
+                let user = await db.User.findOne({
+                    where: {
+                        id: data.userId
+                    },
+                    raw: false
+                })
+                if (user) {
+                    user.company_id = null
+                    await user.save()
+                }
+                resolve({
+                    errCode: 0,
+                    errMessage: 'ok'
+                })
+
+
+
+            }
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
 module.exports = {
     handleCreateNewCompany: handleCreateNewCompany,
     handleUpdateCompany: handleUpdateCompany,
@@ -271,5 +361,7 @@ module.exports = {
     handleAddUserCompany: handleAddUserCompany,
     getListCompany: getListCompany,
     getDetailCompanyById: getDetailCompanyById,
-    getDetailCompanyByUserId: getDetailCompanyByUserId
+    getDetailCompanyByUserId: getDetailCompanyByUserId,
+    getAllUserByCompanyId: getAllUserByCompanyId,
+    handleQuitCompany: handleQuitCompany
 }

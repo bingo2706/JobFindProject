@@ -176,7 +176,7 @@ let handleLogin = (data) => {
 
                 if (isExist === true) {
                     let user = await db.User.findOne({
-                        attributes: ['phonenumber', 'roleId', 'password', 'firstName', 'lastName', 'id', 'image'],
+                        attributes: ['phonenumber', 'roleId', 'password', 'firstName', 'lastName', 'id', 'image', 'company_id'],
                         where: { phonenumber: data.phonenumber, statusId: 'S1' },
                         raw: true
                     })

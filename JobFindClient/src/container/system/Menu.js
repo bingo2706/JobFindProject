@@ -112,7 +112,8 @@ const Menu = () => {
                             <div className="collapse" id="company">
                                 <ul className="nav flex-column sub-menu">
                                     <li className="nav-item"> <Link className="nav-link" to="/admin/add-company/">Tạo mới công ty</Link ></li>
-                                    <li className="nav-item"> <Link className="nav-link" to="/admin/add-people-company/">Tuyển dụng vào công ty</Link ></li>
+                                    <li className="nav-item"> <Link className="nav-link" to="/admin/recruitment/">Tuyển dụng vào công ty</Link ></li>
+                                    <li className="nav-item"> <Link className="nav-link" to="/admin/list-employer/">Danh sách nhân viên</Link ></li>
                                 </ul>
                             </div>
                         </li>
