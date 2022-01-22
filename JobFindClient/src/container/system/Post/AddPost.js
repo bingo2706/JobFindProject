@@ -7,15 +7,44 @@ import MarkdownIt from 'markdown-it';
 import MdEditor from 'react-markdown-editor-lite';
 import 'react-markdown-editor-lite/lib/index.css';
 import { useFetchAllcode } from '../../../util/fetch';
+import { useParams } from "react-router-dom";
+import localization from 'moment/locale/vi';
+import moment from 'moment';
+
 const AddPost = () => {
     const mdParser = new MarkdownIt();
     const [user, setUser] = useState({})
     const [timeEnd, settimeEnd] = useState('');
     const [isChangeDate, setisChangeDate] = useState(false)
+
+    const { id } = useParams();
+
     const [inputValues, setInputValues] = useState({
         name: '', category_job_id: '', address: '', salary_job_id: '', amount: '', time_end: '', category_joblevel_id: '', category_worktype_id: '', experience_job_id: '',
         genderId: '', descriptionHTML: '', descriptionMarkdown: '', isActionADD: true, id: ''
     });
+
+    let setStatePost = (data) => {
+        setInputValues({
+            ...inputValues,
+            ["name"]: data.firstName,
+            ["category_job_id"]: data.category_job_id,
+            ["address"]: data.address,
+            ["salary_job_id"]: data.salary_job_id,
+            ["amount"]: data.amount,
+            ["time_end"]: data.time_end,
+            ["category_joblevel_id"]: data.category_joblevel_id,
+            ["category_worktype_id"]: data.category_worktype_id,
+            ["experience_job_id"]: data.experience_job_id,
+            ["genderId"]: data.genderPostCode,
+            ["descriptionHTML"]: data.descriptionHTML,
+            ["descriptionMarkdown"]: data.descriptionMarkdown,
+
+        })
+        settimeEnd(moment.unix(+data.dob / 1000).locale('vi').format('DD/MM/YYYY'))
+    }
+
+
     const { data: dataGenderPost } = useFetchAllcode('GENDERPOST');
     const { data: dataJobType } = useFetchAllcode('JOBTYPE');
     const { data: dataJobLevel } = useFetchAllcode('JOBLEVEL');

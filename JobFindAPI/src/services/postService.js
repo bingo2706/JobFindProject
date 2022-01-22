@@ -145,9 +145,47 @@ let getListPostByAdmin = (data) => {
         }
     })
 }
+let getDetailPostById = (id) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (!id) {
+                resolve({
+                    errCode: 1,
+                    errMessage: 'Missing required parameters !'
+                })
+            } else {
+
+                let post = await db.Post.findOne({
+                    where: { id: id, statusId: 'S1' },
+                    include: [
+                        { model: db.Allcode, as: 'jobTypeData', attributes: ['value', 'code'] },
+                        { model: db.Allcode, as: 'workTypeData', attributes: ['value', 'code'] },
+                        { model: db.Allcode, as: 'salaryTypeData', attributes: ['value', 'code'] },
+                        { model: db.Allcode, as: 'jobLevelData', attributes: ['value', 'code'] },
+                        { model: db.Allcode, as: 'expTypeData', attributes: ['value', 'code'] },
+                        { model: db.Allcode, as: 'genderPostData', attributes: ['value', 'code'] },
+                    ],
+                    raw: true,
+                    nest: true
+                })
+                let company = await db.Company.findOne({
+                    where: { id: post.company_id }
+                })
+                post.companyData = company
+                resolve({
+                    errCode: 0,
+                    data: post,
+                })
+            }
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
 module.exports = {
     handleCreateNewPost: handleCreateNewPost,
     handleUpdatePost: handleUpdatePost,
     handleBanPost: handleBanPost,
-    getListPostByAdmin: getListPostByAdmin
+    getListPostByAdmin: getListPostByAdmin,
+    getDetailPostById: getDetailPostById
 }

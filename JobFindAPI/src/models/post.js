@@ -10,7 +10,12 @@ module.exports = (sequelize, DataTypes) => {
          * The `models/index` file will call this method automatically.
          */
         static associate(models) {
-
+            Post.belongsTo(models.Allcode, { foreignKey: 'category_job_id', targetKey: 'code', as: 'jobTypeData' })
+            Post.belongsTo(models.Allcode, { foreignKey: 'category_worktype_id', targetKey: 'code', as: 'workTypeData' })
+            Post.belongsTo(models.Allcode, { foreignKey: 'salary_job_id', targetKey: 'code', as: 'salaryTypeData' })
+            Post.belongsTo(models.Allcode, { foreignKey: 'category_joblevel_id', targetKey: 'code', as: 'jobLevelData' })
+            Post.belongsTo(models.Allcode, { foreignKey: 'experience_job_id', targetKey: 'code', as: 'expTypeData' })
+            Post.belongsTo(models.Allcode, { foreignKey: 'genderPostCode', targetKey: 'code', as: 'genderPostData' })
         }
     };
     Post.init({
