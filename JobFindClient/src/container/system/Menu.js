@@ -117,6 +117,19 @@ const Menu = () => {
                                 </ul>
                             </div>
                         </li>
+                        <li className="nav-item">
+                            <a className="nav-link" data-toggle="collapse" href="#post" aria-expanded="false" aria-controls="post">
+                                <i className="far fa-clock menu-icon"></i>
+                                <span className="menu-title">Quản lý bài đăng</span>
+                                <i className="menu-arrow" />
+                            </a>
+                            <div className="collapse" id="post">
+                                <ul className="nav flex-column sub-menu">
+                                    <li className="nav-item"> <Link className="nav-link" to="/admin/add-post/">Tạo mới bài đăng</Link ></li>
+                                    <li className="nav-item"> <Link className="nav-link" to="/admin/list-post/">Danh sách bài đăng</Link ></li>
+                                </ul>
+                            </div>
+                        </li>
                     </>
                 }
 

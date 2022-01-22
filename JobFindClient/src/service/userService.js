@@ -89,8 +89,31 @@ const QuitCompanyService = (data) => {
     return axios.put(`/api/quit-company`, data)
 
 }
+
+//======================== POST ====================================//
+
+const createPostService = (data) => {
+    return axios.post(`/api/create-new-post`, data)
+
+}
+const updatePostService = (data) => {
+    return axios.put(`/api/update-post`, data)
+
+}
+const banPostService = (postId) => {
+    return axios.delete(`/api/ban-post`, {
+        data: {
+            id: postId
+        }
+    })
+}
+const getAllPostByAdminService = (data) => {
+    return axios.get(`/api/get-list-post-admin?companyId=${data.companyId}&limit=${data.limit}&offset=${data.offset}`)
+
+}
 export {
     DeleteAllcodeService, UpdateAllcodeService, getDetailAllcodeById, createAllCodeService, getListAllCodeService, getAllCodeService,
     getAllUsers, createNewUser, UpdateUserService, DeleteUserService, getDetailUserById, handleChangePassword, handleLoginService,
-    createCompanyService, getDetailCompanyByUserId, updateCompanyService, RecruitmentService, getAllUserByCompanyIdService, QuitCompanyService
+    createCompanyService, getDetailCompanyByUserId, updateCompanyService, RecruitmentService, getAllUserByCompanyIdService, QuitCompanyService,
+    createPostService, updatePostService, banPostService, getAllPostByAdminService
 }

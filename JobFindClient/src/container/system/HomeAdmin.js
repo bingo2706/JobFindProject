@@ -24,6 +24,7 @@ import ManageExpType from './ExpType/ManageExpType';
 import AddCompany from './Company/AddCompany';
 import Recruitment from './Company/Recruitment';
 import ManageEmployer from './Company/ManageEmployer';
+import AddPost from './Post/AddPost';
 const HomeAdmin = () => {
     return (
         <Router>
@@ -273,6 +274,9 @@ const HomeAdmin = () => {
                                 </Route>
                                 <Route exact path="/admin/list-employer">
                                     <ManageEmployer />
+                                </Route>
+                                <Route exact path="/admin/add-post">
+                                    <AddPost />
                                 </Route>
                             </div>
                             {/* content-wrapper ends */}
