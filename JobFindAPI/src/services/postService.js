@@ -144,10 +144,43 @@ let getListPostByAdmin = (data) => {
             reject(error)
         }
     })
+
+
+}
+
+let getDetailPost = (data) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (!data.post_id) {
+                resolve({
+                    errCode: 1,
+                    errMessage: 'Missing required parameters !'
+                })
+            } else {
+
+                let post = await db.Post.findOne({
+                    where: { id: data.postId, statusId: 'S1' },
+                    raw: false
+                })
+                let company = await db.Company.findOne({
+                    where: {id: post.company_id},
+                    raw: false
+                })
+                resolve({
+                    errCode: 0,
+                    post: post,
+                    company: company
+                })
+            }
+        } catch (error) {
+            reject(error)
+        }
+    })
 }
 module.exports = {
     handleCreateNewPost: handleCreateNewPost,
     handleUpdatePost: handleUpdatePost,
     handleBanPost: handleBanPost,
-    getListPostByAdmin: getListPostByAdmin
+    getListPostByAdmin: getListPostByAdmin,
+    getDetailPost : getDetailPost
 }

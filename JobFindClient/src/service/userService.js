@@ -111,9 +111,13 @@ const getAllPostByAdminService = (data) => {
     return axios.get(`/api/get-list-post-admin?companyId=${data.companyId}&limit=${data.limit}&offset=${data.offset}`)
 
 }
+
+const getDetailPost = (data) => {
+    return axios.get(`/api/get-detail-post?postId=${data.postId}`)
+}
 export {
     DeleteAllcodeService, UpdateAllcodeService, getDetailAllcodeById, createAllCodeService, getListAllCodeService, getAllCodeService,
     getAllUsers, createNewUser, UpdateUserService, DeleteUserService, getDetailUserById, handleChangePassword, handleLoginService,
     createCompanyService, getDetailCompanyByUserId, updateCompanyService, RecruitmentService, getAllUserByCompanyIdService, QuitCompanyService,
-    createPostService, updatePostService, banPostService, getAllPostByAdminService
+    createPostService, updatePostService, banPostService, getAllPostByAdminService , getDetailPost
 }

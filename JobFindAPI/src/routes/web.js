@@ -46,6 +46,7 @@ let initWebRoutes = (app) => {
     router.put('/api/update-post', postController.handleUpdatePost)
     router.delete('/api/ban-post', postController.handleBanPost)
     router.get('/api/get-list-post-admin', postController.getListPostByAdmin)
+    router.get('/api/get-detail-post', postController.getDetailPost)
 
 
     return app.use("/", router);
