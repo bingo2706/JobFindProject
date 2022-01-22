@@ -16,6 +16,7 @@ module.exports = (sequelize, DataTypes) => {
             Post.belongsTo(models.Allcode, { foreignKey: 'category_joblevel_id', targetKey: 'code', as: 'jobLevelData' })
             Post.belongsTo(models.Allcode, { foreignKey: 'experience_job_id', targetKey: 'code', as: 'expTypeData' })
             Post.belongsTo(models.Allcode, { foreignKey: 'genderPostCode', targetKey: 'code', as: 'genderPostData' })
+            Post.belongsTo(models.Allcode, { foreignKey: 'statusId', targetKey: 'code', as: 'statusPostData' })
         }
     };
     Post.init({

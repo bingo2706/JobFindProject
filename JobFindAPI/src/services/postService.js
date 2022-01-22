@@ -119,6 +119,35 @@ let handleBanPost = (postId) => {
         }
     })
 }
+let handleActivePost = (data) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+
+            if (!data.id) {
+                resolve({
+                    errCode: 1,
+                    errMessage: `Missing required parameters !`
+                })
+            } else {
+                let foundPost = await db.Post.findOne({
+                    where: { id: data.id },
+                    raw: false
+                })
+                if (foundPost) {
+                    foundPost.statusId = 'S1'
+                    await foundPost.save()
+                    resolve({
+                        errCode: 0,
+                        message: 'ok'
+                    })
+                }
+            }
+
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
 let getListPostByAdmin = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -132,7 +161,18 @@ let getListPostByAdmin = (data) => {
                 let post = await db.Post.findAndCountAll({
                     offset: +data.offset,
                     limit: +data.limit,
-                    where: { company_id: data.companyId, statusId: 'S1' }
+                    where: { company_id: data.companyId },
+                    include: [
+                        { model: db.Allcode, as: 'jobTypeData', attributes: ['value', 'code'] },
+                        { model: db.Allcode, as: 'workTypeData', attributes: ['value', 'code'] },
+                        { model: db.Allcode, as: 'salaryTypeData', attributes: ['value', 'code'] },
+                        { model: db.Allcode, as: 'jobLevelData', attributes: ['value', 'code'] },
+                        { model: db.Allcode, as: 'expTypeData', attributes: ['value', 'code'] },
+                        { model: db.Allcode, as: 'genderPostData', attributes: ['value', 'code'] },
+                        { model: db.Allcode, as: 'statusPostData', attributes: ['value', 'code'] },
+                    ],
+                    raw: true,
+                    nest: true
                 })
                 resolve({
                     errCode: 0,
@@ -144,6 +184,8 @@ let getListPostByAdmin = (data) => {
             reject(error)
         }
     })
+
+
 }
 let getDetailPostById = (id) => {
     return new Promise(async (resolve, reject) => {
@@ -164,6 +206,7 @@ let getDetailPostById = (id) => {
                         { model: db.Allcode, as: 'jobLevelData', attributes: ['value', 'code'] },
                         { model: db.Allcode, as: 'expTypeData', attributes: ['value', 'code'] },
                         { model: db.Allcode, as: 'genderPostData', attributes: ['value', 'code'] },
+                        { model: db.Allcode, as: 'statusPostData', attributes: ['value', 'code'] },
                     ],
                     raw: true,
                     nest: true
@@ -187,5 +230,6 @@ module.exports = {
     handleUpdatePost: handleUpdatePost,
     handleBanPost: handleBanPost,
     getListPostByAdmin: getListPostByAdmin,
-    getDetailPostById: getDetailPostById
+    getDetailPostById: getDetailPostById,
+    handleActivePost: handleActivePost
 }

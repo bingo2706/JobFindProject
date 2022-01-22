@@ -100,6 +100,10 @@ const updatePostService = (data) => {
     return axios.put(`/api/update-post`, data)
 
 }
+const activePostService = (data) => {
+    return axios.put(`/api/active-post`, data)
+
+}
 const banPostService = (postId) => {
     return axios.delete(`/api/ban-post`, {
         data: {
@@ -119,5 +123,5 @@ export {
     DeleteAllcodeService, UpdateAllcodeService, getDetailAllcodeById, createAllCodeService, getListAllCodeService, getAllCodeService,
     getAllUsers, createNewUser, UpdateUserService, DeleteUserService, getDetailUserById, handleChangePassword, handleLoginService,
     createCompanyService, getDetailCompanyByUserId, updateCompanyService, RecruitmentService, getAllUserByCompanyIdService, QuitCompanyService,
-    createPostService, updatePostService, banPostService, getAllPostByAdminService, getDetailPostByIdService
+    createPostService, updatePostService, banPostService, getAllPostByAdminService, getDetailPostByIdService, activePostService
 }
