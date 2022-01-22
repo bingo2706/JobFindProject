@@ -25,6 +25,7 @@ import AddCompany from './Company/AddCompany';
 import Recruitment from './Company/Recruitment';
 import ManageEmployer from './Company/ManageEmployer';
 import AddPost from './Post/AddPost';
+import ManagePost from './Post/ManagePost';
 const HomeAdmin = () => {
     return (
         <Router>
@@ -277,6 +278,12 @@ const HomeAdmin = () => {
                                 </Route>
                                 <Route exact path="/admin/add-post">
                                     <AddPost />
+                                </Route>
+                                <Route exact path="/admin/edit-post/:id">
+                                    <AddPost />
+                                </Route>
+                                <Route exact path="/admin/list-post/">
+                                    <ManagePost />
                                 </Route>
                             </div>
                             {/* content-wrapper ends */}

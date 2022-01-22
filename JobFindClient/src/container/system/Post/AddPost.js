@@ -2,7 +2,7 @@ import React from 'react'
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import DatePicker from '../../../components/input/DatePicker';
-import { createPostService, updatePostService } from '../../../service/userService';
+import { createPostService, updatePostService, getDetailPostByIdService } from '../../../service/userService';
 import MarkdownIt from 'markdown-it';
 import MdEditor from 'react-markdown-editor-lite';
 import 'react-markdown-editor-lite/lib/index.css';
@@ -24,10 +24,23 @@ const AddPost = () => {
         genderId: '', descriptionHTML: '', descriptionMarkdown: '', isActionADD: true, id: ''
     });
 
+    useEffect(() => {
+        const userData = JSON.parse(localStorage.getItem('userData'));
+        if (id) {
+            fetchPost(id)
+        }
+        setUser(userData)
+    }, [])
+    let fetchPost = async (id) => {
+        let res = await getDetailPostByIdService(id)
+        if (res && res.errCode === 0) {
+            setStatePost(res.data)
+        }
+    }
     let setStatePost = (data) => {
         setInputValues({
             ...inputValues,
-            ["name"]: data.firstName,
+            ["name"]: data.name,
             ["category_job_id"]: data.category_job_id,
             ["address"]: data.address,
             ["salary_job_id"]: data.salary_job_id,
@@ -39,9 +52,11 @@ const AddPost = () => {
             ["genderId"]: data.genderPostCode,
             ["descriptionHTML"]: data.descriptionHTML,
             ["descriptionMarkdown"]: data.descriptionMarkdown,
+            ["isActionADD"]: false,
+            ["id"]: data.id
 
         })
-        settimeEnd(moment.unix(+data.dob / 1000).locale('vi').format('DD/MM/YYYY'))
+        settimeEnd(moment.unix(+data.time_end / 1000).locale('vi').format('DD/MM/YYYY'))
     }
 
 
@@ -51,11 +66,7 @@ const AddPost = () => {
     const { data: dataSalaryType } = useFetchAllcode('SALARYTYPE');
     const { data: dataExpType } = useFetchAllcode('EXPTYPE');
     const { data: dataWorkType } = useFetchAllcode('WORKTYPE');
-    useEffect(() => {
-        const userData = JSON.parse(localStorage.getItem('userData'));
 
-        setUser(userData)
-    }, [])
     if (dataGenderPost && dataGenderPost.length > 0 && inputValues.genderId === '' && dataJobType && dataJobType.length > 0 && inputValues.category_job_id === '' && dataJobLevel && dataJobLevel.length > 0 && inputValues.category_joblevel_id === '' &&
         dataSalaryType && dataSalaryType.length > 0 && inputValues.salary_job_id === '' && dataExpType && dataExpType.length > 0 && inputValues.experience_job_id === '' &&
         dataWorkType && dataWorkType.length > 0 && inputValues.category_worktype_id === ''
@@ -126,7 +137,27 @@ const AddPost = () => {
                 toast.error(res.errMessage)
             }
         } else {
+            let res = await updatePostService({
+                name: inputValues.name,
+                descriptionHTML: inputValues.descriptionHTML,
+                descriptionMarkdown: inputValues.descriptionMarkdown,
+                category_job_id: inputValues.category_job_id,
+                address: inputValues.address,
+                salary_job_id: inputValues.salary_job_id,
+                amount: inputValues.amount,
+                time_end: isChangeDate === false ? inputValues.time_end : new Date(timeEnd).getTime(),
+                category_joblevel_id: inputValues.category_joblevel_id,
+                category_worktype_id: inputValues.category_worktype_id,
+                experience_job_id: inputValues.experience_job_id,
+                genderId: inputValues.genderId,
+                id: inputValues.id
+            })
+            if (res && res.errCode === 0) {
+                toast.success("Cập nhật bài đăng thành công")
 
+            } else {
+                toast.error(res.errMessage)
+            }
         }
     }
     return (
