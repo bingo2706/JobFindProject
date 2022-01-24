@@ -22,6 +22,14 @@ const DeleteUserService = (userId) => {
     })
 
 }
+const checkUserPhoneService = (userPhone) => {
+    return axios.delete(`/api/check-phonenumber-user`, {
+        data: {
+            phonenumber: userPhone
+        }
+    })
+
+}
 const getDetailUserById = (id) => {
     return axios.get(`/api/get-detail-user-by-id?id=${id}`)
 
@@ -123,5 +131,5 @@ export {
     DeleteAllcodeService, UpdateAllcodeService, getDetailAllcodeById, createAllCodeService, getListAllCodeService, getAllCodeService,
     getAllUsers, createNewUser, UpdateUserService, DeleteUserService, getDetailUserById, handleChangePassword, handleLoginService,
     createCompanyService, getDetailCompanyByUserId, updateCompanyService, RecruitmentService, getAllUserByCompanyIdService, QuitCompanyService,
-    createPostService, updatePostService, banPostService, getAllPostByAdminService, getDetailPostByIdService, activePostService
+    createPostService, updatePostService, banPostService, getAllPostByAdminService, getDetailPostByIdService, activePostService, checkUserPhoneService
 }

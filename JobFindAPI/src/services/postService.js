@@ -4,7 +4,7 @@ import db from "../models/index";
 let handleCreateNewPost = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
-            if (!data.name || !data.category_job_id || !data.address || !data.salary_job_id || !data.amount || !data.time_end || !data.category_joblevel_id || !data.companyId
+            if (!data.name || !data.category_job_id || !data.address_id || !data.salary_job_id || !data.amount || !data.time_end || !data.category_joblevel_id || !data.companyId
                 || !data.category_worktype_id || !data.experience_job_id || !data.genderId || !data.descriptionHTML || !data.descriptionMarkdown
             ) {
                 resolve({
@@ -18,7 +18,7 @@ let handleCreateNewPost = (data) => {
                     descriptionMarkdown: data.descriptionMarkdown,
                     statusId: "S1",
                     category_job_id: data.category_job_id,
-                    address: data.address,
+                    address_id: data.address_id,
                     salary_job_id: data.salary_job_id,
                     amount: data.amount,
                     time_end: data.time_end,
@@ -42,7 +42,7 @@ let handleCreateNewPost = (data) => {
 let handleUpdatePost = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
-            if (!data.name || !data.category_job_id || !data.address || !data.salary_job_id || !data.amount || !data.time_end || !data.category_joblevel_id
+            if (!data.name || !data.category_job_id || !data.address_id || !data.salary_job_id || !data.amount || !data.time_end || !data.category_joblevel_id
                 || !data.category_worktype_id || !data.experience_job_id || !data.genderId || !data.descriptionHTML || !data.descriptionMarkdown || !data.id
             ) {
                 resolve({
@@ -57,7 +57,7 @@ let handleUpdatePost = (data) => {
                 if (post) {
                     post.name = data.name
                     post.category_job_id = data.category_job_id
-                    post.address = data.address
+                    post.address_id = data.address_id
                     post.salary_job_id = data.salary_job_id
                     post.amount = data.amount
                     post.time_end = data.time_end
@@ -170,6 +170,7 @@ let getListPostByAdmin = (data) => {
                         { model: db.Allcode, as: 'expTypeData', attributes: ['value', 'code'] },
                         { model: db.Allcode, as: 'genderPostData', attributes: ['value', 'code'] },
                         { model: db.Allcode, as: 'statusPostData', attributes: ['value', 'code'] },
+                        { model: db.Allcode, as: 'provinceData', attributes: ['value', 'code'] },
                     ],
                     raw: true,
                     nest: true
@@ -207,6 +208,7 @@ let getDetailPostById = (id) => {
                         { model: db.Allcode, as: 'expTypeData', attributes: ['value', 'code'] },
                         { model: db.Allcode, as: 'genderPostData', attributes: ['value', 'code'] },
                         { model: db.Allcode, as: 'statusPostData', attributes: ['value', 'code'] },
+                        { model: db.Allcode, as: 'provinceData', attributes: ['value', 'code'] },
                     ],
                     raw: true,
                     nest: true

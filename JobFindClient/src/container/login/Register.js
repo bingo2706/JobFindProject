@@ -1,6 +1,7 @@
 import React from 'react'
 import { useEffect, useState } from 'react';
-
+import { toast } from 'react-toastify';
+import { checkUserPhoneService } from '../../service/userService';
 import Otp from './Otp';
 const Register = () => {
     const [inputValues, setInputValues] = useState({
@@ -13,16 +14,21 @@ const Register = () => {
 
     };
 
-    let handleOpenVerifyOTP = () => {
-        setInputValues({
-            ...inputValues, ["dataUser"]:
-            {
-                phonenumber: inputValues.phonenumber,
-                firstName: inputValues.firstName,
-                lastName: inputValues.lastName,
-                password: inputValues.password
-            }, ["isOpen"]: true
-        })
+    let handleOpenVerifyOTP = async () => {
+        let res = await checkUserPhoneService(inputValues.phonenumber)
+        if (res === true) {
+            toast.error("Số điện thoại đã tồn tại !")
+        } else {
+            setInputValues({
+                ...inputValues, ["dataUser"]:
+                {
+                    phonenumber: inputValues.phonenumber,
+                    firstName: inputValues.firstName,
+                    lastName: inputValues.lastName,
+                    password: inputValues.password
+                }, ["isOpen"]: true
+            })
+        }
     }
     return (
         <>

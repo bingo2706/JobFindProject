@@ -24,7 +24,7 @@ module.exports = {
             category_job_id: {
                 type: Sequelize.STRING
             },
-            address: {
+            address_id: {
                 type: Sequelize.STRING
             },
 

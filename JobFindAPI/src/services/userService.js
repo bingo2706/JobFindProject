@@ -16,14 +16,23 @@ let hashUserPasswordFromBcrypt = (password) => {
 let checkUserPhone = (userPhone) => {
     return new Promise(async (resolve, reject) => {
         try {
-            let user = await db.User.findOne({
-                where: { phonenumber: userPhone }
-            })
-            if (user) {
-                resolve(true)
+            if (!userPhone) {
+                resolve({
+                    errCode: 1,
+                    errMessage: 'Missing required parameters!'
+                })
             } else {
-                resolve(false)
+                let user = await db.User.findOne({
+                    where: { phonenumber: userPhone }
+                })
+                if (user) {
+                    resolve(true)
+                } else {
+                    resolve(false)
+                }
             }
+
+
         } catch (error) {
             reject(error)
         }
@@ -323,5 +332,5 @@ module.exports = {
     handleChangePassword: handleChangePassword,
     getAllUser: getAllUser,
     getDetailUserById: getDetailUserById,
-
+    checkUserPhone: checkUserPhone
 }

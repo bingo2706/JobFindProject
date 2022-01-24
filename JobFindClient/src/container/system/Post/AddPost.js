@@ -20,7 +20,7 @@ const AddPost = () => {
     const { id } = useParams();
 
     const [inputValues, setInputValues] = useState({
-        name: '', category_job_id: '', address: '', salary_job_id: '', amount: '', time_end: '', category_joblevel_id: '', category_worktype_id: '', experience_job_id: '',
+        name: '', category_job_id: '', address_id: '', salary_job_id: '', amount: '', time_end: '', category_joblevel_id: '', category_worktype_id: '', experience_job_id: '',
         genderId: '', descriptionHTML: '', descriptionMarkdown: '', isActionADD: true, id: ''
     });
 
@@ -42,7 +42,7 @@ const AddPost = () => {
             ...inputValues,
             ["name"]: data.name,
             ["category_job_id"]: data.category_job_id,
-            ["address"]: data.address,
+            ["address_id"]: data.address_id,
             ["salary_job_id"]: data.salary_job_id,
             ["amount"]: data.amount,
             ["time_end"]: data.time_end,
@@ -66,10 +66,11 @@ const AddPost = () => {
     const { data: dataSalaryType } = useFetchAllcode('SALARYTYPE');
     const { data: dataExpType } = useFetchAllcode('EXPTYPE');
     const { data: dataWorkType } = useFetchAllcode('WORKTYPE');
+    const { data: dataProvince } = useFetchAllcode('PROVINCE');
 
     if (dataGenderPost && dataGenderPost.length > 0 && inputValues.genderId === '' && dataJobType && dataJobType.length > 0 && inputValues.category_job_id === '' && dataJobLevel && dataJobLevel.length > 0 && inputValues.category_joblevel_id === '' &&
         dataSalaryType && dataSalaryType.length > 0 && inputValues.salary_job_id === '' && dataExpType && dataExpType.length > 0 && inputValues.experience_job_id === '' &&
-        dataWorkType && dataWorkType.length > 0 && inputValues.category_worktype_id === ''
+        dataWorkType && dataWorkType.length > 0 && inputValues.category_worktype_id === '' && dataProvince && dataProvince.length > 0 && inputValues.address_id === ''
     ) {
 
         setInputValues({
@@ -104,7 +105,7 @@ const AddPost = () => {
                 descriptionHTML: inputValues.descriptionHTML,
                 descriptionMarkdown: inputValues.descriptionMarkdown,
                 category_job_id: inputValues.category_job_id,
-                address: inputValues.address,
+                address_id: inputValues.address_id,
                 salary_job_id: inputValues.salary_job_id,
                 amount: inputValues.amount,
                 time_end: new Date(timeEnd).getTime(),
@@ -122,7 +123,7 @@ const AddPost = () => {
                     ["descriptionHTML"]: '',
                     ["descriptionMarkdown"]: '',
                     ["category_job_id"]: '',
-                    ["address"]: '',
+                    ["address_id"]: '',
                     ["salary_job_id"]: '',
                     ["amount"]: '',
                     ["time_end"]: '',
@@ -142,7 +143,7 @@ const AddPost = () => {
                 descriptionHTML: inputValues.descriptionHTML,
                 descriptionMarkdown: inputValues.descriptionMarkdown,
                 category_job_id: inputValues.category_job_id,
-                address: inputValues.address,
+                address_id: inputValues.address_id,
                 salary_job_id: inputValues.salary_job_id,
                 amount: inputValues.amount,
                 time_end: isChangeDate === false ? inputValues.time_end : new Date(timeEnd).getTime(),
@@ -183,7 +184,15 @@ const AddPost = () => {
                                         <div className="form-group row">
                                             <label className="col-sm-3 col-form-label">Địa chỉ</label>
                                             <div className="col-sm-9">
-                                                <input value={inputValues.address} name="address" onChange={(event) => handleOnChange(event)} type="text" className="form-control" />
+                                                <select className="form-control" value={inputValues.address_id} name="address_id" onChange={(event) => handleOnChange(event)}>
+                                                    {dataProvince && dataProvince.length > 0 &&
+                                                        dataProvince.map((item, index) => {
+                                                            return (
+                                                                <option key={index} value={item.code}>{item.value}</option>
+                                                            )
+                                                        })
+                                                    }
+                                                </select>
                                             </div>
                                         </div>
                                     </div>

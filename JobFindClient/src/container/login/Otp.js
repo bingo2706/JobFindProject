@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import './Otp.scss';
 import firebase from '../../util/firebase';
 import { toast } from 'react-toastify';
-import { createNewUser } from '../../service/userService';
+import { createNewUser, handleLoginService } from '../../service/userService';
 const Otp = (props) => {
     const [dataUser, setdataUser] = useState({})
     const [otpnumber, setotpnumber] = useState('')
@@ -82,6 +82,9 @@ const Otp = (props) => {
                 })
                 if (res && res.errCode === 0) {
                     toast.success("Tạo tài khoản thành công")
+                    handleLogin(props.dataUser.phonenumber, props.dataUser.password)
+
+
                 } else {
                     toast.error(res.errMessage)
                 }
@@ -97,6 +100,29 @@ const Otp = (props) => {
     }
     let resendOTP = async () => {
         await onSignInSubmit()
+    }
+    let handleLogin = async (phonenumber, password) => {
+
+        let res = await handleLoginService({
+            phonenumber: phonenumber,
+            password: password
+        })
+
+        if (res && res.errCode === 0) {
+
+
+            localStorage.setItem("userData", JSON.stringify(res.user))
+            if (res.user.roleId === "ADMIN" || res.user.roleId === "EMPLOYER") {
+                window.location.href = "/admin/"
+
+            }
+            else {
+                window.location.href = "/"
+            }
+        }
+        else {
+            toast.error(res.errMessage)
+        }
     }
     return (
         <>

@@ -16,6 +16,7 @@ let initWebRoutes = (app) => {
     router.post('/api/changepassword', userController.handleChangePassword)
     router.get('/api/get-all-user', userController.getAllUser)
     router.get('/api/get-detail-user-by-id', userController.getDetailUserById)
+    router.delete('/api/check-phonenumber-user', userController.checkUserPhone)
 
     //===================API ALLCODE========================//
     router.post('/api/create-new-all-code', allcodeController.handleCreateNewAllCode)

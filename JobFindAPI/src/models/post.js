@@ -17,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
             Post.belongsTo(models.Allcode, { foreignKey: 'experience_job_id', targetKey: 'code', as: 'expTypeData' })
             Post.belongsTo(models.Allcode, { foreignKey: 'genderPostCode', targetKey: 'code', as: 'genderPostData' })
             Post.belongsTo(models.Allcode, { foreignKey: 'statusId', targetKey: 'code', as: 'statusPostData' })
+            Post.belongsTo(models.Allcode, { foreignKey: 'address_id', targetKey: 'code', as: 'provinceData' })
         }
     };
     Post.init({
@@ -25,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
         descriptionMarkdown: DataTypes.TEXT('long'),
         statusId: DataTypes.STRING,
         category_job_id: DataTypes.STRING,
-        address: DataTypes.STRING,
+        address_id: DataTypes.STRING,
         salary_job_id: DataTypes.STRING,
         amount: DataTypes.INTEGER,
         time_end: DataTypes.STRING,
