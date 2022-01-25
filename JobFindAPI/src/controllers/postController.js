@@ -72,11 +72,24 @@ let handleActivePost = async (req, res) => {
         })
     }
 }
+let getFilterPost = async (req, res) => {
+    try {
+        let data = await postService.getFilterPost(req.query);
+        return res.status(200).json(data);
+    } catch (error) {
+        console.log(error)
+        return res.status(200).json({
+            errCode: -1,
+            errMessage: 'Error from server'
+        })
+    }
+}
 module.exports = {
     handleCreateNewPost: handleCreateNewPost,
     handleUpdatePost: handleUpdatePost,
     handleBanPost: handleBanPost,
     getListPostByAdmin: getListPostByAdmin,
     getDetailPostById: getDetailPostById,
-    handleActivePost: handleActivePost
+    handleActivePost: handleActivePost,
+    getFilterPost: getFilterPost
 }

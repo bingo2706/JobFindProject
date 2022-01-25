@@ -227,11 +227,63 @@ let getDetailPostById = (id) => {
         }
     })
 }
+let getFilterPost = (data) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let objectFilter = {
+                where: { statusId: 'S1' },
+                include: [
+                    { model: db.Allcode, as: 'jobTypeData', attributes: ['value', 'code'] },
+                    { model: db.Allcode, as: 'workTypeData', attributes: ['value', 'code'] },
+                    { model: db.Allcode, as: 'salaryTypeData', attributes: ['value', 'code'] },
+                    { model: db.Allcode, as: 'jobLevelData', attributes: ['value', 'code'] },
+                    { model: db.Allcode, as: 'expTypeData', attributes: ['value', 'code'] },
+                    { model: db.Allcode, as: 'genderPostData', attributes: ['value', 'code'] },
+                    { model: db.Allcode, as: 'statusPostData', attributes: ['value', 'code'] },
+                    { model: db.Allcode, as: 'provinceData', attributes: ['value', 'code'] },
+                ],
+                order: [["createdAt", "ASC"]],
+                raw: true,
+                nest: true
+            }
+            if (data.limit && data.offset) {
+                objectFilter.limit = +data.limit
+                objectFilter.offset = +data.offset
+            }
+            if (data.category_job_id && data.category_job_id !== 'ALL') objectFilter.where = { category_job_id: data.category_job_id }
+            if (data.address_id && data.address_id !== 'ALL') objectFilter.where = { ...objectFilter.where, address_id: data.address_id }
+            if (data.salary_job_id && data.salary_job_id !== 'ALL') objectFilter.where = { ...objectFilter.where, salary_job_id: data.salary_job_id }
+            if (data.category_joblevel_id && data.category_joblevel_id !== 'ALL') objectFilter.where = { ...objectFilter.where, category_joblevel_id: data.category_joblevel_id }
+            if (data.category_worktype_id && data.category_worktype_id !== 'ALL') objectFilter.where = { ...objectFilter.where, category_worktype_id: data.category_worktype_id }
+            if (data.experience_job_id && data.experience_job_id !== 'ALL') objectFilter.where = { ...objectFilter.where, experience_job_id: data.experience_job_id }
+            if (data.sortName === "true") objectFilter.order = [["name", "ASC"]]
+
+            let res = await db.Post.findAndCountAll(objectFilter)
+
+            for (let i = 0; i < res.rows.length; i++) {
+                res.rows[i].company = await db.Company.findOne({ where: { id: res.rows[i].company_id } })
+            }
+
+            resolve({
+                errCode: 0,
+                data: res.rows,
+                count: res.count
+            })
+
+
+        } catch (error) {
+            reject(error)
+        }
+    })
+
+
+}
 module.exports = {
     handleCreateNewPost: handleCreateNewPost,
     handleUpdatePost: handleUpdatePost,
     handleBanPost: handleBanPost,
     getListPostByAdmin: getListPostByAdmin,
     getDetailPostById: getDetailPostById,
-    handleActivePost: handleActivePost
+    handleActivePost: handleActivePost,
+    getFilterPost: getFilterPost
 }

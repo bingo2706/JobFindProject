@@ -49,7 +49,7 @@ let initWebRoutes = (app) => {
     router.delete('/api/ban-post', postController.handleBanPost)
     router.get('/api/get-list-post-admin', postController.getListPostByAdmin)
     router.get('/api/get-detail-post-by-id', postController.getDetailPostById)
-
+    router.get('/api/get-filter-post', postController.getFilterPost)
 
     return app.use("/", router);
 
