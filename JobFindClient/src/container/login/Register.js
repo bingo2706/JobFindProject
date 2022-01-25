@@ -2,11 +2,21 @@ import React from 'react'
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { checkUserPhoneService } from '../../service/userService';
+import { useFetchAllcode } from '../../util/fetch';
 import Otp from './Otp';
 const Register = () => {
     const [inputValues, setInputValues] = useState({
-        phonenumber: '', firstName: '', lastName: '', password: '', isOpen: false, dataUser: {}
+        phonenumber: '', firstName: '', lastName: '', password: '', isOpen: false, dataUser: {}, roleId: ''
     });
+    const { data: dataRole } = useFetchAllcode('ROLE');
+
+    if (dataRole && dataRole.length > 0 && inputValues.roleId === '') {
+
+        setInputValues({
+            ...inputValues, ["roleId"]: dataRole[0].code
+
+        })
+    }
 
     const handleOnChange = event => {
         const { name, value } = event.target;
@@ -25,7 +35,8 @@ const Register = () => {
                     phonenumber: inputValues.phonenumber,
                     firstName: inputValues.firstName,
                     lastName: inputValues.lastName,
-                    password: inputValues.password
+                    password: inputValues.password,
+                    roleId: inputValues.roleId
                 }, ["isOpen"]: true
             })
         }
@@ -57,7 +68,20 @@ const Register = () => {
                                             <div className="form-group">
                                                 <input type="password" value={inputValues.password} name="password" onChange={(event) => handleOnChange(event)} className="form-control form-control-lg" id="exampleInputPassword1" placeholder="Password" />
                                             </div>
+                                            <div className="form-group">
+                                                <select className="form-control" value={inputValues.roleId} name="roleId" onChange={(event) => handleOnChange(event)}>
+                                                    {dataRole && dataRole.length > 0 &&
+                                                        dataRole.map((item, index) => {
+                                                            if (item.code !== "ADMIN") {
+                                                                return (
+                                                                    <option key={index} value={item.code}>{item.value}</option>
+                                                                )
+                                                            }
 
+                                                        })
+                                                    }
+                                                </select>
+                                            </div>
                                             <div className="mt-3">
                                                 <a onClick={() => handleOpenVerifyOTP()} className="btn1 btn1-block btn1-primary1 btn1-lg font-weight-medium auth-form-btn1" >SIGN UP</a>
                                             </div>
