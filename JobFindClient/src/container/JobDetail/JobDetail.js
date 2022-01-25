@@ -1,9 +1,54 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
+import { toast } from 'react-toastify'
 import SendCvModal from '../../components/modal/SendCvModal'
+import { getDetailPostByIdService } from '../../service/userService'
+import moment from 'moment';
 const JobDetail = () => {
-
+    const { id } = useParams()
     const [isActiveModal, setAcitveModal] = useState(false)
-    console.log(isActiveModal)
+    const [dataPost, setDataPost] = useState({
+        idPost: '', namePost: '', descriptionHTMLPost: '', addressPost: '', jobType: '',
+        workType: '', salaryType: '', jobLevelType: '', expType: '', genderPost: '',
+        nameCompany: '', thumbnail: '', coverimage: '', descriptionHTMLCompany: '',
+        website: '', addressCompany: '', phonenumber: '', amountemployer: '',
+        taxnumber: '', time_end: ''
+    });
+    useEffect(() => {
+        fetchPost(id)
+    }, [])
+    let fetchPost = async (id) => {
+        let res = await getDetailPostByIdService(id)
+        if (res && res.errCode === 0) {
+            myPost(res.data)
+        }
+    }
+    let myPost = (data) => {
+        setDataPost({
+            ...dataPost,
+            ["idPost"]: data.id,
+            ["namePost"]: data.name,
+            ["descriptionHTMLPost"]: data.descriptionHTML,
+            ["addressPost"]: data.address_id,
+            ["jobType"]: data.jobTypeData.value,
+            ["workType"]: data.workTypeData.value,
+            ["salaryType"]: data.salaryTypeData.value,
+            ["jobLevelType"]: data.jobLevelData.value,
+            ["expType"]: data.expTypeData.value,
+            ["genderPost"]: data.genderPostData.value,
+            ["nameCompany"]: data.companyData.name,
+            ["thumbnail"]: data.companyData.thumbnail,
+            ["coverimage"]: data.companyData.coverimage,
+            ["descriptionHTMLCompany"]: data.companyData.descriptionHTML,
+            ["website"]: data.companyData.website,
+            ["addressCompany"]: data.companyData.address,
+            ["phonenumber"]: data.companyData.phonenumber,
+            ["amountemployer"]: data.companyData.amountemployer,
+            ["taxnumber"]: data.companyData.taxnumber,
+            ["time_end"]: moment.unix(+data.time_end / 1000).locale('vi').format('DD/MM/YYYY')
+        })
+
+    }
     return (
         <>
             {/* <div id="preloader-active">
@@ -22,14 +67,14 @@ const JobDetail = () => {
 
                 {/* <!-- Hero Area Start--> */}
                 <div className="slider-area ">
-                    <div className="single-slider section-overly slider-height2 d-flex align-items-center" style={{
-                        backgroundImage: `url("assets/img/hero/about.jpg")`
+                    <div className="single-slider slider-height2 d-flex align-items-center" style={{
+                        backgroundImage: `url(${dataPost.coverimage})`
                     }}>
                         <div className="container">
                             <div className="row">
                                 <div className="col-xl-12">
                                     <div className="hero-cap text-center">
-                                        <h2>UI/UX Designer</h2>
+                                        <h2>{dataPost.namePost}</h2>
                                     </div>
                                 </div>
                             </div>
@@ -48,16 +93,16 @@ const JobDetail = () => {
                                     {/* <Job /> */}
                                     <div className="job-items">
                                         <div className="company-img company-img-details">
-                                            <a href="#"><img src="assets/img/icon/job-list1.png" alt="" /></a>
+                                            <img src={dataPost.thumbnail} alt="Ảnh bị lỗi" width={100} height={100} />
                                         </div>
                                         <div className="job-tittle">
-                                            <a href="#">
-                                                <h4>Digital Marketer</h4>
-                                            </a>
+
+                                            <h4>{dataPost.jobType}</h4>
+
                                             <ul>
-                                                <li>Creative Agency</li>
-                                                <li><i className="fas fa-map-marker-alt"></i>Athens, Greece</li>
-                                                <li>$3500 - $4000</li>
+                                                <li>{dataPost.workType}</li>
+                                                <li><i className="fas fa-map-marker-alt"></i>{dataPost.addressPost}</li>
+                                                <li>{dataPost.salaryType}</li>
                                             </ul>
                                         </div>
                                     </div>
@@ -68,36 +113,10 @@ const JobDetail = () => {
                                     <div className="post-details1 mb-50">
                                         {/* <!-- Small Section Tittle --> */}
                                         <div className="small-section-tittle">
-                                            <h4>Job Description</h4>
+                                            <h4>Mô tả công việc</h4>
                                         </div>
-                                        <p>It is a long established fact that a reader will beff distracted by vbthe creadable content of a page when looking at its layout. The pointf of using Lorem Ipsum is that it has ahf mcore or-lgess normal distribution of letters, as opposed to using, Content here content here making it look like readable.</p>
                                     </div>
-                                    <div className="post-details2  mb-50">
-                                        {/* <!-- Small Section Tittle --> */}
-                                        <div className="small-section-tittle">
-                                            <h4>Required Knowledge, Skills, and Abilities</h4>
-                                        </div>
-                                        <ul>
-                                            <li>System Software Development</li>
-                                            <li>Mobile Applicationin iOS/Android/Tizen or other platform</li>
-                                            <li>Research and code , libraries, APIs and frameworks</li>
-                                            <li>Strong knowledge on software development life cycle</li>
-                                            <li>Strong problem solving and debugging skills</li>
-                                        </ul>
-                                    </div>
-                                    <div className="post-details2  mb-50">
-                                        {/* <!-- Small Section Tittle --> */}
-                                        <div className="small-section-tittle">
-                                            <h4>Education + Experience</h4>
-                                        </div>
-                                        <ul>
-                                            <li>3 or more years of professional design experience</li>
-                                            <li>Direct response email experience</li>
-                                            <li>Ecommerce website design experience</li>
-                                            <li>Familiarity with mobile and web apps preferred</li>
-                                            <li>Experience using Invision a plus</li>
-                                        </ul>
-                                    </div>
+                                    <div dangerouslySetInnerHTML={{ __html: dataPost.descriptionHTMLPost }} />
                                 </div>
 
                             </div>
@@ -107,30 +126,31 @@ const JobDetail = () => {
                                 <div className="post-details3  mb-50">
                                     {/* <!-- Small Section Tittle --> */}
                                     <div className="small-section-tittle">
-                                        <h4>Job Overview</h4>
+                                        <h4>Thông tin công việc</h4>
                                     </div>
                                     <ul>
-                                        <li>Posted date : <span>12 Aug 2019</span></li>
-                                        <li>Location : <span>New York</span></li>
-                                        <li>Vacancy : <span>02</span></li>
-                                        <li>Job nature : <span>Full time</span></li>
-                                        <li>Salary :  <span>$7,800 yearly</span></li>
-                                        <li>Application date : <span>12 Sep 2020</span></li>
+                                        <li>Nơi làm việc : <span>{dataPost.addressPost}</span></li>
+                                        <li>Hình thức làm việc : <span>{dataPost.workType}</span></li>
+                                        <li>Lương :  <span>{dataPost.salaryType}</span></li>
+                                        <li>Hạn nộp : <span>{dataPost.time_end}</span></li>
                                     </ul>
                                     <div className="btn" onClick={() => { setAcitveModal(true) }}>Apply Now</div>
                                 </div>
                                 <div className="post-details4  mb-50">
                                     {/* <!-- Small Section Tittle --> */}
                                     <div className="small-section-tittle">
-                                        <h4>Company Information</h4>
+                                        <h4>Thông tin công ty</h4>
                                     </div>
-                                    <span>Colorlib</span>
-                                    <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
+                                    <span>Tên công ty : {dataPost.nameCompany}</span>
                                     <ul>
-                                        <li>Name: <span>Colorlib </span></li>
-                                        <li>Web : <span> colorlib.com</span></li>
-                                        <li>Email: <span>carrier.colorlib@gmail.com</span></li>
+                                        <li>Website     : <span>{dataPost.website}</span></li>
+                                        <li>Địa chỉ     : <span>{dataPost.addressCompany}</span></li>
+                                        <li>Điện thoại  : <span>{dataPost.phonenumber}</span></li>
+                                        <li>Mã số thuế  : <span>{dataPost.taxnumber}</span></li>
+                                        <li>Số nhân viên: <span>{dataPost.amountemployer}</span></li>
                                     </ul>
+                                    <span>Mô tả công ty:</span>
+                                    <div dangerouslySetInnerHTML={{ __html: dataPost.descriptionHTMLCompany }} />
                                 </div>
                             </div>
                         </div>

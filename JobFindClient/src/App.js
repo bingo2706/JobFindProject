@@ -69,12 +69,11 @@ function App() {
 
 
           {/* <DetailPage /> */}
-          <Route path="/detail-job">
+          <Route path="/detail-job/:id">
             <Header />
             <DetailPage />
             <Footer />
           </Route>
-
 
 
 

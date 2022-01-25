@@ -32,8 +32,8 @@ const Header = () => {
                             <div className="row align-items-center">
                                 <div className="col-lg-3 col-md-2">
                                     {/* <!-- Logo --> */}
-                                    <div className="logo">
-                                        <NavLink to="/"><img src="assets/img/logo/logo.png" alt="" /></NavLink>
+                                    <div className="logo" style={{ zIndex: 1 }}>
+                                        <NavLink to="/"><img src="/assets/img/logo/logo.png" alt="" /></NavLink>
                                     </div>
                                 </div>
                                 <div className="col-lg-9 col-md-9">
