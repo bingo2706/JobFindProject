@@ -49,6 +49,14 @@ const JobDetail = () => {
         })
 
     }
+
+    const handleOpenModal = () => {
+        const userData = JSON.parse(localStorage.getItem('userData'));
+        if (userData)
+            setAcitveModal(true)
+        else
+            toast.error("Xin hãy đăng nhập để có thể thực hiện nộp CV")
+    }
     return (
         <>
             {/* <div id="preloader-active">
@@ -131,10 +139,12 @@ const JobDetail = () => {
                                     <ul>
                                         <li>Nơi làm việc : <span>{dataPost.addressPost}</span></li>
                                         <li>Hình thức làm việc : <span>{dataPost.workType}</span></li>
+                                        <li>Cấp bậc: <span>{dataPost.jobLevelType}</span></li>
+                                        <li>Kinh nghiệm: <span>{dataPost.expType}</span></li>
                                         <li>Lương :  <span>{dataPost.salaryType}</span></li>
                                         <li>Hạn nộp : <span>{dataPost.time_end}</span></li>
                                     </ul>
-                                    <div className="btn" onClick={() => { setAcitveModal(true) }}>Apply Now</div>
+                                    <div className="btn" onClick={() => handleOpenModal()}>Apply Now</div>
                                 </div>
                                 <div className="post-details4  mb-50">
                                     {/* <!-- Small Section Tittle --> */}
@@ -157,7 +167,7 @@ const JobDetail = () => {
                     </div>
                 </div>
                 {/* <!-- job post company End --> */}
-                <SendCvModal isOpen={isActiveModal} onHide={() => setAcitveModal(false)} />
+                <SendCvModal isOpen={isActiveModal} onHide={() => setAcitveModal(false)} postId = {id}/>
             </main>
         </>
     )
