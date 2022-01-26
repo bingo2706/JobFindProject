@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { getAllCodeService } from '../service/userService';
-
 const useFetchAllcode = (type) => {
     const [data, setdata] = useState([])
     useEffect(() => {
@@ -8,8 +7,7 @@ const useFetchAllcode = (type) => {
             let fetchData = async () => {
                 let arrData = await getAllCodeService(type)
                 if (arrData && arrData.errCode === 0) {
-                    setdata(arrData.data)
-
+                    setdata(arrData.data)               
                 }
             }
             fetchData();

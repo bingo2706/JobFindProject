@@ -250,12 +250,12 @@ let getFilterPost = (data) => {
                 objectFilter.limit = +data.limit
                 objectFilter.offset = +data.offset
             }
-            if (data.category_job_id && data.category_job_id !== 'ALL') objectFilter.where = { category_job_id: data.category_job_id }
-            if (data.address_id && data.address_id !== 'ALL') objectFilter.where = { ...objectFilter.where, address_id: data.address_id }
-            if (data.salary_job_id && data.salary_job_id !== 'ALL') objectFilter.where = { ...objectFilter.where, salary_job_id: data.salary_job_id }
-            if (data.category_joblevel_id && data.category_joblevel_id !== 'ALL') objectFilter.where = { ...objectFilter.where, category_joblevel_id: data.category_joblevel_id }
-            if (data.category_worktype_id && data.category_worktype_id !== 'ALL') objectFilter.where = { ...objectFilter.where, category_worktype_id: data.category_worktype_id }
-            if (data.experience_job_id && data.experience_job_id !== 'ALL') objectFilter.where = { ...objectFilter.where, experience_job_id: data.experience_job_id }
+            if (data.category_job_id && data.category_job_id !== '') objectFilter.where = { category_job_id: data.category_job_id }
+            if (data.address_id && data.address_id !== '') objectFilter.where = { ...objectFilter.where, address_id: data.address_id }
+            if (data.salary_job_id && data.salary_job_id !== '') objectFilter.where = { ...objectFilter.where, salary_job_id: data.salary_job_id }
+            if (data.category_joblevel_id && data.category_joblevel_id !== '') objectFilter.where = { ...objectFilter.where, category_joblevel_id: data.category_joblevel_id }
+            if (data.category_worktype_id && data.category_worktype_id !== '') objectFilter.where = { ...objectFilter.where, category_worktype_id: data.category_worktype_id }
+            if (data.experience_job_id && data.experience_job_id !== '') objectFilter.where = { ...objectFilter.where, experience_job_id: data.experience_job_id }
             if (data.sortName === "true") objectFilter.order = [["name", "ASC"]]
 
             let res = await db.Post.findAndCountAll(objectFilter)

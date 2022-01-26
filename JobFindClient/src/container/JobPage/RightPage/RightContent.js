@@ -1,6 +1,7 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
 import Job from '../../../components/Job/Job'
-const RightContent = () => {
+const RightContent = (props) => {
     return (
         <>
              <div class="col-xl-9 col-lg-9 col-md-8">
@@ -11,9 +12,9 @@ const RightContent = () => {
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="count-job mb-35">
-                                            <span>39, 782 Jobs found</span>
+                                            <span>{props.count} Jobs found</span>
                                             {/* <!-- Select job items start --> */}
-                                            <div class="select-job-items">
+                                            {/* <div class="select-job-items">
                                                 <span>Sort by</span>
                                                 <select name="select">
                                                     <option value="">None</option>
@@ -21,44 +22,42 @@ const RightContent = () => {
                                                     <option value="">job list</option>
                                                     <option value="">job list</option>
                                                 </select>
-                                            </div>
+                                            </div> */}
                                             {/* <!--  Select job items End--> */}
                                         </div>
                                     </div>
                                 </div>
-                                {/* <!-- Count of Job list End --> */}
-                                {/* <!-- single-job-content --> */}
-                                <div class="single-job-items mb-30">
-                                    <Job />       
-                                </div>                     
-                                {/* <!-- single-job-content --> */}        
-                                <div class="single-job-items mb-30">
-                                    <Job />
-                                    </div>                  
-                                {/* <!-- single-job-content --> */}
-                                <div class="single-job-items mb-30">
-
-                                    <Job />
+                                {props.post.map((data,index) =>{
+                                        return(
+                                            <div class="single-job-items mb-30">
+                                            <Job key={index} data={data} />
+                                        </div>
+                                        )
+                                    })}                         
+                                                
+                                
+                                {/* <div class="single-job-items mb-30">
+                                   <Job />
                                 </div>
-                                {/* <!-- single-job-content --> */}
+                               
                                 <div class="single-job-items mb-30">
 
                                      <Job />
                                 </div>
-                                {/* <!-- single-job-content --> */}
+                              
                                 <div class="single-job-items mb-30">
                                     <Job />
 
                                 </div>
-                                {/* <!-- single-job-content --> */}
+                               
                                 
                                 <div class="single-job-items mb-30"> 
                                       <Job />
                                 </div>
-                                {/* <!-- single-job-content --> */}
+                                
                                 <div class="single-job-items mb-30">                                
                                      <Job /> 
-                                </div>
+                                </div>  */}
                             </div>
                         </section>
                         {/* <!-- Featured_job_end --> */}

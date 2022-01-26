@@ -1,7 +1,94 @@
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 import LeftBar from './LeftPage/LeftBar'
 import RightContent from './RightPage/RightContent'
+import { PAGINATION } from '../../util/constant';
+import ReactPaginate from 'react-paginate';
+import {getListPostService} from '../../service/userService'
 const JobPage = () => {
+
+    const [countPage,setCountPage] = useState(1)
+    const [post,setPost] = useState([])
+    const [count,setCount] = useState(0)
+    const [numberPage,setNumberPage] = useState('')
+    const [offset,setOffset] = useState(0)
+    const [limit,setLimit] = useState(PAGINATION.pagerow)
+
+    const [workType,setWorkType] = useState('')
+    const [jobType,setJobType] = useState('')
+    const [salary,setSalary] = useState('')
+    const [exp,setExp] = useState('')
+    const [jobLevel,setJobLevel]= useState('')
+    const [jobLocation,setJobLocation] = useState('')
+
+    let loadPost = async(limit,offset,sortName) =>{
+        let arrData = await getListPostService({
+            limit:limit,
+            offset:offset,
+            category_job_id:jobType,
+            address_id:jobLocation,
+            salary_job_id:salary,
+            category_joblevel_id:jobLevel,
+            category_worktype_id:workType,
+            experience_job_id:exp,
+            sortName:sortName
+        })
+        if(arrData && arrData.errCode === 0){
+            setPost(arrData.data)
+            setCountPage(Math.ceil(arrData.count / limit))
+            setCount(arrData.count)
+        }
+    }
+
+    useEffect(() => {
+        let fetchPost = async() =>{
+            await loadPost(limit,offset,false)
+        }
+        fetchPost();
+    },[])
+
+    const recieveWorkType = (data) =>{
+        workType===data? setWorkType('') : setWorkType(data)
+    }
+    const recieveSalary = (data) =>{
+       salary === data ? setSalary('') : setSalary(data)
+    }
+    const recieveExp = (data) =>{
+        exp===data ? setExp('') : setExp(data)
+    }
+    const recieveJobType = (data) => {
+        jobType===data ? setJobType('') : setJobType(data)
+    }
+    const recieveJobLevel = (data) => {
+        jobLevel===data ? setJobLevel(''): setJobLevel(data)
+    }
+    const recieveLocation = (data) =>{
+        jobLocation===data ? setJobLocation('') : setJobLocation(data)
+    }
+    useEffect(() => {
+        let filterdata = async() => {
+            let arrData = await getListPostService({
+                limit:limit,
+                offset:offset,
+                category_job_id:jobType,
+                address_id:jobLocation,
+                salary_job_id:salary,
+                category_joblevel_id:jobLevel,
+                category_worktype_id:workType,
+                experience_job_id:exp,
+            })
+            if(arrData && arrData.errCode === 0){
+                setPost(arrData.data)
+                setCountPage(Math.ceil(arrData.count / limit))
+                setCount(arrData.count)
+            }
+        }
+        filterdata()
+    },[workType,jobLevel,exp,jobType,jobLocation,salary])
+    const handleChangePage = (number) =>{
+        setNumberPage(number.selected)
+        loadPost(limit,number.selected*limit)
+        setOffset(number.selected * limit)
+    }
     return (
         <>
 
@@ -46,34 +133,35 @@ const JobPage = () => {
                             </div>
                         </div>
                         {/* <!-- Job Category Listing start --> */}
-                        <LeftBar />
+                        <LeftBar worktype={recieveWorkType} recieveSalary={recieveSalary} recieveExp={recieveExp}
+                            recieveJobType={recieveJobType} recieveJobLevel={recieveJobLevel} recieveLocation={recieveLocation}
+                        />
                         {/* <!-- Job Category Listing End --> */}
                     </div>
                     {/* <!-- Right content --> */}
-                        <RightContent />
+                        <RightContent count={count} post={post}/>
                 </div>
+                <ReactPaginate
+                        previousLabel={'Quay lại'}
+                        nextLabel={'Tiếp'}
+                        breakLabel={'...'}
+                        pageCount={countPage}
+                        marginPagesDisplayed={3}
+                        containerClassName={"pagination justify-content-center pb-3"}
+                        pageClassName={"page-item"}
+                        pageLinkClassName={"page-link"}
+                        previousLinkClassName={"page-link"}
+                        previousClassName={"page-item"}
+                        nextClassName={"page-item"}
+                        nextLinkClassName={"page-link"}
+                        breakLinkClassName={"page-link"}
+                        breakClassName={"page-item"}
+                        activeClassName={"active"}    
+                        onPageChange={handleChangePage}                  
+                    />
             </div>
         </div>
-        {/* <!-- Job List Area End -->
-        <!--Pagination Start  --> */}
-        <div class="pagination-area pb-115 text-center">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xl-12">
-                        <div class="single-wrap d-flex justify-content-center">
-                            <nav aria-label="Page navigation example">
-                                <ul class="pagination justify-content-start">
-                                    <li class="page-item active"><a class="page-link" href="#">01</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">02</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">03</a></li>
-                                <li class="page-item"><a class="page-link" href="#"><span class="ti-angle-right"></span></a></li>
-                                </ul>
-                            </nav>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+       
         {/* <!--Pagination End  --> */}
         
     </main>
