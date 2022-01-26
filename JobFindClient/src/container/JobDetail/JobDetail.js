@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import SendCvModal from '../../components/modal/SendCvModal'
@@ -7,48 +8,22 @@ import moment from 'moment';
 const JobDetail = () => {
     const { id } = useParams()
     const [isActiveModal, setAcitveModal] = useState(false)
-    const [dataPost, setDataPost] = useState({
-        idPost: '', namePost: '', descriptionHTMLPost: '', addressPost: '', jobType: '',
-        workType: '', salaryType: '', jobLevelType: '', expType: '', genderPost: '',
-        nameCompany: '', thumbnail: '', coverimage: '', descriptionHTMLCompany: '',
-        website: '', addressCompany: '', phonenumber: '', amountemployer: '',
-        taxnumber: '', time_end: ''
-    });
+    const [dataPost, setDataPost] = useState({});
     useEffect(() => {
-        fetchPost(id)
+        if (id) {
+            fetchPost(id)
+        }
+        console.log('123')
     }, [])
+
     let fetchPost = async (id) => {
         let res = await getDetailPostByIdService(id)
         if (res && res.errCode === 0) {
-            myPost(res.data)
+            res.data.time_end = moment.unix(res.data.time_end / 1000).format('DD/MM/YYYY')
+            setDataPost(res.data)
         }
     }
-    let myPost = (data) => {
-        setDataPost({
-            ...dataPost,
-            ["idPost"]: data.id,
-            ["namePost"]: data.name,
-            ["descriptionHTMLPost"]: data.descriptionHTML,
-            ["addressPost"]: data.address_id,
-            ["jobType"]: data.jobTypeData.value,
-            ["workType"]: data.workTypeData.value,
-            ["salaryType"]: data.salaryTypeData.value,
-            ["jobLevelType"]: data.jobLevelData.value,
-            ["expType"]: data.expTypeData.value,
-            ["genderPost"]: data.genderPostData.value,
-            ["nameCompany"]: data.companyData.name,
-            ["thumbnail"]: data.companyData.thumbnail,
-            ["coverimage"]: data.companyData.coverimage,
-            ["descriptionHTMLCompany"]: data.companyData.descriptionHTML,
-            ["website"]: data.companyData.website,
-            ["addressCompany"]: data.companyData.address,
-            ["phonenumber"]: data.companyData.phonenumber,
-            ["amountemployer"]: data.companyData.amountemployer,
-            ["taxnumber"]: data.companyData.taxnumber,
-            ["time_end"]: moment.unix(+data.time_end / 1000).locale('vi').format('DD/MM/YYYY')
-        })
 
-    }
     return (
         <>
             {/* <div id="preloader-active">
@@ -62,103 +37,104 @@ const JobDetail = () => {
         </div>
     </div>
     <!-- Preloader Start --> */}
+            {dataPost.companyData &&
+                <main>
 
-            <main>
 
-                {/* <!-- Hero Area Start--> */}
-                <div className="slider-area ">
-                    <div className="single-slider slider-height2 d-flex align-items-center" style={{
-                        backgroundImage: `url(${dataPost.coverimage})`
-                    }}>
+                    <div className="slider-area ">
+                        <div className="single-slider slider-height2 d-flex align-items-center" style={{
+                            backgroundImage: `url(${dataPost.companyData.coverimage})`
+                        }}>
+                            <div className="container">
+                                <div className="row">
+                                    <div className="col-xl-12">
+                                        <div className="hero-cap text-center">
+                                            <h2>{dataPost.name}</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="job-post-company pt-120 pb-120">
                         <div className="container">
-                            <div className="row">
-                                <div className="col-xl-12">
-                                    <div className="hero-cap text-center">
-                                        <h2>{dataPost.namePost}</h2>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {/* <!-- Hero Area End -->
-        <!-- job post company Start --> */}
-                <div className="job-post-company pt-120 pb-120">
-                    <div className="container">
-                        <div className="row justify-content-between">
-                            {/* <!-- Left Content --> */}
-                            <div className="col-xl-7 col-lg-8">
-                                {/* <!-- job single --> */}
-                                <div className="single-job-items mb-30">
-                                    {/* <Job /> */}
-                                    <div className="job-items">
-                                        <div className="company-img company-img-details">
-                                            <img src={dataPost.thumbnail} alt="Ảnh bị lỗi" width={100} height={100} />
-                                        </div>
-                                        <div className="job-tittle">
+                            <div className="row justify-content-between">
 
-                                            <h4>{dataPost.jobType}</h4>
+                                <div className="col-xl-7 col-lg-8">
 
-                                            <ul>
-                                                <li>{dataPost.workType}</li>
-                                                <li><i className="fas fa-map-marker-alt"></i>{dataPost.addressPost}</li>
-                                                <li>{dataPost.salaryType}</li>
-                                            </ul>
+                                    <div className="single-job-items mb-30">
+
+                                        <div className="job-items">
+                                            <div className="company-img company-img-details">
+                                                <img src={dataPost.companyData.thumbnail} alt="Ảnh bị lỗi" width={100} height={100} />
+                                            </div>
+                                            <div className="job-tittle">
+
+                                                <h4>{dataPost.jobTypeData.value}</h4>
+
+                                                <ul>
+                                                    <li>{dataPost.workTypeData.value}</li>
+                                                    <li><i className="fas fa-map-marker-alt"></i>{dataPost.provinceData.value}</li>
+                                                    <li>{dataPost.salaryTypeData.value}</li>
+                                                </ul>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                {/* <!-- job single End --> */}
 
-                                <div className="job-post-details">
-                                    <div className="post-details1 mb-50">
-                                        {/* <!-- Small Section Tittle --> */}
+
+                                    <div className="job-post-details">
+                                        <div className="post-details1 mb-50">
+
+                                            <div className="small-section-tittle">
+                                                <h4>Mô tả công việc</h4>
+                                            </div>
+                                        </div>
+                                        <div dangerouslySetInnerHTML={{ __html: dataPost.descriptionHTML }} />
+                                    </div>
+
+                                </div>
+
+                                <div className="col-xl-4 col-lg-4">
+
+                                    <div className="post-details3  mb-50">
+
                                         <div className="small-section-tittle">
-                                            <h4>Mô tả công việc</h4>
+                                            <h4>Thông tin công việc</h4>
                                         </div>
+                                        <ul>
+                                            <li>Nơi làm việc : <span>{dataPost.provinceData.value}</span></li>
+                                            <li>Hình thức làm việc : <span>{dataPost.workTypeData.value}</span></li>
+                                            <li>Lương :  <span>{dataPost.salaryTypeData.value}</span></li>
+                                            <li>Hạn nộp : <span>{dataPost.time_end}</span></li>
+                                        </ul>
+                                        <div className="btn" onClick={() => { setAcitveModal(true) }}>Apply Now</div>
                                     </div>
-                                    <div dangerouslySetInnerHTML={{ __html: dataPost.descriptionHTMLPost }} />
-                                </div>
+                                    <div className="post-details4  mb-50">
 
-                            </div>
-                            {/* <!-- Right Content --> */}
-                            <div className="col-xl-4 col-lg-4">
-
-                                <div className="post-details3  mb-50">
-                                    {/* <!-- Small Section Tittle --> */}
-                                    <div className="small-section-tittle">
-                                        <h4>Thông tin công việc</h4>
+                                        <div className="small-section-tittle">
+                                            <h4>Thông tin công ty</h4>
+                                        </div>
+                                        <span>Tên công ty : {dataPost.companyData.name}</span>
+                                        <ul>
+                                            <li>Website     : <span>{dataPost.companyData.website}</span></li>
+                                            <li>Địa chỉ     : <span>{dataPost.companyData.address}</span></li>
+                                            <li>Điện thoại  : <span>{dataPost.companyData.phonenumber}</span></li>
+                                            <li>Mã số thuế  : <span>{dataPost.companyData.taxnumber}</span></li>
+                                            <li>Số nhân viên: <span>{dataPost.amount}</span></li>
+                                        </ul>
+                                        <span>Mô tả công ty:</span>
+                                        <div dangerouslySetInnerHTML={{ __html: dataPost.companyData.descriptionHTML }} />
                                     </div>
-                                    <ul>
-                                        <li>Nơi làm việc : <span>{dataPost.addressPost}</span></li>
-                                        <li>Hình thức làm việc : <span>{dataPost.workType}</span></li>
-                                        <li>Lương :  <span>{dataPost.salaryType}</span></li>
-                                        <li>Hạn nộp : <span>{dataPost.time_end}</span></li>
-                                    </ul>
-                                    <div className="btn" onClick={() => { setAcitveModal(true) }}>Apply Now</div>
-                                </div>
-                                <div className="post-details4  mb-50">
-                                    {/* <!-- Small Section Tittle --> */}
-                                    <div className="small-section-tittle">
-                                        <h4>Thông tin công ty</h4>
-                                    </div>
-                                    <span>Tên công ty : {dataPost.nameCompany}</span>
-                                    <ul>
-                                        <li>Website     : <span>{dataPost.website}</span></li>
-                                        <li>Địa chỉ     : <span>{dataPost.addressCompany}</span></li>
-                                        <li>Điện thoại  : <span>{dataPost.phonenumber}</span></li>
-                                        <li>Mã số thuế  : <span>{dataPost.taxnumber}</span></li>
-                                        <li>Số nhân viên: <span>{dataPost.amountemployer}</span></li>
-                                    </ul>
-                                    <span>Mô tả công ty:</span>
-                                    <div dangerouslySetInnerHTML={{ __html: dataPost.descriptionHTMLCompany }} />
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                {/* <!-- job post company End --> */}
-                <SendCvModal isOpen={isActiveModal} onHide={() => setAcitveModal(false)} />
-            </main>
+
+                    <SendCvModal isOpen={isActiveModal} onHide={() => setAcitveModal(false)} />
+                </main>
+            }
+
         </>
     )
 }
