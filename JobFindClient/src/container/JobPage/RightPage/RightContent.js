@@ -29,9 +29,11 @@ const RightContent = (props) => {
                                 </div>
                                 {props.post.map((data,index) =>{
                                         return(
+                                            <Link to={`/detail-job/${data.id}`}>
                                             <div class="single-job-items mb-30">
-                                            <Job key={index} data={data} />
-                                        </div>
+                                              <Job key={data.id} data={data} />
+                                            </div>
+                                            </Link>
                                         )
                                     })}                         
                                                 
