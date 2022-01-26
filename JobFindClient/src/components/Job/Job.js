@@ -1,6 +1,10 @@
 import React from 'react'
-
+import moment from 'moment';
 const Job = (props) => {
+    const handleSplitTime = (time) =>{
+        var timer = time.split(' ')[0]
+        return moment(timer).fromNow();
+    }
     return (
         <>  
             <div class="job-items">
@@ -20,7 +24,7 @@ const Job = (props) => {
                                     </div>
                                     <div class="items-link items-link2 f-right">
                                         <a href="job_details.html">{props.data.workTypeData.value}</a>
-                                        <span>7 hours ago</span>
+                                        <span style={{position: 'absolute', right: '70px'}}>{handleSplitTime(props.data.createdAt)}</span>
                                     </div>
         
         </>

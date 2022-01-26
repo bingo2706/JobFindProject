@@ -45,7 +45,7 @@ const Header = () => {
                                                     <li><NavLink to="/" isActive={() => window.scrollTo(0, 0)}>Home</NavLink></li>
                                                     <li><NavLink to="/job" isActive={() => window.scrollTo(0, 0)}>Find a Jobs </NavLink></li>
                                                     <li><NavLink to="/about" isActive={() => window.scrollTo(0, 0)}>About</NavLink></li>
-                                                    <li><NavLink to="/contact" >Contact</NavLink></li>
+                                                    {/* <li><NavLink to="/contact" >Contact</NavLink></li> */}
                                                 </ul>
                                             </nav>
                                         </div>
