@@ -251,8 +251,8 @@ let getFilterPost = (data) => {
                     })
                 let queryJobLevel = ''
                 if (data.category_joblevel_id !== '')
-                    queryExpType = data.category_joblevel_id.split(',').map((data, index) => {
-                        return { experience_job_id: data }
+                    queryJobLevel = data.category_joblevel_id.split(',').map((data, index) => {
+                        return { category_joblevel_id: data }
                     })
                 objectFilter = {
                     where: {

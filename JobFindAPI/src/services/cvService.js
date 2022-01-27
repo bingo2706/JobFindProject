@@ -70,11 +70,19 @@ let getDetailCvById = (data) => {
                     where: { id: data.cvId },
                     raw: false
                 })
+                let userData = await db.User.findOne({ where: { id: cv.user_id } })
                 cv.isChecked = 1
+
+                if (cv.file) {
+                    cv.file = new Buffer(cv.file, 'base64').toString('binary');
+                }
+
                 await cv.save()
+
                 resolve({
                     errCode: 0,
-                    data: cv
+                    data: cv,
+                    userData: userData
                 })
             }
         } catch (error) {

@@ -59,7 +59,7 @@ const ManageCv = () => {
             <div className="col-12 grid-margin">
                 <div className="card">
                     <div className="card-body">
-                        <h4 className="card-title">Danh sách Cv</h4>
+                        <h4 className="card-title">Danh sách CV</h4>
 
                         <div className="table-responsive pt-2">
                             <table className="table table-bordered">
@@ -97,7 +97,7 @@ const ManageCv = () => {
                                                     <td>{item.userData.address}</td>
                                                     <td>{item.isChecked === 0 ? 'Chưa xem' : 'Đã xem'}</td>
                                                     <td>
-                                                        <Link style={{ color: '#4B49AC' }} to={`/admin/edit-job-level/${item.id}/`}>Xem Cv</Link>
+                                                        <Link style={{ color: '#4B49AC', cursor: 'pointer' }} to={`/admin/user-cv/${item.id}/`}>Xem CV</Link>
                                                         &nbsp; &nbsp;
 
                                                     </td>
