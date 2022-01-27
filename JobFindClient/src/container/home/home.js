@@ -1,7 +1,8 @@
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 import Categories from '../../components/home/Categories'
 import FeatureJobs from '../../components/home/FeaturesJobs'
-const home = () => {
+const Home = () => {
+    const [data,setData] = useState([])
     return (
        <>
         {/* <div id="preloader-active">
@@ -34,29 +35,7 @@ const home = () => {
                             </div>
                         </div>
                         {/* <!-- Search Box --> */}
-                        <div class="row">
-                            <div class="col-xl-8">
-                                {/* <!-- form --> */}
-                                <form action="#" class="search-box">
-                                    <div class="input-form">
-                                        <input type="text" placeholder="Job Tittle or keyword" />
-                                    </div>
-                                    <div class="select-form">
-                                        <div class="select-itms" style={{height:"100%"}}>
-                                            <select name="select" id="select1" style={{width:"100%",height:"100%",outline:"none",border:"none",color:"#777777",fontsize:"18px",fontWeight:"400"}}>
-                                                <option value="">Location BD</option>
-                                                <option value="">Location PK</option>
-                                                <option value="">Location US</option>
-                                                <option value="">Location UK</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="search-form">
-                                        <a href="#">Find job</a>
-                                    </div>	
-                                </form>	
-                            </div>
-                        </div>
+                    
                     </div>
                 </div>
             </div>
@@ -97,7 +76,7 @@ const home = () => {
                         <div class="cv-caption text-center">
                             <p class="pera1">FEATURED TOURS Packages</p>
                             <p class="pera2"> Make a Difference with Your Online Resume!</p>
-                            <a href="#" class="border-btn2 border-btn4">Upload your cv</a>
+                            <a href="#" class="border-btn2 border-btn4">Find a Jobs</a>
                         </div>
                     </div>
                 </div>
@@ -216,4 +195,4 @@ const home = () => {
     )
 }
 
-export default home
+export default Home

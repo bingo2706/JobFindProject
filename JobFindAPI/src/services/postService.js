@@ -289,7 +289,7 @@ let getFilterPost = (data) => {
                         { model: db.Allcode, as: 'statusPostData', attributes: ['value', 'code'] },
                         { model: db.Allcode, as: 'provinceData', attributes: ['value', 'code'] },
                     ],
-                    order: [["createdAt", "ASC"]],
+                    order: [["createdAt", "DESC"]],
                     raw: true,
                     nest: true
                 }
@@ -304,7 +304,7 @@ let getFilterPost = (data) => {
             // if (data.category_joblevel_id && data.category_joblevel_id !== '') objectFilter.where = { ...objectFilter.where, category_joblevel_id: data.category_joblevel_id }
             // if (data.category_worktype_id && data.category_worktype_id !== '') objectFilter.where = { ...objectFilter.where, category_worktype_id: data.category_worktype_id }
             // if (data.experience_job_id && data.experience_job_id !== '') objectFilter.where = { ...objectFilter.where, experience_job_id: data.experience_job_id }
-            if (data.sortName === "true") objectFilter.order = [["name", "ASC"]]
+            if (data.sortName === "true") objectFilter.order = [["name", "DESC"]]
 
 
             let res = await db.Post.findAndCountAll(objectFilter)
