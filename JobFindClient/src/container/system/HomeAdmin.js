@@ -28,6 +28,8 @@ import AddPost from './Post/AddPost';
 import ManagePost from './Post/ManagePost';
 import ManageCv from './Cv/ManageCv';
 import UserCv from './Cv/UserCv';
+import ChangePassword from './User/ChangePassword';
+import UserInfo from './User/UserInfo';
 const HomeAdmin = () => {
     return (
         <Router>
@@ -292,6 +294,12 @@ const HomeAdmin = () => {
                                 </Route>
                                 <Route exact path="/admin/user-cv/:id">
                                     <UserCv />
+                                </Route>
+                                <Route exact path="/admin/changepassword/">
+                                    <ChangePassword />
+                                </Route>
+                                <Route exact path="/admin/user-info/">
+                                    <UserInfo />
                                 </Route>
                             </div>
                             {/* content-wrapper ends */}

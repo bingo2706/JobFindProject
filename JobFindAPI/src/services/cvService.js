@@ -90,8 +90,53 @@ let getDetailCvById = (data) => {
         }
     })
 }
+let getAllCvByUserId = (data) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (!data.userId || !data.limit || !data.offset) {
+                resolve({
+                    errCode: 1,
+                    errMessage: 'Missing required parameters !'
+                })
+            } else {
+                let cv = await db.Cv.findAndCountAll({
+                    where: { user_id: data.userId },
+                    limit: +data.limit,
+                    offset: +data.offset,
+                    raw: true,
+                })
+                for (let i = 0; i < cv.rows.length; i++) {
+                    cv.rows[i].postData = await db.Post.findOne({
+                        where: { id: cv.rows[i].post_id },
+                        include: [
+                            { model: db.Allcode, as: 'jobTypeData', attributes: ['value', 'code'] },
+                            { model: db.Allcode, as: 'workTypeData', attributes: ['value', 'code'] },
+                            { model: db.Allcode, as: 'salaryTypeData', attributes: ['value', 'code'] },
+                            { model: db.Allcode, as: 'jobLevelData', attributes: ['value', 'code'] },
+                            { model: db.Allcode, as: 'expTypeData', attributes: ['value', 'code'] },
+                            { model: db.Allcode, as: 'genderPostData', attributes: ['value', 'code'] },
+                            { model: db.Allcode, as: 'statusPostData', attributes: ['value', 'code'] },
+                            { model: db.Allcode, as: 'provinceData', attributes: ['value', 'code'] },
+                        ],
+
+                        raw: true,
+                        nest: true
+                    })
+                }
+                resolve({
+                    errCode: 0,
+                    data: cv.rows,
+                    count: cv.count
+                })
+            }
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
 module.exports = {
     handleCreateCv: handleCreateCv,
     getAllListCvByPost: getAllListCvByPost,
-    getDetailCvById: getDetailCvById
+    getDetailCvById: getDetailCvById,
+    getAllCvByUserId: getAllCvByUserId
 }

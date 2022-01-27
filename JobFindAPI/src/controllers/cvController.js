@@ -36,8 +36,21 @@ let getDetailCvById = async (req, res) => {
         })
     }
 }
+let getAllCvByUserId = async (req, res) => {
+    try {
+        let data = await cvService.getAllCvByUserId(req.query);
+        return res.status(200).json(data);
+    } catch (error) {
+        console.log(error)
+        return res.status(200).json({
+            errCode: -1,
+            errMessage: 'Error from server'
+        })
+    }
+}
 module.exports = {
     handleCreateNewCV: handleCreateNewCV,
     getAllListCvByPost: getAllListCvByPost,
-    getDetailCvById: getDetailCvById
+    getDetailCvById: getDetailCvById,
+    getAllCvByUserId: getAllCvByUserId
 }

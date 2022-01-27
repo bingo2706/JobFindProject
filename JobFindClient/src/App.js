@@ -20,6 +20,7 @@ import {
 import Otp from './container/login/Otp'
 import Login from './container/login/Login'
 import Register from './container/login/Register'
+import HomeCandidate from './container/Candidate/HomeCandidate'
 function App() {
   return (
     <Router>
@@ -54,7 +55,19 @@ function App() {
           }}>
 
           </Route>
+          <Route path="/candidate/" render={() => {
+            if (JSON.parse(localStorage.getItem("userData")) && (JSON.parse(localStorage.getItem("userData")).roleId === "CANDIDATE")) {
+              return <>
+                <Header />
+                < HomeCandidate />
+                <Footer />
+              </>
+            } else {
+              return <Redirect to={"/login"} />
+            }
+          }}>
 
+          </Route>
           <Route path="/login">
             <Header />
             <Login />

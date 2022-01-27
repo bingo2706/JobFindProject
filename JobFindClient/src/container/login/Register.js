@@ -11,9 +11,9 @@ const Register = () => {
     const { data: dataRole } = useFetchAllcode('ROLE');
 
     if (dataRole && dataRole.length > 0 && inputValues.roleId === '') {
-
+        let arr = dataRole.filter(item => item.code !== "ADMIN")
         setInputValues({
-            ...inputValues, ["roleId"]: dataRole[0].code
+            ...inputValues, ["roleId"]: arr[0].code
 
         })
     }
@@ -40,6 +40,7 @@ const Register = () => {
                 }, ["isOpen"]: true
             })
         }
+
     }
     return (
         <>

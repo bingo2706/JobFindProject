@@ -62,9 +62,17 @@ const Header = () => {
                                                             <span className='header-name-user'>{user.firstName + " " + user.lastName}</span>
                                                         </a>
                                                         <div className="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-                                                            <a className="dropdown-item">
-                                                                <i className="ti-settings text-primary" />
+                                                            <a href={"/candidate/info/"} className="dropdown-item">
+                                                                <i className="far fa-user text-primary" />
                                                                 Thông tin
+                                                            </a>
+                                                            <a href={"/candidate/cv-post/"} className="dropdown-item">
+                                                                <i className="far fa-file-word text-primary"></i>
+                                                                Công việc đã nộp
+                                                            </a>
+                                                            <a href={'/candidate/changepassword/'} className="dropdown-item">
+                                                                <i className="ti-settings text-primary" />
+                                                                Đổi mật khẩu
                                                             </a>
                                                             <a onClick={() => handleLogout()} className="dropdown-item">
                                                                 <i className="ti-power-off text-primary" />
@@ -93,7 +101,7 @@ const Header = () => {
                     </div>
                 </div>
                 {/* <!-- Header End --> */}
-            </header>
+            </header >
 
         </>
     )

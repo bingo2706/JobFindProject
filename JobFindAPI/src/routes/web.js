@@ -41,7 +41,7 @@ let initWebRoutes = (app) => {
     router.post('/api/create-new-cv', cvController.handleCreateNewCV)
     router.get('/api/get-all-list-cv-by-post', cvController.getAllListCvByPost)
     router.get('/api/get-detail-cv-by-id', cvController.getDetailCvById)
-
+    router.get('/api/get-all-cv-by-userId', cvController.getAllCvByUserId)
     //==================API POST==========================//
     router.post('/api/create-new-post', postController.handleCreateNewPost)
     router.put('/api/update-post', postController.handleUpdatePost)

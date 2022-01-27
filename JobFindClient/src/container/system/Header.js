@@ -91,10 +91,15 @@ const Header = () => {
                             <img style={{ objectFit: 'cover' }} src={user.image} alt="profile" />
                         </a>
                         <div className="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-                            <a className="dropdown-item">
+                            <Link to={'/admin/user-info/'} className="dropdown-item">
+                                <i className="far fa-user text-primary"></i>
+                                Thông tin
+
+                            </Link>
+                            <Link to={'/admin/changepassword/'} className="dropdown-item">
                                 <i className="ti-settings text-primary" />
-                                Settings
-                            </a>
+                                Đổi mật khẩu
+                            </Link>
                             <a onClick={() => handleLogout()} className="dropdown-item">
                                 <i className="ti-power-off text-primary" />
                                 Logout
