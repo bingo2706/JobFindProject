@@ -1,8 +1,32 @@
 import React,{useState,useEffect} from 'react'
 import Categories from '../../components/home/Categories'
 import FeatureJobs from '../../components/home/FeaturesJobs'
+import { getListPostService } from '../../service/userService'
 const Home = () => {
-    const [data,setData] = useState([])
+    const [dataFeature,setDataFeature] = useState([])
+
+    let loadPost = async (limit, offset) => {
+        let arrData = await getListPostService({
+            limit: limit,
+            offset: offset,  
+            category_job_id: '',
+            address_id: '',
+            salary_job_id: '',
+            category_joblevel_id: '',
+            category_worktype_id: '',
+            experience_job_id: '',
+            sortName: false  
+        })
+        if (arrData && arrData.errCode === 0) {
+            setDataFeature(arrData.data)        
+        }
+    }
+    useEffect(() => {
+        let fetchPost = async() =>{
+            await loadPost(5,0)
+        }
+        fetchPost()
+    },[])
     return (
        <>
         {/* <div id="preloader-active">
@@ -95,7 +119,7 @@ const Home = () => {
                         </div>
                     </div>
                 </div>
-                <FeatureJobs />
+                <FeatureJobs dataFeature={dataFeature}/>
             </div>
         </section>
         {/* <!-- Featured_job_end -->

@@ -271,7 +271,7 @@ let getFilterPost = (data) => {
                         { model: db.Allcode, as: 'statusPostData', attributes: ['value', 'code'] },
                         { model: db.Allcode, as: 'provinceData', attributes: ['value', 'code'] },
                     ],
-                    order: [["createdAt", "ASC"]],
+                    order: [["createdAt", "DESC"]],
                     raw: true,
                     nest: true
                 }
