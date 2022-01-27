@@ -249,9 +249,7 @@ let getFilterPost = (data) => {
                     queryExpType = data.experience_job_id.split(',').map((data, index) => {
                         return { experience_job_id: data }
                     })
-                console.log(...queryExpType)
-                console.log(...queryWorkType)
-                console.log(...querySalaryJob)
+
                 objectFilter = {
                     where: {
                         statusId: 'S1',
@@ -312,8 +310,7 @@ let getFilterPost = (data) => {
             for (let i = 0; i < res.rows.length; i++) {
                 res.rows[i].company = await db.Company.findOne({ where: { id: res.rows[i].company_id } })
             }
-            console.log(objectFilter)
-            console.log(data)
+
             resolve({
                 errCode: 0,
                 data: res.rows,

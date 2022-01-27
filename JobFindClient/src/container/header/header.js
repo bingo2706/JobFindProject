@@ -19,7 +19,10 @@ const Header = () => {
             }
         })
     }
-
+    let handleLogout = () => {
+        localStorage.removeItem("userData");
+        window.location.href = '/login'
+    }
     scrollHeader()
 
     return (
@@ -52,17 +55,31 @@ const Header = () => {
                                         {/* <!-- Header-btn --> */}
                                         <div class="header-btn d-none f-right d-lg-block">
                                             {user ?
-                                                <div>
-                                                    <a>
-                                                        Xin chào {user.firstName + " " + user.lastName}
-                                                    </a>
-                                                </div>
+                                                <ul className="navbar-nav navbar-nav-right">
+                                                    <li className="nav-item nav-profile dropdown">
+                                                        <a className="nav-link dropdown-toggle box-header-profile" href="#" data-toggle="dropdown" id="profileDropdown">
+                                                            <img style={{ objectFit: 'cover', width: '30px', height: '30px', borderRadius: '50%', marginLeft: '15px' }} src={user.image} alt="profile" />
+                                                            <span className='header-name-user'>{user.firstName + " " + user.lastName}</span>
+                                                        </a>
+                                                        <div className="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
+                                                            <a className="dropdown-item">
+                                                                <i className="ti-settings text-primary" />
+                                                                Thông tin
+                                                            </a>
+                                                            <a onClick={() => handleLogout()} className="dropdown-item">
+                                                                <i className="ti-power-off text-primary" />
+                                                                Logout
+                                                            </a>
+                                                        </div>
+                                                    </li>
+                                                </ul>
                                                 :
                                                 <>
                                                     <Link to={'/register'} class="btn head-btn1">Register</Link>
                                                     <Link to={'/login'} class="btn head-btn2">Login</Link>
                                                 </>
                                             }
+
 
                                         </div>
                                     </div>
