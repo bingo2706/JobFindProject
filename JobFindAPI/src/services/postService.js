@@ -231,7 +231,7 @@ let getFilterPost = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
             let objectFilter = ''
-            if (data.salary_job_id !== '' || data.category_worktype_id !== '' || data.experience_job_id !== '') {
+            if (data.salary_job_id !== '' || data.category_worktype_id !== '' || data.experience_job_id !== '' || data.category_joblevel_id !== '') {
                 let querySalaryJob = ''
                 if (data.salary_job_id !== '')
                     querySalaryJob = data.salary_job_id.split(',').map((data, index) => {
@@ -249,14 +249,19 @@ let getFilterPost = (data) => {
                     queryExpType = data.experience_job_id.split(',').map((data, index) => {
                         return { experience_job_id: data }
                     })
-
+                let queryJobLevel = ''
+                if (data.category_joblevel_id !== '')
+                    queryExpType = data.category_joblevel_id.split(',').map((data, index) => {
+                        return { experience_job_id: data }
+                    })
                 objectFilter = {
                     where: {
                         statusId: 'S1',
                         [Op.and]: [
                             queryExpType && { [Op.or]: [...queryExpType] },
                             queryWorkType && { [Op.or]: [...queryWorkType] },
-                            querySalaryJob && { [Op.or]: [...querySalaryJob] }
+                            querySalaryJob && { [Op.or]: [...querySalaryJob] },
+                            queryJobLevel && { [Op.or]: [...queryJobLevel] }
                         ]
                     },
                     include: [
