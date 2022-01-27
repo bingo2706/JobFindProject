@@ -113,7 +113,7 @@ const LeftBar = (props) => {
                                     {dataSalaryType.map((data,index) =>{
                                         return(
                                             <label className="container" key={index}>{data.value}   
-                                                <input type="radio" value={data.code} onChange={(e)=>{
+                                                <input type="checkbox" value={data.code} onChange={(e)=>{
                                                   props.recieveSalary(e.target.value)     
                                                                                             
                                                 }}                                              

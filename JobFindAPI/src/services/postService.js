@@ -1,5 +1,5 @@
 import db from "../models/index";
-
+const { Op, and } = require("sequelize");
 
 let handleCreateNewPost = (data) => {
     return new Promise(async (resolve, reject) => {
@@ -230,40 +230,90 @@ let getDetailPostById = (id) => {
 let getFilterPost = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
-            let objectFilter = {
-                where: { statusId: 'S1' },
-                include: [
-                    { model: db.Allcode, as: 'jobTypeData', attributes: ['value', 'code'] },
-                    { model: db.Allcode, as: 'workTypeData', attributes: ['value', 'code'] },
-                    { model: db.Allcode, as: 'salaryTypeData', attributes: ['value', 'code'] },
-                    { model: db.Allcode, as: 'jobLevelData', attributes: ['value', 'code'] },
-                    { model: db.Allcode, as: 'expTypeData', attributes: ['value', 'code'] },
-                    { model: db.Allcode, as: 'genderPostData', attributes: ['value', 'code'] },
-                    { model: db.Allcode, as: 'statusPostData', attributes: ['value', 'code'] },
-                    { model: db.Allcode, as: 'provinceData', attributes: ['value', 'code'] },
-                ],
-                order: [["createdAt", "ASC"]],
-                raw: true,
-                nest: true
+            let objectFilter = ''
+            if (data.salary_job_id !== '' || data.category_worktype_id !== '' || data.experience_job_id !== '') {
+                let querySalaryJob = ''
+                if (data.salary_job_id !== '')
+                    querySalaryJob = data.salary_job_id.split(',').map((data, index) => {
+                        return { salary_job_id: data }
+                    })
+
+                let queryWorkType = ''
+                if (data.category_worktype_id !== '')
+                    queryWorkType = data.category_worktype_id.split(',').map((data, index) => {
+                        return { category_worktype_id: data }
+                    })
+
+                let queryExpType = ''
+                if (data.experience_job_id !== '')
+                    queryExpType = data.experience_job_id.split(',').map((data, index) => {
+                        return { experience_job_id: data }
+                    })
+                console.log(...queryExpType)
+                console.log(...queryWorkType)
+                console.log(...querySalaryJob)
+                objectFilter = {
+                    where: {
+                        statusId: 'S1',
+                        [Op.and]: [
+                            queryExpType && { [Op.or]: [...queryExpType] },
+                            queryWorkType && { [Op.or]: [...queryWorkType] },
+                            querySalaryJob && { [Op.or]: [...querySalaryJob] }
+                        ]
+                    },
+                    include: [
+                        { model: db.Allcode, as: 'jobTypeData', attributes: ['value', 'code'] },
+                        { model: db.Allcode, as: 'workTypeData', attributes: ['value', 'code'] },
+                        { model: db.Allcode, as: 'salaryTypeData', attributes: ['value', 'code'] },
+                        { model: db.Allcode, as: 'jobLevelData', attributes: ['value', 'code'] },
+                        { model: db.Allcode, as: 'expTypeData', attributes: ['value', 'code'] },
+                        { model: db.Allcode, as: 'genderPostData', attributes: ['value', 'code'] },
+                        { model: db.Allcode, as: 'statusPostData', attributes: ['value', 'code'] },
+                        { model: db.Allcode, as: 'provinceData', attributes: ['value', 'code'] },
+                    ],
+                    order: [["createdAt", "ASC"]],
+                    raw: true,
+                    nest: true
+                }
+            }
+            else {
+                objectFilter = {
+                    where: { statusId: 'S1' },
+                    include: [
+                        { model: db.Allcode, as: 'jobTypeData', attributes: ['value', 'code'] },
+                        { model: db.Allcode, as: 'workTypeData', attributes: ['value', 'code'] },
+                        { model: db.Allcode, as: 'salaryTypeData', attributes: ['value', 'code'] },
+                        { model: db.Allcode, as: 'jobLevelData', attributes: ['value', 'code'] },
+                        { model: db.Allcode, as: 'expTypeData', attributes: ['value', 'code'] },
+                        { model: db.Allcode, as: 'genderPostData', attributes: ['value', 'code'] },
+                        { model: db.Allcode, as: 'statusPostData', attributes: ['value', 'code'] },
+                        { model: db.Allcode, as: 'provinceData', attributes: ['value', 'code'] },
+                    ],
+                    order: [["createdAt", "ASC"]],
+                    raw: true,
+                    nest: true
+                }
             }
             if (data.limit && data.offset) {
                 objectFilter.limit = +data.limit
                 objectFilter.offset = +data.offset
             }
-            if (data.category_job_id && data.category_job_id !== '') objectFilter.where = { category_job_id: data.category_job_id }
+            if (data.category_job_id && data.category_job_id !== '') objectFilter.where = { ...objectFilter.where, category_job_id: data.category_job_id }
             if (data.address_id && data.address_id !== '') objectFilter.where = { ...objectFilter.where, address_id: data.address_id }
-            if (data.salary_job_id && data.salary_job_id !== '') objectFilter.where = { ...objectFilter.where, salary_job_id: data.salary_job_id }
-            if (data.category_joblevel_id && data.category_joblevel_id !== '') objectFilter.where = { ...objectFilter.where, category_joblevel_id: data.category_joblevel_id }
-            if (data.category_worktype_id && data.category_worktype_id !== '') objectFilter.where = { ...objectFilter.where, category_worktype_id: data.category_worktype_id }
-            if (data.experience_job_id && data.experience_job_id !== '') objectFilter.where = { ...objectFilter.where, experience_job_id: data.experience_job_id }
+            // if (data.salary_job_id && data.salary_job_id !== '') objectFilter.where = { ...objectFilter.where, salary_job_id: data.salary_job_id }
+            // if (data.category_joblevel_id && data.category_joblevel_id !== '') objectFilter.where = { ...objectFilter.where, category_joblevel_id: data.category_joblevel_id }
+            // if (data.category_worktype_id && data.category_worktype_id !== '') objectFilter.where = { ...objectFilter.where, category_worktype_id: data.category_worktype_id }
+            // if (data.experience_job_id && data.experience_job_id !== '') objectFilter.where = { ...objectFilter.where, experience_job_id: data.experience_job_id }
             if (data.sortName === "true") objectFilter.order = [["name", "ASC"]]
+
 
             let res = await db.Post.findAndCountAll(objectFilter)
 
             for (let i = 0; i < res.rows.length; i++) {
                 res.rows[i].company = await db.Company.findOne({ where: { id: res.rows[i].company_id } })
             }
-
+            console.log(objectFilter)
+            console.log(data)
             resolve({
                 errCode: 0,
                 data: res.rows,
