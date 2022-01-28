@@ -25,7 +25,7 @@ let initWebRoutes = (app) => {
     router.get('/api/get-all-code', allcodeController.getAllCodeService)
     router.get('/api/get-list-allcode', allcodeController.getListAllCodeService)
     router.get('/api/get-detail-all-code-by-id', allcodeController.getDetailAllCodeById)
-
+    router.get('/api/get-list-job-count-post', allcodeController.getListJobTypeAndCountPost)
     //==================API COMPANY=========================//
     router.post('/api/create-new-company', companyController.handleCreateNewCompany)
     router.put('/api/update-company', companyController.handleUpdateCompany)

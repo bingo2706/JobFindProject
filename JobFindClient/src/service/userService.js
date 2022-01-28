@@ -52,6 +52,12 @@ const getListAllCodeService = (data) => {
     return axios.get(`/api/get-list-allcode?type=${data.type}&limit=${data.limit}&offset=${data.offset}`)
 
 }
+
+const getListJobTypeAndCountPost = (data) => {
+    return axios.get(`/api/get-list-job-count-post?type=JOBTYPE&limit=${data.limit}&offset=${data.offset}`)
+
+}
+
 const createAllCodeService = (data) => {
     return axios.post(`/api/create-new-all-code`, data)
 
@@ -133,5 +139,6 @@ export {
     DeleteAllcodeService, UpdateAllcodeService, getDetailAllcodeById, createAllCodeService, getListAllCodeService, getAllCodeService,
     getAllUsers, createNewUser, UpdateUserService, DeleteUserService, getDetailUserById, handleChangePassword, handleLoginService,
     createCompanyService, getDetailCompanyByUserId, updateCompanyService, RecruitmentService, getAllUserByCompanyIdService, QuitCompanyService,
-    createPostService, updatePostService, banPostService, getAllPostByAdminService, getDetailPostByIdService, activePostService, checkUserPhoneService,getListPostService
+    createPostService, updatePostService, banPostService, getAllPostByAdminService, getDetailPostByIdService, activePostService, checkUserPhoneService,getListPostService,
+    getListJobTypeAndCountPost
 }

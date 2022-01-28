@@ -187,11 +187,37 @@ let getListAllCodeService = (data) => {
         }
     })
 }
+
+let getListJobTypeAndCountPost = async (data) => {
+    let listJobType = await getListAllCodeService(data)
+    if (listJobType.errCode === 0) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                let res = []
+                for (let i = 0; i < listJobType.data.length; i++) {
+                    listJobType.data[i]
+                    let count = await db.Post.count({
+                        where: { category_job_id: listJobType.data[i].code }
+                    })
+                    res.push({ value: listJobType.data[i].value,image: listJobType.data[i].image ,countPost: count })
+                }
+                resolve({
+                    errCode: 0,
+                    data: res
+                })
+            }
+            catch (error) {
+                reject(error)
+            }
+        })
+    }
+}
 module.exports = {
     handleCreateNewAllCode: handleCreateNewAllCode,
     getAllCodeService: getAllCodeService,
     handleUpdateAllCode: handleUpdateAllCode,
     getDetailAllCodeById: getDetailAllCodeById,
     handleDeleteAllCode: handleDeleteAllCode,
-    getListAllCodeService: getListAllCodeService
+    getListAllCodeService: getListAllCodeService,
+    getListJobTypeAndCountPost: getListJobTypeAndCountPost
 }

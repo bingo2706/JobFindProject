@@ -72,11 +72,25 @@ let getListAllCodeService = async (req, res) => {
         })
     }
 }
+
+let getListJobTypeAndCountPost = async (req, res) => {
+    try {
+        let data = await allcodeService.getListJobTypeAndCountPost(req.query);
+        return res.status(200).json(data);
+    } catch (error) {
+        console.log(error)
+        return res.status(200).json({
+            errCode: -1,
+            errMessage: 'Error from server'
+        })
+    }
+}
 module.exports = {
     handleCreateNewAllCode: handleCreateNewAllCode,
     getAllCodeService: getAllCodeService,
     handleUpdateAllCode: handleUpdateAllCode,
     getDetailAllCodeById: getDetailAllCodeById,
     handleDeleteAllCode: handleDeleteAllCode,
-    getListAllCodeService: getListAllCodeService
+    getListAllCodeService: getListAllCodeService,
+    getListJobTypeAndCountPost: getListJobTypeAndCountPost
 }

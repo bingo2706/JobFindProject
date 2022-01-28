@@ -1,4 +1,5 @@
 import React,{useState,useEffect} from 'react'
+import { Link } from 'react-router-dom'
 import Categories from '../../components/home/Categories'
 import FeatureJobs from '../../components/home/FeaturesJobs'
 import { getListPostService } from '../../service/userService'
@@ -83,7 +84,7 @@ const Home = () => {
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="browse-btn2 text-center mt-50">
-                            <a href="job_listing.html" class="border-btn2">Browse All Sectors</a>
+                            <Link to="/job" class="border-btn2">Browse All Sectors</Link>
                         </div>
                     </div>
                 </div>
@@ -100,7 +101,7 @@ const Home = () => {
                         <div class="cv-caption text-center">
                             <p class="pera1">FEATURED TOURS Packages</p>
                             <p class="pera2"> Make a Difference with Your Online Resume!</p>
-                            <a href="#" class="border-btn2 border-btn4">Find a Jobs</a>
+                            <Link to='/job' class="border-btn2 border-btn4">Find a Jobs</Link>
                         </div>
                     </div>
                 </div>
@@ -175,44 +176,7 @@ const Home = () => {
                 </div>
              </div>
         </div>
-        {/* <!-- How  Apply Process End-->
-        {/* <!-- Testimonial End -->
-         <!-- Support Company Start--> */}
-         <div class="support-company-area support-padding fix">
-            <div class="container">
-                <div class="row align-items-center">
-                    <div class="col-xl-6 col-lg-6">
-                        <div class="right-caption">
-                            {/* <!-- Section Tittle --> */}
-                            <div class="section-tittle section-tittle2">
-                                <span>What we are doing</span>
-                                <h2>24k Talented people are getting Jobs</h2>
-                            </div>
-                            <div class="support-caption">
-                                <p class="pera-top">Mollit anim laborum duis au dolor in voluptate velit ess cillum dolore eu lore dsu quality mollit anim laborumuis au dolor in voluptate velit cillum.</p>
-                                <p>Mollit anim laborum.Duis aute irufg dhjkolohr in re voluptate velit esscillumlore eu quife nrulla parihatur. Excghcepteur signjnt occa cupidatat non inulpadeserunt mollit aboru. temnthp incididbnt ut labore mollit anim laborum suis aute.</p>
-                                <a href="about.html" class="btn post-btn">Post a job</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-6 col-lg-6">
-                        <div class="support-location-img">
-                            <img src="assets/img/service/support-img.jpg" alt="" />
-                            <div class="support-img-cap text-center">
-                                <p>Since</p>
-                                <span>1994</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {/* <!-- Support Company End-->
-        <!-- Blog Area Start --> */}
-        <div class="home-blog-area blog-h-padding">
-           
-        </div>
-        {/* <!-- Blog Area End --> */}
+        
 
     </main>
        </>
