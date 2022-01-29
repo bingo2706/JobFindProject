@@ -1,5 +1,6 @@
 import db from "../models/index";
 const cloudinary = require('../utils/cloudinary');
+const { Op, and } = require("sequelize");
 let handleCreateNewAllCode = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -189,28 +190,33 @@ let getListAllCodeService = (data) => {
 }
 
 let getListJobTypeAndCountPost = async (data) => {
-    let listJobType = await getListAllCodeService(data)
-    if (listJobType.errCode === 0) {
-        return new Promise(async (resolve, reject) => {
-            try {
-                let res = []
-                for (let i = 0; i < listJobType.data.length; i++) {
-                    listJobType.data[i]
-                    let count = await db.Post.count({
-                        where: { category_job_id: listJobType.data[i].code }
-                    })
-                    res.push({ value: listJobType.data[i].value,image: listJobType.data[i].image ,countPost: count })
-                }
-                resolve({
-                    errCode: 0,
-                    data: res
-                })
-            }
-            catch (error) {
-                reject(error)
-            }
-        })
-    }
+    return new Promise(async (resolve, reject) => {
+        try {
+
+            let res = await db.Post.findAll({
+                where: {
+                    statusId: 'S1'
+                },
+                include: [
+                    { model: db.Allcode, as: 'jobTypeData', attributes: ['value', 'code', 'image'] },
+                ],
+                attributes: ['category_job_id', [db.sequelize.fn('COUNT', db.sequelize.col('category_job_id')), 'amount']],
+                group: ['category_job_id'],
+                order: [["amount", "ASC"]],
+                limit: +data.limit,
+                offset: +data.offset,
+                raw: true,
+                nest: true
+            })
+            resolve({
+                errCode: 0,
+                data: res
+            })
+        }
+        catch (error) {
+            reject(error)
+        }
+    })
 }
 module.exports = {
     handleCreateNewAllCode: handleCreateNewAllCode,

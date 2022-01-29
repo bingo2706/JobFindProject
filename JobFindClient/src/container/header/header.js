@@ -19,10 +19,6 @@ const Header = () => {
             }
         })
     }
-    let handleLogout = () => {
-        localStorage.removeItem("userData");
-        window.location.href = '/login'
-    }
     scrollHeader()
 
     return (
@@ -45,9 +41,9 @@ const Header = () => {
                                         <div className="main-menu">
                                             <nav className="d-none d-lg-block">
                                                 <ul id="navigation">
-                                                    <li style={{marginRight:60}}><NavLink to="/" isActive={() => window.scrollTo(0, 0)}>Home</NavLink></li>
-                                                    <li style={{marginRight:60}}><NavLink to="/job" isActive={() => window.scrollTo(0, 0)}>Find a Jobs </NavLink></li>
-                                                    <li style={{marginRight:20}}><NavLink to="/about" isActive={() => window.scrollTo(0, 0)}>About</NavLink></li>
+                                                    <li style={{ marginRight: 60 }}><NavLink to="/" isActive={() => window.scrollTo(0, 0)}>Home</NavLink></li>
+                                                    <li style={{ marginRight: 60 }}><NavLink to="/job" isActive={() => window.scrollTo(0, 0)}>Find a Jobs </NavLink></li>
+                                                    <li style={{ marginRight: 20 }}><NavLink to="/about" isActive={() => window.scrollTo(0, 0)}>About</NavLink></li>
                                                     {/* <li><NavLink to="/contact" >Contact</NavLink></li> */}
                                                 </ul>
                                             </nav>
@@ -62,22 +58,27 @@ const Header = () => {
                                                             <span className='header-name-user'>{user.firstName + " " + user.lastName}</span>
                                                         </a>
                                                         <div className="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-                                                            <a href={"/candidate/info/"} className="dropdown-item">
+                                                            <Link to='/candidate/info' className="dropdown-item">
                                                                 <i className="far fa-user text-primary" />
                                                                 Thông tin
-                                                            </a>
-                                                            <a href={"/candidate/cv-post/"} className="dropdown-item">
+                                                            </Link>
+                                                            <Link to="/candidate/cv-post/" className="dropdown-item">
                                                                 <i className="far fa-file-word text-primary"></i>
                                                                 Công việc đã nộp
-                                                            </a>
-                                                            <a href={'/candidate/changepassword/'} className="dropdown-item">
+                                                            </Link>
+                                                            <Link to='/candidate/changepassword/' className="dropdown-item">
                                                                 <i className="ti-settings text-primary" />
                                                                 Đổi mật khẩu
-                                                            </a>
-                                                            <a onClick={() => handleLogout()} className="dropdown-item">
+                                                            </Link>
+                                                            <NavLink to='/login' className="dropdown-item" isActive={
+                                                                (match,location) => {
+                                                                    if (match)
+                                                                    localStorage.removeItem("userData")
+                                                                }
+                                                            }>
                                                                 <i className="ti-power-off text-primary" />
-                                                                Logout
-                                                            </a>
+                                                                Đăng xuất
+                                                            </NavLink>
                                                         </div>
                                                     </li>
                                                 </ul>

@@ -54,7 +54,7 @@ const getListAllCodeService = (data) => {
 }
 
 const getListJobTypeAndCountPost = (data) => {
-    return axios.get(`/api/get-list-job-count-post?type=JOBTYPE&limit=${data.limit}&offset=${data.offset}`)
+    return axios.get(`/api/get-list-job-count-post?limit=${data.limit}&offset=${data.offset}`)
 
 }
 

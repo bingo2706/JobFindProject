@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import { useParams } from "react-router-dom";
 
 
-const ManageCvCandidate = () => {
+const ManageCvCandidate = (props) => {
     const [dataCv, setdataCv] = useState([])
     const [count, setCount] = useState('')
     const [numberPage, setnumberPage] = useState('')

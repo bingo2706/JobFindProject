@@ -12,8 +12,9 @@ import ManageCvCandidate from './ManageCvCandidate';
 
 const HomeCandidate = () => {
     return (
-        <Router>
-            <Switch >
+
+        <Switch >
+            <React.Fragment>
                 <div className="container-scroller">
                     {/* partial:partials/_navbar.html */}
 
@@ -28,15 +29,17 @@ const HomeCandidate = () => {
                         <div className="main-panel">
                             <div className="content-wrapper" style={{ marginLeft: '9%' }}>
 
-                                <Route exact path="/candidate/info">
-                                    <CandidateInfo />
+                                <Route exact path="/candidate/info" component={CandidateInfo}>
+
                                 </Route>
-                                <Route exact path="/candidate/changepassword">
-                                    <ChangePassword />
+                                <Route exact path="/candidate/changepassword" component={ChangePassword}>
+
                                 </Route>
-                                <Route exact path="/candidate/cv-post/">
-                                    <ManageCvCandidate />
+                                <Route exact path="/candidate/cv-post/" component={ManageCvCandidate}>
+
                                 </Route>
+
+
                             </div>
                             {/* content-wrapper ends */}
                             {/* partial:partials/_footer.html */}
@@ -48,8 +51,9 @@ const HomeCandidate = () => {
                     {/* page-body-wrapper ends */}
                 </div>
 
-            </Switch >
-        </Router>
+            </React.Fragment>
+        </Switch >
+
     )
 }
 

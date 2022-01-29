@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { handleChangePassword } from '../../../service/userService';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-const ChangePassword = () => {
+const ChangePassword = (props) => {
     const [inputValues, setInputValues] = useState({
         password: '', oldPassword: '', confirmPassword: ''
     });

@@ -19,12 +19,6 @@ const JobPage = () => {
     const [exp, setExp] = useState([])
     const [jobLevel, setJobLevel] = useState([])
     const [jobLocation, setJobLocation] = useState('')
-    console.log(salary)
-    console.log(workType)
-    console.log(jobLevel)
-    console.log(jobType)
-    console.log(exp)
-    console.log(jobLocation)
     let loadPost = async (limit, offset, sortName) => {
         let arrData = await getListPostService({
             limit: limit,
