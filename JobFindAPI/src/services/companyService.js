@@ -236,13 +236,23 @@ let getDetailCompanyById = (id) => {
                 let company = await db.Company.findOne({
                     where: { id: id }
                 })
-                let user = await db.User.findOne({
-                    where: {
-                        company_id: company.id
-                    }
-                })
+
+
                 company.postData = await db.Post.findAll({
-                    where: { userId: user.id }
+                    where: { company_id: company.id },
+                    order: [['createdAt', 'DESC']],
+                    include: [
+                        { model: db.Allcode, as: 'jobTypeData', attributes: ['value', 'code'] },
+                        { model: db.Allcode, as: 'workTypeData', attributes: ['value', 'code'] },
+                        { model: db.Allcode, as: 'salaryTypeData', attributes: ['value', 'code'] },
+                        { model: db.Allcode, as: 'jobLevelData', attributes: ['value', 'code'] },
+                        { model: db.Allcode, as: 'expTypeData', attributes: ['value', 'code'] },
+                        { model: db.Allcode, as: 'genderPostData', attributes: ['value', 'code'] },
+                        { model: db.Allcode, as: 'statusPostData', attributes: ['value', 'code'] },
+                        { model: db.Allcode, as: 'provinceData', attributes: ['value', 'code'] },
+                    ],
+                    raw: true,
+                    nest: true
                 })
                 resolve({
                     errCode: 0,

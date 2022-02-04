@@ -12,7 +12,7 @@ const Job = (props) => {
                 </div>
                 <div class="job-tittle job-tittle2">
                     <a href="#">
-                        <h4>{props.data.jobTypeData.value}</h4>
+                        <h4>{props.data.name}</h4>
                     </a>
                     <ul>
                         <li>{props.data.jobLevelData.value}</li>

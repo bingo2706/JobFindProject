@@ -21,6 +21,8 @@ import Otp from './container/login/Otp'
 import Login from './container/login/Login'
 import Register from './container/login/Register'
 import HomeCandidate from './container/Candidate/HomeCandidate'
+import ListCompany from './container/Company/ListCompany'
+import DetailCompany from './container/Company/DetailCompany'
 function App() {
   return (
     <Router>
@@ -44,6 +46,16 @@ function App() {
           <Route path="/job">
             <Header />
             <JobPage />
+            <Footer />
+          </Route>
+          <Route path="/company">
+            <Header />
+            <ListCompany />
+            <Footer />
+          </Route>
+          <Route path="/detail-company/:id">
+            <Header />
+            <DetailCompany />
             <Footer />
           </Route>
           <Route path="/admin/" render={() => {

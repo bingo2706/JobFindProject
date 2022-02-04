@@ -104,7 +104,7 @@ const ManageCvCandidate = (props) => {
 
                                                     <td>{item.isChecked === 0 ? 'Chưa xem' : 'Đã xem'}</td>
                                                     <td>
-                                                        <a style={{ color: '#4B49AC', cursor: 'pointer' }} href={`/detail-job/${item.postData.id}/`}>Xem công việc</a>
+                                                        <Link style={{ color: '#4B49AC', cursor: 'pointer' }} to={`/detail-job/${item.postData.id}/`}>Xem công việc</Link>
                                                         &nbsp; &nbsp;
 
                                                     </td>

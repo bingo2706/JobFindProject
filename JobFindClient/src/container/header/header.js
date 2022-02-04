@@ -41,9 +41,10 @@ const Header = () => {
                                         <div className="main-menu">
                                             <nav className="d-none d-lg-block">
                                                 <ul id="navigation">
-                                                    <li style={{ marginRight: 60 }}><NavLink to="/" isActive={() => window.scrollTo(0, 0)}>Home</NavLink></li>
-                                                    <li style={{ marginRight: 60 }}><NavLink to="/job" isActive={() => window.scrollTo(0, 0)}>Find a Jobs </NavLink></li>
-                                                    <li style={{ marginRight: 20 }}><NavLink to="/about" isActive={() => window.scrollTo(0, 0)}>About</NavLink></li>
+                                                    <li ><NavLink to="/" isActive={() => window.scrollTo(0, 0)}>Trang chủ</NavLink></li>
+                                                    <li ><NavLink to="/job" isActive={() => window.scrollTo(0, 0)}>Việc làm </NavLink></li>
+                                                    <li ><NavLink to="/company" isActive={() => window.scrollTo(0, 0)}>Công ty </NavLink></li>
+                                                    <li ><NavLink to="/about" isActive={() => window.scrollTo(0, 0)}>Giới thiệu</NavLink></li>
                                                     {/* <li><NavLink to="/contact" >Contact</NavLink></li> */}
                                                 </ul>
                                             </nav>
@@ -71,9 +72,9 @@ const Header = () => {
                                                                 Đổi mật khẩu
                                                             </Link>
                                                             <NavLink to='/login' className="dropdown-item" isActive={
-                                                                (match,location) => {
+                                                                (match, location) => {
                                                                     if (match)
-                                                                    localStorage.removeItem("userData")
+                                                                        localStorage.removeItem("userData")
                                                                 }
                                                             }>
                                                                 <i className="ti-power-off text-primary" />

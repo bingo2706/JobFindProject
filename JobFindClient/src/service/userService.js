@@ -87,6 +87,10 @@ const getDetailCompanyByUserId = (userId) => {
     return axios.get(`/api/get-detail-company-by-userId?userId=${userId}`)
 
 }
+const getDetailCompanyById = (id) => {
+    return axios.get(`/api/get-detail-company-by-id?id=${id}`)
+
+}
 const updateCompanyService = (data) => {
     return axios.put(`/api/update-company`, data)
 
@@ -103,7 +107,10 @@ const QuitCompanyService = (data) => {
     return axios.put(`/api/quit-company`, data)
 
 }
+const getListCompany = (data) => {
+    return axios.get(`/api/get-list-company?limit=${data.limit}&offset=${data.offset}`)
 
+}
 //======================== POST ====================================//
 
 const createPostService = (data) => {
@@ -132,13 +139,13 @@ const getAllPostByAdminService = (data) => {
 const getDetailPostByIdService = (id) => {
     return axios.get(`/api/get-detail-post-by-id?id=${id}`)
 }
-const getListPostService = (data) =>{
+const getListPostService = (data) => {
     return axios.get(`/api/get-filter-post?limit=${data.limit}&offset=${data.offset}&category_job_id=${data.category_job_id}&address_id=${data.address_id}&salary_job_id=${data.salary_job_id}&category_joblevel_id=${data.category_joblevel_id}&category_worktype_id=${data.category_worktype_id}&experience_job_id=${data.experience_job_id}&sortName=${data.sortName}`)
 }
 export {
     DeleteAllcodeService, UpdateAllcodeService, getDetailAllcodeById, createAllCodeService, getListAllCodeService, getAllCodeService,
     getAllUsers, createNewUser, UpdateUserService, DeleteUserService, getDetailUserById, handleChangePassword, handleLoginService,
     createCompanyService, getDetailCompanyByUserId, updateCompanyService, RecruitmentService, getAllUserByCompanyIdService, QuitCompanyService,
-    createPostService, updatePostService, banPostService, getAllPostByAdminService, getDetailPostByIdService, activePostService, checkUserPhoneService,getListPostService,
-    getListJobTypeAndCountPost
+    createPostService, updatePostService, banPostService, getAllPostByAdminService, getDetailPostByIdService, activePostService, checkUserPhoneService, getListPostService,
+    getListJobTypeAndCountPost, getListCompany, getDetailCompanyById
 }

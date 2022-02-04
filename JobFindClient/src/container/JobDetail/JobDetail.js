@@ -13,7 +13,7 @@ const JobDetail = () => {
         if (id) {
             fetchPost(id)
         }
-        console.log('123')
+
     }, [])
 
     let fetchPost = async (id) => {
@@ -58,7 +58,7 @@ const JobDetail = () => {
                                 <div className="row">
                                     <div className="col-xl-12">
                                         <div className="hero-cap text-center">
-                                            <h2>{dataPost.name}</h2>
+
                                         </div>
                                     </div>
                                 </div>
@@ -80,7 +80,7 @@ const JobDetail = () => {
                                             </div>
                                             <div className="job-tittle">
 
-                                                <h4>{dataPost.jobTypeData.value}</h4>
+                                                <h4>{dataPost.name}</h4>
 
                                                 <ul>
                                                     <li>{dataPost.workTypeData.value}</li>
@@ -117,7 +117,7 @@ const JobDetail = () => {
                                             <li>Lương :  <span>{dataPost.salaryTypeData.value}</span></li>
                                             <li>Hạn nộp : <span>{dataPost.time_end}</span></li>
                                         </ul>
-                                        <div className="btn" onClick={() => handleOpenModal()}>Apply Now</div>
+                                        <div className="btn" onClick={() => handleOpenModal()}>Ứng tuyển ngay</div>
                                     </div>
                                     <div className="post-details4  mb-50">
 
@@ -132,8 +132,7 @@ const JobDetail = () => {
                                             <li>Mã số thuế  : <span>{dataPost.companyData.taxnumber}</span></li>
                                             <li>Số nhân viên: <span>{dataPost.amount}</span></li>
                                         </ul>
-                                        <span>Mô tả công ty:</span>
-                                        <div dangerouslySetInnerHTML={{ __html: dataPost.companyData.descriptionHTML }} />
+
                                     </div>
                                 </div>
                             </div>

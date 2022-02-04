@@ -113,7 +113,8 @@ const AddPost = () => {
                 category_worktype_id: inputValues.category_worktype_id,
                 experience_job_id: inputValues.experience_job_id,
                 genderId: inputValues.genderId,
-                companyId: user.company_id
+                companyId: user.company_id,
+
             })
             if (res && res.errCode === 0) {
                 toast.success("Thêm mới bài đăng thành công")

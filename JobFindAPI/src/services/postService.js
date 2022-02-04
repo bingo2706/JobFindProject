@@ -26,7 +26,8 @@ let handleCreateNewPost = (data) => {
                     category_worktype_id: data.category_worktype_id,
                     experience_job_id: data.experience_job_id,
                     genderPostCode: data.genderId,
-                    company_id: data.companyId
+                    company_id: data.companyId,
+
                 })
 
                 resolve({
