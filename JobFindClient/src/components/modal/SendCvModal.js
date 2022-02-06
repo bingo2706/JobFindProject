@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import { Modal, ModalHeader, ModalFooter, ModalBody, Button } from 'reactstrap';
+import { Modal, ModalHeader, ModalFooter, ModalBody, Button, Spinner } from 'reactstrap';
 import { createNewCv } from '../../service/cvService';
 import CommonUtils from '../../util/CommonUtils';
+
 function SendCvModal(props) {
     const userData = JSON.parse(localStorage.getItem('userData'));
+    const [isLoading, setIsLoading] = useState(false)
     const [inputValue, setInputValue] = useState({
         user_id: '', post_id: '', file: '', description: '', linkFile: ''
     })
@@ -36,25 +38,27 @@ function SendCvModal(props) {
             })
         }
     }
-    console.log(inputValue)
-    const handleSendCV = async() => {
+    const handleSendCV = async () => {
+        setIsLoading(true)
         let kq = await createNewCv({
             user_id: inputValue.user_id,
             file: inputValue.file,
             post_id: inputValue.post_id,
             description: inputValue.description
         })
-        if (kq.errCode === 0)
-        {
-            setInputValue({
-            ...inputValue,
-                ["user_id"]: '', ["post_id"]: '', ["file"]: '', ["description"]: ''
-            })
-            toast.success("Đã gửi thành công")
-            props.onHide()
-        }
-        else
-        toast.error("Gửi thất bại");
+        setTimeout(function () {
+            setIsLoading(false)
+            if (kq.errCode === 0) {
+                setInputValue({
+                    ...inputValue,
+                    ["file"]: '', ["description"]: '', ["linkFile"]: ''
+                })
+                toast.success("Đã gửi thành công")
+                props.onHide()
+            }
+            else
+                toast.error("Gửi thất bại");
+        }, 1000);
     }
     return (
         <div>
@@ -65,11 +69,11 @@ function SendCvModal(props) {
                 <ModalBody>
                     Nhập lời giới thiệu gửi đến nhà tuyển dụng
 
-                    <input name ='description' className='mt-2' style={{ height: "100px", width: "100%" }} onChange={(event) => handleChange(event)}></input>
+                    <input name='description' className='mt-2' style={{ height: "100px", width: "100%" }} onChange={(event) => handleChange(event)}></input>
 
                     <input type="file" className='mt-2' onChange={(event) => handleOnChangeFile(event)}></input>
                     {
-                        inputValue.linkFile && <div><a href={inputValue.linkFile} style={{color: 'blue'}} target='_blank'>Nhấn vào đây để xem lại CV của bạn </a></div>
+                        inputValue.linkFile && <div><a href={inputValue.linkFile} style={{ color: 'blue' }} target='_blank'>Nhấn vào đây để xem lại CV của bạn </a></div>
                     }
                 </ModalBody>
                 <ModalFooter style={{ justifyContent: 'space-between' }}>
@@ -87,6 +91,15 @@ function SendCvModal(props) {
                         Hủy
                     </Button>
                 </ModalFooter>
+
+                {isLoading &&
+                    <Modal isOpen='true' centered >
+                        <div style={{ position: 'absolute', right: '50%', 
+                        justifyContent: 'center', alignItems: 'center' }}>
+                            <Spinner animation="border"  ></Spinner>
+                        </div>
+                    </Modal>
+                }
             </Modal>
         </div>
     );

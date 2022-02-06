@@ -106,7 +106,7 @@ const DetailCompany = () => {
                                                             </div>
                                                             <div className="mr-auto text-right">
                                                                 <p className="deadline">
-                                                                    Còn <strong>{formatDate(item.time_end)}</strong> ngày để ứng tuyển
+                                                                    {formatDate(item.time_end) <= 0 ? <div>Hết hạn ứng tuyển</div> : <div>Còn <strong>{formatDate(item.time_end)}</strong> ngày để ứng tuyển </div>}
                                                                 </p>
                                                             </div>
                                                         </div>
