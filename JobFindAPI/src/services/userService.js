@@ -199,7 +199,7 @@ let handleLogin = (data) => {
                             userData.user = user;
                         } else {
                             userData.errCode = 3;
-                            userData.errMessage = 'Sai mật khẩu !';
+                            userData.errMessage = 'Số điện thoại hoặc mật khẩu không chính xác';
                         }
                     } else {
                         userData.errCode = 2;
@@ -207,7 +207,7 @@ let handleLogin = (data) => {
                     }
                 } else {
                     userData.errCode = 1;
-                    userData.errMessage = `Số điện thoại không tồn tại !`
+                    userData.errMessage = `Số điện thoại hoặc mật khẩu không chính xác`
                 }
                 resolve(userData)
             }
