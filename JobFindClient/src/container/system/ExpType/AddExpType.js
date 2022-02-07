@@ -3,10 +3,13 @@ import { useEffect, useState } from 'react';
 import { createAllCodeService, getDetailAllcodeById, UpdateAllcodeService } from '../../../service/userService';
 import { toast } from 'react-toastify';
 import { useParams } from "react-router-dom";
+import { Spinner, Modal } from 'reactstrap'
+import '../../../components/modal/modal.css'
 const AddExpType = () => {
 
 
     const [isActionADD, setisActionADD] = useState(true)
+    const [isLoading, setIsLoading] = useState(false)
 
 
     const { id } = useParams();
@@ -36,6 +39,7 @@ const AddExpType = () => {
     };
 
     let handleSaveExpType = async () => {
+        setIsLoading(true)
         if (isActionADD === true) {
             let res = await createAllCodeService({
                 value: inputValues.value,
@@ -43,32 +47,38 @@ const AddExpType = () => {
                 type: 'EXPTYPE',
 
             })
-            if (res && res.errCode === 0) {
-                toast.success("Thêm khoảng kinh nghiệm thành công")
-                setInputValues({
-                    ...inputValues,
-                    ["value"]: '',
-                    ["code"]: '',
-                })
-            }
-            else if (res && res.errCode === 2) {
-                toast.error(res.errMessage)
-            }
-            else toast.error("Thêm khoảng kinh nghiệm thất bại")
+            setTimeout(() => {
+                setIsLoading(false)
+                if (res && res.errCode === 0) {
+                    toast.success("Thêm khoảng kinh nghiệm thành công")
+                    setInputValues({
+                        ...inputValues,
+                        ["value"]: '',
+                        ["code"]: '',
+                    })
+                }
+                else if (res && res.errCode === 2) {
+                    toast.error(res.errMessage)
+                }
+                else toast.error("Thêm khoảng kinh nghiệm thất bại")
+            }, 1000);
         } else {
             let res = await UpdateAllcodeService({
                 value: inputValues.value,
                 code: inputValues.code,
                 id: id,
             })
-            if (res && res.errCode === 0) {
-                toast.success("Cập nhật khoảng kinh nghiệm thành công")
+            setTimeout(() => {
+                setIsLoading(false)
+                if (res && res.errCode === 0) {
+                    toast.success("Cập nhật khoảng kinh nghiệm thành công")
 
-            }
-            else if (res && res.errCode === 2) {
-                toast.error(res.errMessage)
-            }
-            else toast.error("Cập nhật khoảng kinh nghiệm thất bại")
+                }
+                else if (res && res.errCode === 2) {
+                    toast.error(res.errMessage)
+                }
+                else toast.error("Cập nhật khoảng kinh nghiệm thất bại")
+            }, 1000);
         }
     }
 
@@ -110,7 +120,18 @@ const AddExpType = () => {
                     </div>
                 </div>
             </div>
+            {isLoading &&
+                <Modal isOpen='true' centered contentClassName='closeBorder' >
 
+                    <div style={{
+                        position: 'absolute', right: '50%',
+                        justifyContent: 'center', alignItems: 'center'
+                    }}>
+                        <Spinner animation="border"  ></Spinner>
+                    </div>
+
+                </Modal>
+            }
         </div>
     )
 }

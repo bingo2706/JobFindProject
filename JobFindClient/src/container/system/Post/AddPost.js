@@ -8,15 +8,16 @@ import MdEditor from 'react-markdown-editor-lite';
 import 'react-markdown-editor-lite/lib/index.css';
 import { useFetchAllcode } from '../../../util/fetch';
 import { useParams } from "react-router-dom";
+import { Spinner, Modal } from 'reactstrap'
 import localization from 'moment/locale/vi';
 import moment from 'moment';
-
+import '../../../components/modal/modal.css'
 const AddPost = () => {
     const mdParser = new MarkdownIt();
     const [user, setUser] = useState({})
     const [timeEnd, settimeEnd] = useState('');
     const [isChangeDate, setisChangeDate] = useState(false)
-
+    const [isLoading, setIsLoading] = useState(false)
     const { id } = useParams();
 
     const [inputValues, setInputValues] = useState({
@@ -99,6 +100,7 @@ const AddPost = () => {
 
     }
     let handleSavePost = async () => {
+        setIsLoading(true)
         if (inputValues.isActionADD === true) {
             let res = await createPostService({
                 name: inputValues.name,
@@ -116,28 +118,31 @@ const AddPost = () => {
                 companyId: user.company_id,
 
             })
-            if (res && res.errCode === 0) {
-                toast.success("Thêm mới bài đăng thành công")
-                setInputValues({
-                    ...inputValues,
-                    ["name"]: '',
-                    ["descriptionHTML"]: '',
-                    ["descriptionMarkdown"]: '',
-                    ["category_job_id"]: '',
-                    ["address_id"]: '',
-                    ["salary_job_id"]: '',
-                    ["amount"]: '',
-                    ["time_end"]: '',
-                    ["category_joblevel_id"]: '',
-                    ["category_worktype_id"]: '',
-                    ["experience_job_id"]: '',
-                    ["genderId"]: '',
+            setTimeout(() => {
+                setIsLoading(false)
+                if (res && res.errCode === 0) {
+                    toast.success("Thêm mới bài đăng thành công")
+                    setInputValues({
+                        ...inputValues,
+                        ["name"]: '',
+                        ["descriptionHTML"]: '',
+                        ["descriptionMarkdown"]: '',
+                        ["category_job_id"]: '',
+                        ["address_id"]: '',
+                        ["salary_job_id"]: '',
+                        ["amount"]: '',
+                        ["time_end"]: '',
+                        ["category_joblevel_id"]: '',
+                        ["category_worktype_id"]: '',
+                        ["experience_job_id"]: '',
+                        ["genderId"]: '',
 
-                })
-                settimeEnd('')
-            } else {
-                toast.error(res.errMessage)
-            }
+                    })
+                    settimeEnd('')
+                } else {
+                    toast.error(res.errMessage)
+                }
+            }, 1000);
         } else {
             let res = await updatePostService({
                 name: inputValues.name,
@@ -154,12 +159,15 @@ const AddPost = () => {
                 genderId: inputValues.genderId,
                 id: inputValues.id
             })
-            if (res && res.errCode === 0) {
-                toast.success("Cập nhật bài đăng thành công")
+            setTimeout(() => {
+                setIsLoading(false)
+                if (res && res.errCode === 0) {
+                    toast.success("Cập nhật bài đăng thành công")
 
-            } else {
-                toast.error(res.errMessage)
-            }
+                } else {
+                    toast.error(res.errMessage)
+                }
+            }, 1000);
         }
     }
     return (
@@ -344,8 +352,19 @@ const AddPost = () => {
                         </div>
                     </div>
                 </div>
-
             </div>
+            {isLoading &&
+                <Modal isOpen='true' centered contentClassName='closeBorder' >
+
+                    <div style={{
+                        position: 'absolute', right: '50%',
+                        justifyContent: 'center', alignItems: 'center'
+                    }}>
+                        <Spinner animation="border"  ></Spinner>
+                    </div>
+
+                </Modal>
+            }
         </>
     )
 }
