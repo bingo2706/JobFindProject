@@ -7,10 +7,13 @@ import { toast } from 'react-toastify';
 import { useParams } from "react-router-dom";
 import localization from 'moment/locale/vi';
 import moment from 'moment';
+import { Spinner, Modal } from 'reactstrap'
+import '../../../components/modal/modal.css'
 const AddUser = () => {
     const [birthday, setbirthday] = useState('');
     const [isChangeDate, setisChangeDate] = useState(false)
     const [isActionADD, setisActionADD] = useState(true)
+    const [isLoading, setIsLoading] = useState(false)
     const { id } = useParams();
     const [inputValues, setInputValues] = useState({
         password: '', firstName: '', lastName: '', address: '', phonenumber: '', genderId: '', roleId: '', id: '', dob: '', image: ''
@@ -67,6 +70,7 @@ const AddUser = () => {
     }
 
     let handleSaveUser = async () => {
+        setIsLoading(true)
         if (isActionADD === true) {
             let res = await createNewUser({
 
@@ -80,24 +84,27 @@ const AddUser = () => {
                 image: 'https://res.cloudinary.com/bingo2706/image/upload/v1642521841/dev_setups/l60Hf_blyqhb.png',
                 dob: new Date(birthday).getTime(),
             })
-            if (res && res.errCode === 0) {
-                toast.success("Thêm mới user thành công")
-                setInputValues({
-                    ...inputValues,
-                    ["firstName"]: '',
-                    ["lastName"]: '',
-                    ["address"]: '',
-                    ["phonenumber"]: '',
-                    ["genderId"]: '',
-                    ["roleId"]: '',
-                    ["image"]: '',
-                    ["password"]: '',
-                })
-                setbirthday('')
-            } else {
+            setTimeout(() => {
+                setIsLoading(false)
+                if (res && res.errCode === 0) {
+                    toast.success("Thêm mới user thành công")
+                    setInputValues({
+                        ...inputValues,
+                        ["firstName"]: '',
+                        ["lastName"]: '',
+                        ["address"]: '',
+                        ["phonenumber"]: '',
+                        ["genderId"]: '',
+                        ["roleId"]: '',
+                        ["image"]: '',
+                        ["password"]: '',
+                    })
+                    setbirthday('')
+                } else {
 
-                toast.error(res.errMessage)
-            }
+                    toast.error(res.errMessage)
+                }
+            }, 1000);
         } else {
             let res = await UpdateUserService({
                 id: inputValues.id,
@@ -108,12 +115,15 @@ const AddUser = () => {
                 genderId: inputValues.genderId,
                 dob: isChangeDate === false ? inputValues.dob : new Date(birthday).getTime()
             })
-            if (res && res.errCode === 0) {
-                toast.success("Cập nhật người dùng thành công")
+            setTimeout(() => {
+                setIsLoading(false)
+                if (res && res.errCode === 0) {
+                    toast.success("Cập nhật người dùng thành công")
 
-            } else {
-                toast.error(res.errMessage)
-            }
+                } else {
+                    toast.error(res.errMessage)
+                }
+            }, 1000);
 
         }
 
@@ -230,6 +240,18 @@ const AddUser = () => {
                     </div>
                 </div>
             </div>
+            {isLoading &&
+                <Modal isOpen='true' centered contentClassName='closeBorder' >
+
+                    <div style={{
+                        position: 'absolute', right: '50%',
+                        justifyContent: 'center', alignItems: 'center'
+                    }}>
+                        <Spinner animation="border"  ></Spinner>
+                    </div>
+
+                </Modal>
+            }
         </div>
     )
 }

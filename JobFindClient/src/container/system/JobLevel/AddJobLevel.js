@@ -3,11 +3,13 @@ import { useEffect, useState } from 'react';
 import { createAllCodeService, getDetailAllcodeById, UpdateAllcodeService } from '../../../service/userService';
 import { toast } from 'react-toastify';
 import { useParams } from "react-router-dom";
+import { Spinner, Modal } from 'reactstrap'
+import '../../../components/modal/modal.css'
 const AddJobLevel = () => {
 
 
     const [isActionADD, setisActionADD] = useState(true)
-
+    const [isLoading, setIsLoading] = useState(false)
 
     const { id } = useParams();
 
@@ -36,6 +38,7 @@ const AddJobLevel = () => {
     };
 
     let handleSaveJobLevel = async () => {
+        setIsLoading(true)
         if (isActionADD === true) {
             let res = await createAllCodeService({
                 value: inputValues.value,
@@ -43,32 +46,38 @@ const AddJobLevel = () => {
                 type: 'JOBLEVEL',
 
             })
-            if (res && res.errCode === 0) {
-                toast.success("Thêm cấp bậc thành công")
-                setInputValues({
-                    ...inputValues,
-                    ["value"]: '',
-                    ["code"]: '',
-                })
-            }
-            else if (res && res.errCode === 2) {
-                toast.error(res.errMessage)
-            }
-            else toast.error("Thêm cấp bậc thất bại")
+            setTimeout(() => {
+                setIsLoading(false)
+                if (res && res.errCode === 0) {
+                    toast.success("Thêm cấp bậc thành công")
+                    setInputValues({
+                        ...inputValues,
+                        ["value"]: '',
+                        ["code"]: '',
+                    })
+                }
+                else if (res && res.errCode === 2) {
+                    toast.error(res.errMessage)
+                }
+                else toast.error("Thêm cấp bậc thất bại")
+            }, 1000);
         } else {
             let res = await UpdateAllcodeService({
                 value: inputValues.value,
                 code: inputValues.code,
                 id: id,
             })
-            if (res && res.errCode === 0) {
-                toast.success("Cập nhật cấp bậc thành công")
+            setTimeout(() => {
+                setIsLoading(false)
+                if (res && res.errCode === 0) {
+                    toast.success("Cập nhật cấp bậc thành công")
 
-            }
-            else if (res && res.errCode === 2) {
-                toast.error(res.errMessage)
-            }
-            else toast.error("Cập nhật cấp bậc thất bại")
+                }
+                else if (res && res.errCode === 2) {
+                    toast.error(res.errMessage)
+                }
+                else toast.error("Cập nhật cấp bậc thất bại")
+            }, 1000);
         }
     }
 
@@ -110,7 +119,18 @@ const AddJobLevel = () => {
                     </div>
                 </div>
             </div>
+            {isLoading &&
+                <Modal isOpen='true' centered contentClassName='closeBorder' >
 
+                    <div style={{
+                        position: 'absolute', right: '50%',
+                        justifyContent: 'center', alignItems: 'center'
+                    }}>
+                        <Spinner animation="border"  ></Spinner>
+                    </div>
+
+                </Modal>
+            }
         </div>
     )
 }

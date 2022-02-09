@@ -8,10 +8,12 @@ import { createCompanyService, getDetailCompanyByUserId, updateCompanyService } 
 import MarkdownIt from 'markdown-it';
 import MdEditor from 'react-markdown-editor-lite';
 import 'react-markdown-editor-lite/lib/index.css';
+import { Spinner, Modal } from 'reactstrap'
+import '../../../components/modal/modal.css'
 const AddCompany = () => {
     const mdParser = new MarkdownIt();
     const [user, setUser] = useState({})
-
+    const [isLoading, setIsLoading] = useState(false)
     const [inputValues, setInputValues] = useState({
         image: '', coverImage: '', imageReview: '', coverImageReview: '', isOpen: false, name: '', phonenumber: '', address: '', website: '',
         amountemployer: '', taxnumber: '', descriptionHTML: '', descriptionMarkdown: '', isActionADD: true, id: ''
@@ -70,6 +72,7 @@ const AddCompany = () => {
         setInputValues({ ...inputValues, ["isOpen"]: true })
     }
     let handleSaveCompany = async () => {
+        setIsLoading(true)
         if (inputValues.isActionADD === true) {
             let res = await createCompanyService({
                 name: inputValues.name,
@@ -84,13 +87,16 @@ const AddCompany = () => {
                 website: inputValues.website,
                 userId: user.id
             })
-            if (res && res.errCode === 0) {
-                toast.success("Tạo mới công ty thành công")
-                fetchCompany(user.id)
+            setTimeout(() => {
+                setIsLoading(false)
+                if (res && res.errCode === 0) {
+                    toast.success("Tạo mới công ty thành công")
+                    fetchCompany(user.id)
 
-            } else {
-                toast.error(res.errMessage)
-            }
+                } else {
+                    toast.error(res.errMessage)
+                }
+            }, 1000);
         } else {
             let res = await updateCompanyService({
                 name: inputValues.name,
@@ -105,11 +111,14 @@ const AddCompany = () => {
                 website: inputValues.website,
                 id: inputValues.id
             })
-            if (res && res.errCode === 0) {
-                toast.success("Cập nhật công ty thành công")
-            } else {
-                toast.error(res.errMessage)
-            }
+            setTimeout(() => {
+                setIsLoading(false)
+                if (res && res.errCode === 0) {
+                    toast.success("Cập nhật công ty thành công")
+                } else {
+                    toast.error(res.errMessage)
+                }
+            }, 1000);
         }
     }
     let handleEditorChange = ({ html, text }) => {
@@ -249,6 +258,18 @@ const AddCompany = () => {
                     />
                 }
             </div>
+            {isLoading &&
+                <Modal isOpen='true' centered contentClassName='closeBorder' >
+
+                    <div style={{
+                        position: 'absolute', right: '50%',
+                        justifyContent: 'center', alignItems: 'center'
+                    }}>
+                        <Spinner animation="border"  ></Spinner>
+                    </div>
+
+                </Modal>
+            }
         </>
     )
 }

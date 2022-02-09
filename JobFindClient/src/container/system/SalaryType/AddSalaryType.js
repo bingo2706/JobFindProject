@@ -3,11 +3,13 @@ import { useEffect, useState } from 'react';
 import { createAllCodeService, getDetailAllcodeById, UpdateAllcodeService } from '../../../service/userService';
 import { toast } from 'react-toastify';
 import { useParams } from "react-router-dom";
+import { Spinner, Modal } from 'reactstrap'
+import '../../../components/modal/modal.css'
 const AddSalaryType = () => {
 
 
     const [isActionADD, setisActionADD] = useState(true)
-
+    const [isLoading, setIsLoading] = useState(false)
 
     const { id } = useParams();
 
@@ -36,6 +38,7 @@ const AddSalaryType = () => {
     };
 
     let handleSaveSalaryType = async () => {
+        setIsLoading(true)
         if (isActionADD === true) {
             let res = await createAllCodeService({
                 value: inputValues.value,
@@ -43,32 +46,38 @@ const AddSalaryType = () => {
                 type: 'SALARYTYPE',
 
             })
-            if (res && res.errCode === 0) {
-                toast.success("Thêm khoảng lương thành công")
-                setInputValues({
-                    ...inputValues,
-                    ["value"]: '',
-                    ["code"]: '',
-                })
-            }
-            else if (res && res.errCode === 2) {
-                toast.error(res.errMessage)
-            }
-            else toast.error("Thêm khoảng lương thất bại")
+            setTimeout(() => {
+                setIsLoading(false)
+                if (res && res.errCode === 0) {
+                    toast.success("Thêm khoảng lương thành công")
+                    setInputValues({
+                        ...inputValues,
+                        ["value"]: '',
+                        ["code"]: '',
+                    })
+                }
+                else if (res && res.errCode === 2) {
+                    toast.error(res.errMessage)
+                }
+                else toast.error("Thêm khoảng lương thất bại")
+            }, 1000);
         } else {
             let res = await UpdateAllcodeService({
                 value: inputValues.value,
                 code: inputValues.code,
                 id: id,
             })
-            if (res && res.errCode === 0) {
-                toast.success("Cập nhật khoảng lương thành công")
+            setTimeout(() => {
+                setIsLoading(false)
+                if (res && res.errCode === 0) {
+                    toast.success("Cập nhật khoảng lương thành công")
 
-            }
-            else if (res && res.errCode === 2) {
-                toast.error(res.errMessage)
-            }
-            else toast.error("Cập nhật khoảng lương thất bại")
+                }
+                else if (res && res.errCode === 2) {
+                    toast.error(res.errMessage)
+                }
+                else toast.error("Cập nhật khoảng lương thất bại")
+            }, 1000);
         }
     }
 
@@ -110,7 +119,18 @@ const AddSalaryType = () => {
                     </div>
                 </div>
             </div>
+            {isLoading &&
+                <Modal isOpen='true' centered contentClassName='closeBorder' >
 
+                    <div style={{
+                        position: 'absolute', right: '50%',
+                        justifyContent: 'center', alignItems: 'center'
+                    }}>
+                        <Spinner animation="border"  ></Spinner>
+                    </div>
+
+                </Modal>
+            }
         </div>
     )
 }

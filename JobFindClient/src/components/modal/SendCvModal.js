@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import { Modal, ModalHeader, ModalFooter, ModalBody, Button, Spinner } from 'reactstrap';
 import { createNewCv } from '../../service/cvService';
 import CommonUtils from '../../util/CommonUtils';
-
+import './modal.css'
 function SendCvModal(props) {
     const userData = JSON.parse(localStorage.getItem('userData'));
     const [isLoading, setIsLoading] = useState(true)
@@ -93,15 +93,15 @@ function SendCvModal(props) {
                 </ModalFooter>
 
                 {isLoading &&
-                    <Modal isOpen='true' centered >
+                    <Modal isOpen='true' centered contentClassName='closeBorder' >
+
                         <div style={{
                             position: 'absolute', right: '50%',
                             justifyContent: 'center', alignItems: 'center'
                         }}>
-                            <Spinner animation="border"  >
-
-                            </Spinner>
+                            <Spinner animation="border"  ></Spinner>
                         </div>
+
                     </Modal>
                 }
             </Modal>

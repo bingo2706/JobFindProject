@@ -8,12 +8,15 @@ import { useParams } from "react-router-dom";
 import Lightbox from 'react-image-lightbox';
 import 'react-image-lightbox/style.css';
 import CommonUtils from '../../../util/CommonUtils';
+import { Spinner, Modal } from 'reactstrap'
+import '../../../components/modal/modal.css'
 import './AddJobType.scss';
 const AddJobType = () => {
 
 
     const [isActionADD, setisActionADD] = useState(true)
 
+    const [isLoading, setIsLoading] = useState(false)
 
     const { id } = useParams();
 
@@ -57,6 +60,7 @@ const AddJobType = () => {
         setInputValues({ ...inputValues, ["isOpen"]: true })
     }
     let handleSaveJobType = async () => {
+        setIsLoading(true)
         if (isActionADD === true) {
             let res = await createAllCodeService({
                 value: inputValues.value,
@@ -64,20 +68,23 @@ const AddJobType = () => {
                 type: 'JOBTYPE',
                 image: inputValues.image
             })
-            if (res && res.errCode === 0) {
-                toast.success("Thêm loại công việc thành công")
-                setInputValues({
-                    ...inputValues,
-                    ["value"]: '',
-                    ["code"]: '',
-                    ["image"]: '',
-                    ["imageReview"]: ''
-                })
-            }
-            else if (res && res.errCode === 2) {
-                toast.error(res.errMessage)
-            }
-            else toast.error("Thêm loại công việc thất bại")
+            setTimeout(() => {
+                setIsLoading(false)
+                if (res && res.errCode === 0) {
+                    toast.success("Thêm loại công việc thành công")
+                    setInputValues({
+                        ...inputValues,
+                        ["value"]: '',
+                        ["code"]: '',
+                        ["image"]: '',
+                        ["imageReview"]: ''
+                    })
+                }
+                else if (res && res.errCode === 2) {
+                    toast.error(res.errMessage)
+                }
+                else toast.error("Thêm loại công việc thất bại")
+            }, 1000);
         } else {
             let res = await UpdateAllcodeService({
                 value: inputValues.value,
@@ -85,14 +92,17 @@ const AddJobType = () => {
                 id: id,
                 image: inputValues.image
             })
-            if (res && res.errCode === 0) {
-                toast.success("Cập nhật loại công việc thành công")
+            setTimeout(() => {
+                setIsLoading(false)
+                if (res && res.errCode === 0) {
+                    toast.success("Cập nhật loại công việc thành công")
 
-            }
-            else if (res && res.errCode === 2) {
-                toast.error(res.errMessage)
-            }
-            else toast.error("Cập nhật loại công việc thất bại")
+                }
+                else if (res && res.errCode === 2) {
+                    toast.error(res.errMessage)
+                }
+                else toast.error("Cập nhật loại công việc thất bại")
+            }, 1000);
         }
     }
 
@@ -159,6 +169,18 @@ const AddJobType = () => {
                 <Lightbox mainSrc={inputValues.imageReview}
                     onCloseRequest={() => setInputValues({ ...inputValues, ["isOpen"]: false })}
                 />
+            }
+            {isLoading &&
+                <Modal isOpen='true' centered contentClassName='closeBorder' >
+
+                    <div style={{
+                        position: 'absolute', right: '50%',
+                        justifyContent: 'center', alignItems: 'center'
+                    }}>
+                        <Spinner animation="border"  ></Spinner>
+                    </div>
+
+                </Modal>
             }
         </div>
     )
