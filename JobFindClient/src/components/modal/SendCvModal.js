@@ -6,7 +6,7 @@ import CommonUtils from '../../util/CommonUtils';
 
 function SendCvModal(props) {
     const userData = JSON.parse(localStorage.getItem('userData'));
-    const [isLoading, setIsLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(true)
     const [inputValue, setInputValue] = useState({
         user_id: '', post_id: '', file: '', description: '', linkFile: ''
     })
@@ -94,9 +94,13 @@ function SendCvModal(props) {
 
                 {isLoading &&
                     <Modal isOpen='true' centered >
-                        <div style={{ position: 'absolute', right: '50%', 
-                        justifyContent: 'center', alignItems: 'center' }}>
-                            <Spinner animation="border"  ></Spinner>
+                        <div style={{
+                            position: 'absolute', right: '50%',
+                            justifyContent: 'center', alignItems: 'center'
+                        }}>
+                            <Spinner animation="border"  >
+
+                            </Spinner>
                         </div>
                     </Modal>
                 }
