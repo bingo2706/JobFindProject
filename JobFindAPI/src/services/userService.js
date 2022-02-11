@@ -168,6 +168,27 @@ let updateUserData = (data) => {
         }
     })
 }
+let changePaswordByPhone = (data) => {
+    return new Promise(async(resolve, reject) => {
+        try {
+                
+                let user = await db.User.findOne({
+                    where: { phonenumber: data.phonenumber},
+                    raw: false
+                })
+                if (user) {
+                    user.password = await hashUserPasswordFromBcrypt(data.password);
+                    await user.save();
+                }
+                resolve({
+                    errCode: 0,
+                    errMessage: 'ok'
+                })
+        }catch (error) {
+            reject(error)
+        }
+    })
+}
 let handleLogin = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -332,5 +353,5 @@ module.exports = {
     handleChangePassword: handleChangePassword,
     getAllUser: getAllUser,
     getDetailUserById: getDetailUserById,
-    checkUserPhone: checkUserPhone
+    checkUserPhone: checkUserPhone,changePaswordByPhone
 }

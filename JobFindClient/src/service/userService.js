@@ -30,6 +30,9 @@ const checkUserPhoneService = (userPhone) => {
     })
 
 }
+const changePasswordByphone = (data) => {
+    return axios.post(`/api/changepasswordbyPhone`,data)
+}
 const getDetailUserById = (id) => {
     return axios.get(`/api/get-detail-user-by-id?id=${id}`)
 
@@ -147,5 +150,5 @@ export {
     getAllUsers, createNewUser, UpdateUserService, DeleteUserService, getDetailUserById, handleChangePassword, handleLoginService,
     createCompanyService, getDetailCompanyByUserId, updateCompanyService, RecruitmentService, getAllUserByCompanyIdService, QuitCompanyService,
     createPostService, updatePostService, banPostService, getAllPostByAdminService, getDetailPostByIdService, activePostService, checkUserPhoneService, getListPostService,
-    getListJobTypeAndCountPost, getListCompany, getDetailCompanyById
+    getListJobTypeAndCountPost, getListCompany, getDetailCompanyById,changePasswordByphone
 }

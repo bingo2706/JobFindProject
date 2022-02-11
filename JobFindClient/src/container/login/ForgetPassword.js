@@ -1,7 +1,7 @@
 import React from 'react'
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import { checkUserPhoneService } from '../../service/userService';
+import { checkUserPhoneService,changePasswordByphone,handleLoginService } from '../../service/userService';
 import OtpForgetPassword from './OtpForgetPassword';
 const ForgetPassword = () => {
     const [inputValues, setInputValues] = useState({
@@ -25,6 +25,48 @@ const ForgetPassword = () => {
     }
     const recieveVerify = (success) =>{
         setInputValues({ ...inputValues, ["isOpen"]:false, ["isSuccess"]:true})
+    }
+    let handleLogin = async (phonenumber, password) => {
+
+        let res = await handleLoginService({
+            phonenumber: phonenumber,
+            password: password
+        })
+
+        if (res && res.errCode === 0) {
+
+
+            localStorage.setItem("userData", JSON.stringify(res.user))
+            if (res.user.roleId === "ADMIN" || res.user.roleId === "EMPLOYER") {
+                window.location.href = "/admin/"
+
+            }
+            else {
+                window.location.href = "/"
+            }
+        }
+        else {
+            toast.error(res.errMessage)
+        }
+    }
+    let handleForgetPassword = async() =>{
+        if (inputValues.confirmPassword !== inputValues.newPassword) {
+            toast.error("Mật khẩu nhập lại không đúng")
+            return
+        }
+        console.log(inputValues.newPassword + " "+ inputValues.phonenumber)
+        let res = await changePasswordByphone({
+
+            phonenumber: inputValues.phonenumber,
+            password: inputValues.newPassword,
+        })
+        if(res && res.errCode === 0){
+            toast.success("Đổi mật khẩu thành công")
+            handleLogin(inputValues.phonenumber,inputValues.newPassword)
+        }else{
+            toast.error(res.errMessage)
+        }
+
     }
     return (
         <>
@@ -50,16 +92,18 @@ const ForgetPassword = () => {
                                                         <input type="password" value={inputValues.newPassword} name="newPassword" onChange={(event) => handleOnChange(event)} className="form-control form-control-lg" id="exampleInputPassword1" placeholder="Mật khẩu mới" />
                                                     </div>    
                                                     <div className="form-group">
-                                                        <input type="confirmPassword" value={inputValues.confirmPassword} name="confirmPassword" onChange={(event) => handleOnChange(event)} className="form-control form-control-lg" id="exampleInputPassword1" placeholder="Xác nhận mật khẩu" />
+                                                        <input type="password" value={inputValues.confirmPassword} name="confirmPassword" onChange={(event) => handleOnChange(event)} className="form-control form-control-lg" id="exampleInputPassword1" placeholder="Xác nhận mật khẩu" />
                                                     </div>
                                                     <div className="mt-3">
-                                                        <a onClick="" className="btn1 btn1-block btn1-primary1 btn1-lg font-weight-medium auth-form-btn1" >SIGN UP</a>
+                                                        <a onClick={() =>handleForgetPassword()} className="btn1 btn1-block btn1-primary1 btn1-lg font-weight-medium auth-form-btn1" >SIGN UP</a>
                                                     </div>
                                                 </>
-                                            }                           
-                                            <div className="mt-3">
-                                                <a onClick={() => handleOpenVerifyOTP()} className="btn1 btn1-block btn1-primary1 btn1-lg font-weight-medium auth-form-btn1" >CONFIRM</a>
-                                            </div>
+                                            }   
+                                            {inputValues.isSuccess === false && 
+                                                <div className="mt-3">
+                                                    <a onClick={() => handleOpenVerifyOTP()} className="btn1 btn1-block btn1-primary1 btn1-lg font-weight-medium auth-form-btn1" >CONFIRM</a>
+                                                </div>                                          
+                                            }                        
                                             <div className="text-center mt-4 font-weight-light">
                                                 Already have an account? <a href="login.html" className="text-primary">Login</a>
                                             </div>
