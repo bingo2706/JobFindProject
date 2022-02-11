@@ -3,13 +3,12 @@ import './Otp.scss';
 import firebase from '../../util/firebase';
 import { toast } from 'react-toastify';
 import { createNewUser, handleLoginService } from '../../service/userService';
-const Otp = (props) => {
+const OtpForgetPassword = (props) => {
     const [dataUser, setdataUser] = useState({})
     const [otpnumber, setotpnumber] = useState('')
     const [inputValues, setInputValues] = useState({
         so1: '', so2: '', so3: '', so4: '', so5: '', so6: ''
     });
-
     useEffect(() => {
         if (props.dataUser) {
             let fetchOtp = async () => {
@@ -41,7 +40,7 @@ const Otp = (props) => {
     }
     let onSignInSubmit = async () => {
         configureCaptcha()
-        let phoneNumber = props.dataUser.phonenumber
+        let phoneNumber = props.dataUser
         if (phoneNumber) {
             phoneNumber = "+84" + phoneNumber.slice(1);
         }
@@ -57,7 +56,6 @@ const Otp = (props) => {
                 // user in with confirmationResult.confirm(code).
                 window.confirmationResult = confirmationResult;
                 toast.success("Đã gửi mã OTP vào điện thoại")
-
                 // ...
             }).catch((error) => {
                 console.log(error)
@@ -70,27 +68,8 @@ const Otp = (props) => {
         await window.confirmationResult.confirm(code).then((result) => {
             // User signed in successfully.
             const user = result.user;
-            toast.success("Đã xác minh số điện thoại !")
-            let createUser = async () => {
-                let res = await createNewUser({
-                    password: props.dataUser.password,
-                    firstName: props.dataUser.firstName,
-                    lastName: props.dataUser.lastName,
-                    phonenumber: props.dataUser.phonenumber,
-                    roleId: props.dataUser.roleId,
-                    image: 'https://res.cloudinary.com/bingo2706/image/upload/v1642521841/dev_setups/l60Hf_blyqhb.png',
-                })
-                if (res && res.errCode === 0) {
-                    toast.success("Tạo tài khoản thành công")
-                    handleLogin(props.dataUser.phonenumber, props.dataUser.password)
-
-
-                } else {
-                    toast.error(res.errMessage)
-                }
-            }
-            createUser()
-
+            toast.success("Đã xác nhận mã OTP !")
+            props.recieveVerify(true)
             // ...
         }).catch((error) => {
             // User couldn't sign in (bad verification code?)
@@ -100,29 +79,6 @@ const Otp = (props) => {
     }
     let resendOTP = async () => {
         await onSignInSubmit()
-    }
-    let handleLogin = async (phonenumber, password) => {
-
-        let res = await handleLoginService({
-            phonenumber: phonenumber,
-            password: password
-        })
-
-        if (res && res.errCode === 0) {
-
-
-            localStorage.setItem("userData", JSON.stringify(res.user))
-            if (res.user.roleId === "ADMIN" || res.user.roleId === "EMPLOYER") {
-                window.location.href = "/admin/"
-
-            }
-            else {
-                window.location.href = "/"
-            }
-        }
-        else {
-            toast.error(res.errMessage)
-        }
     }
     return (
         <>
@@ -151,7 +107,7 @@ const Otp = (props) => {
                     </div>
                     <div className="mt-3 mb-5">
                         <div id="sign-in-button"></div>
-                        <button onClick={() => submitOTP()} className="btn btn-success px-4 verify-btn">verify</button>
+                        <button onClick={()=> submitOTP()} className="btn btn-success px-4 verify-btn">verify</button>
                     </div>
                 </div>
             </div>
@@ -161,4 +117,4 @@ const Otp = (props) => {
     )
 }
 
-export default Otp
+export default OtpForgetPassword

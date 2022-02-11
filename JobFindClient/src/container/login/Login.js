@@ -1,6 +1,7 @@
 import React from 'react'
 import { useEffect, useState } from 'react';
 import { useHistory } from "react-router";
+import {Link} from 'react-router-dom'
 import { handleLoginService } from '../../service/userService';
 import { toast } from 'react-toastify';
 const Login = () => {
@@ -67,7 +68,8 @@ const Login = () => {
                                                     Keep me signed in
                                                 </label>
                                             </div>
-                                            <a href="#" className="auth-link text-black">Forgot password?</a>
+                                            {/* <a href="#" className="auth-link text-black">Forgot password?</a> */}
+                                            <Link to="/forget-password" className="auth-link text-black">Forgot password?</Link>
                                         </div>
                                         <div className="mb-2">
                                             <button type="button" className="btn1 btn1-block btn1-facebook auth-form-btn1">

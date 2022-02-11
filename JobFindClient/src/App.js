@@ -20,6 +20,7 @@ import {
 import Otp from './container/login/Otp'
 import Login from './container/login/Login'
 import Register from './container/login/Register'
+import ForgetPassword from './container/login/ForgetPassword'
 import HomeCandidate from './container/Candidate/HomeCandidate'
 import ListCompany from './container/Company/ListCompany'
 import DetailCompany from './container/Company/DetailCompany'
@@ -90,7 +91,11 @@ function App() {
             <Register />
             <Footer />
           </Route>
-
+          <Route path="/forget-password">
+            <Header />
+            <ForgetPassword />
+            <Footer />
+          </Route>
 
 
           {/* <DetailPage /> */}
