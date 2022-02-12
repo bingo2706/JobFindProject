@@ -12,7 +12,7 @@ const OtpForgetPassword = (props) => {
     useEffect(() => {
         if (props.dataUser) {
             let fetchOtp = async () => {
-                await onSignInSubmit()
+                await onSignInSubmit(false)
             }
             fetchOtp()
 
@@ -33,7 +33,8 @@ const OtpForgetPassword = (props) => {
             defaultCountry: "VN"
         });
     }
-    let onSignInSubmit = async () => {
+    let onSignInSubmit = async (isResend) => {
+        if (!isResend)
         configureCaptcha()
         let phoneNumber = props.dataUser
         if (phoneNumber) {
@@ -73,7 +74,7 @@ const OtpForgetPassword = (props) => {
         });
     }
     let resendOTP = async () => {
-        await onSignInSubmit()
+        await onSignInSubmit(true)
     }
     return (
         <>
