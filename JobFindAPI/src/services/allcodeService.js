@@ -202,7 +202,7 @@ let getListJobTypeAndCountPost = async (data) => {
                 ],
                 attributes: ['category_job_id', [db.sequelize.fn('COUNT', db.sequelize.col('category_job_id')), 'amount']],
                 group: ['category_job_id'],
-                order: [["amount", "ASC"]],
+                order: [["amount", "DESC"]],
                 limit: +data.limit,
                 offset: +data.offset,
                 raw: true,

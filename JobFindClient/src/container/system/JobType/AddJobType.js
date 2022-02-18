@@ -140,7 +140,7 @@ const AddJobType = () => {
                                     <div className="form-group row">
                                         <label className="col-sm-3 col-form-label">Hình ảnh</label>
                                         <div className="col-sm-9">
-                                            <input onChange={(event) => handleOnChangeImage(event)} type="file" className="form-control form-file" />
+                                            <input onChange={(event) => handleOnChangeImage(event)} accept='image/*' type="file" className="form-control form-file" />
                                         </div>
                                     </div>
                                 </div>
