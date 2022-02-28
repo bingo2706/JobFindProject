@@ -6,7 +6,7 @@ import CommonUtils from '../../util/CommonUtils';
 import './modal.css'
 function SendCvModal(props) {
     const userData = JSON.parse(localStorage.getItem('userData'));
-    const [isLoading, setIsLoading] = useState(true)
+    const [isLoading, setIsLoading] = useState(false)
     const [inputValue, setInputValue] = useState({
         user_id: '', post_id: '', file: '', description: '', linkFile: ''
     })
