@@ -5,6 +5,7 @@ import { toast } from 'react-toastify'
 import SendCvModal from '../../components/modal/SendCvModal'
 import { getDetailPostByIdService } from '../../service/userService'
 import moment from 'moment';
+import CommonUtils from '../../util/CommonUtils';
 const JobDetail = () => {
     const { id } = useParams()
     const [isActiveModal, setAcitveModal] = useState(false)
@@ -27,11 +28,15 @@ const JobDetail = () => {
 
 
     const handleOpenModal = () => {
-        const userData = JSON.parse(localStorage.getItem('userData'));
-        if (userData)
-            setAcitveModal(true)
+        if (dataPost.time_end && CommonUtils.formatDate(dataPost.time_end) > 0) {
+            const userData = JSON.parse(localStorage.getItem('userData'));
+            if (userData)
+                setAcitveModal(true)
+            else
+                toast.error("Xin hãy đăng nhập để có thể thực hiện nộp CV")
+        }
         else
-            toast.error("Xin hãy đăng nhập để có thể thực hiện nộp CV")
+            toast.error("Hạn ứng tuyển đã hết")
     }
     return (
         <>
