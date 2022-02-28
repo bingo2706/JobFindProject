@@ -2,9 +2,10 @@ import React from 'react'
 import { getDetailCompanyById } from '../../service/userService';
 import './DetailCompany.scss';
 import { useEffect, useState } from 'react';
-import moment from 'moment';
 import { Link, useParams } from "react-router-dom";
 import { dateFormat } from '../../util/constant';
+import CommonUtils from '../../util/CommonUtils';
+import moment from 'moment';
 const DetailCompany = () => {
     const [dataCompany, setdataCompany] = useState({})
     const { id } = useParams();
@@ -22,18 +23,6 @@ const DetailCompany = () => {
 
         }
     }, [])
-
-    let formatDate = (time) => {
-        let a = moment.unix(new Date().getTime() / 1000).format('DD/MM/YYYY')
-        let b = moment.unix(time / 1000).format('DD/MM/YYYY')
-
-        var start = moment(b, "DD/MM/YYYY");
-        var end = moment(a, "DD/MM/YYYY");
-
-        //Difference in number of days
-
-        return (moment.duration(start.diff(end)).asDays())
-    }
 
 
 
@@ -106,7 +95,10 @@ const DetailCompany = () => {
                                                             </div>
                                                             <div className="mr-auto text-right">
                                                                 <p className="deadline">
-                                                                    {formatDate(item.time_end) <= 0 ? <div>Hết hạn ứng tuyển</div> : <div>Còn <strong>{formatDate(item.time_end)}</strong> ngày để ứng tuyển </div>}
+
+                                                                    {CommonUtils.formatDate(item.time_end) <= 0 ?
+                                                                        <div>Hết hạn ứng tuyển</div> : <div>Còn <strong>{CommonUtils.formatDate(item.time_end)}</strong> ngày để ứng tuyển </div>
+                                                                    }
                                                                 </p>
                                                             </div>
                                                         </div>

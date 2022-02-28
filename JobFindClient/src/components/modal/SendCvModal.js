@@ -68,13 +68,16 @@ function SendCvModal(props) {
                 <p className='text-center'>NỘP CV CỦA BẠN CHO NHÀ TUYỂN DỤNG</p>
                 <ModalBody>
                     Nhập lời giới thiệu gửi đến nhà tuyển dụng
+                    <div>
+                    <textarea placeholder='Giới thiệu sơ lược về bản thân để tăng sự yêu thích đối với nhà tuyển dụng' 
+                    name='description' className='mt-2' style={{ width: "100%" }} rows='5' onChange={(event) => handleChange(event)}></textarea>
 
-                    <input name='description' className='mt-2' style={{ height: "100px", width: "100%" }} onChange={(event) => handleChange(event)}></input>
-
-                    <input type="file" className='mt-2' onChange={(event) => handleOnChangeFile(event)}></input>
+                    <input type="file" className='mt-2' accept='.pdf,.doc,.docx'
+                    onChange={(event) => handleOnChangeFile(event)}></input>
                     {
                         inputValue.linkFile && <div><a href={inputValue.linkFile} style={{ color: 'blue' }} target='_blank'>Nhấn vào đây để xem lại CV của bạn </a></div>
                     }
+                    </div>
                 </ModalBody>
                 <ModalFooter style={{ justifyContent: 'space-between' }}>
                     <Button className='me-5' onClick={() => handleSendCV()}>
@@ -84,7 +87,7 @@ function SendCvModal(props) {
                     <Button onClick={() => {
                         setInputValue({
                             ...inputValue,
-                            ["user_id"]: '', ["post_id"]: '', ["file"]: '', ["description"]: ''
+                            ["user_id"]: '', ["post_id"]: '', ["file"]: '', ["description"]: '', ["linkFile"] : ''
                         })
                         props.onHide()
                     }}>

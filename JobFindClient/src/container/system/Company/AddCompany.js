@@ -197,7 +197,7 @@ const AddCompany = () => {
                                         <div className="form-group row">
                                             <label className="col-sm-3 col-form-label">Ảnh đại diện</label>
                                             <div className="col-sm-9">
-                                                <input name='image' onChange={(event) => handleOnChangeImage(event)} type="file" className="form-control form-file" />
+                                                <input name='image' onChange={(event) => handleOnChangeImage(event)} accept='image/*' type="file" className="form-control form-file" />
                                             </div>
                                         </div>
                                     </div>
@@ -215,7 +215,7 @@ const AddCompany = () => {
                                         <div className="form-group row">
                                             <label className="col-sm-3 col-form-label">Ảnh bìa</label>
                                             <div className="col-sm-9">
-                                                <input name='coverImage' onChange={(event) => handleOnChangeImage(event)} type="file" className="form-control form-file" />
+                                                <input name='coverImage' onChange={(event) => handleOnChangeImage(event)} accept='image/*' type="file" className="form-control form-file" />
                                             </div>
                                         </div>
                                     </div>
