@@ -1,11 +1,16 @@
 import React from 'react'
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import { checkUserPhoneService,changePasswordByphone,handleLoginService } from '../../service/userService';
+import { checkUserPhoneService, changePasswordByphone, handleLoginService } from '../../service/userService';
 import OtpForgetPassword from './OtpForgetPassword';
+import { Link } from 'react-router-dom';
+import handleValidate from '../../util/Validation';
 const ForgetPassword = () => {
+    const [inputValidates, setValidates] = useState({
+        phonenumber: true, newPassword: true, confirmPassword: true
+    })
     const [inputValues, setInputValues] = useState({
-        phonenumber: '', isOpen: false,isSuccess:false, newPassword:'', confirmPassword: '',
+        phonenumber: '', isOpen: false, isSuccess: false, newPassword: '', confirmPassword: '',
     });
 
     const handleOnChange = event => {
@@ -15,16 +20,28 @@ const ForgetPassword = () => {
     };
 
     let handleOpenVerifyOTP = async () => {
+        let checkPhone = handleValidate(inputValues.phonenumber, "phone")
+        if (!(checkPhone === true)) {
+            setValidates({
+                ...inputValidates,
+                phonenumber: checkPhone
+            })
+            return
+        }
         let res = await checkUserPhoneService(inputValues.phonenumber)
-        if (res === true) {    
-            setInputValues({...inputValues, ["isOpen"]: true})
-        } else {      
+        if (res === true) {
+            setInputValues({ ...inputValues, ["isOpen"]: true })
+        } else {
+            setValidates({
+                ...inputValidates,
+                phonenumber: true
+            })
             toast.error("Số điện thoại không tồn tại!")
         }
 
     }
-    const recieveVerify = (success) =>{
-        setInputValues({ ...inputValues, ["isOpen"]:false, ["isSuccess"]:true})
+    const recieveVerify = (success) => {
+        setInputValues({ ...inputValues, ["isOpen"]: false, ["isSuccess"]: true })
     }
     let handleLogin = async (phonenumber, password) => {
 
@@ -34,12 +51,9 @@ const ForgetPassword = () => {
         })
 
         if (res && res.errCode === 0) {
-
-
             localStorage.setItem("userData", JSON.stringify(res.user))
             if (res.user.roleId === "ADMIN" || res.user.roleId === "EMPLOYER") {
                 window.location.href = "/admin/"
-
             }
             else {
                 window.location.href = "/"
@@ -49,21 +63,31 @@ const ForgetPassword = () => {
             toast.error(res.errMessage)
         }
     }
-    let handleForgetPassword = async() =>{
-        if (inputValues.confirmPassword !== inputValues.newPassword) {
-            toast.error("Mật khẩu nhập lại không đúng")
+    let handleForgetPassword = async () => {
+        let checkNewPass = handleValidate(inputValues.newPassword, "password")
+        if (!(checkNewPass === true)) {
+            setValidates({
+                ...inputValidates,
+                newPassword: checkNewPass
+            })
+            if (inputValues.confirmPassword !== inputValues.newPassword) {
+                setValidates({
+                    ...inputValidates,
+                    confirmPassword: "Mật khẩu nhập lại không trùng"
+                })
+                return
+            }
             return
         }
-        console.log(inputValues.newPassword + " "+ inputValues.phonenumber)
         let res = await changePasswordByphone({
 
             phonenumber: inputValues.phonenumber,
             password: inputValues.newPassword,
         })
-        if(res && res.errCode === 0){
+        if (res && res.errCode === 0) {
             toast.success("Đổi mật khẩu thành công")
-            handleLogin(inputValues.phonenumber,inputValues.newPassword)
-        }else{
+            handleLogin(inputValues.phonenumber, inputValues.newPassword)
+        } else {
             toast.error(res.errMessage)
         }
 
@@ -78,34 +102,43 @@ const ForgetPassword = () => {
                                 <div className="col-lg-4 mx-auto">
                                     <div className="auth-form-light text-left py-5 px-4 px-sm-5">
                                         <div className="brand-logo">
-                                            <img src="/assetsAdmin/images/logo.svg" alt="logo" />
+                                            <img src="/assets/img/logo/logo.png" alt="logo" />
                                         </div>
-                                        <h4>New here?</h4>
-                                        <h6 className="font-weight-light">Signing up is easy. It only takes a few steps</h6>
+                                        <h4>Quên mật khẩu?</h4>
+                                        <h6 className="font-weight-light">Đừng lo! Khôi phục trong vài giây</h6>
                                         <form className="pt-3">
-                                            <div className="form-group">
-                                                <input type="number" value={inputValues.phonenumber} name="phonenumber" onChange={(event) => handleOnChange(event)} className="form-control form-control-lg" id="exampleInputEmail1" placeholder="Số điện thoại" />
-                                            </div>
-                                            {inputValues.isSuccess === true && 
+
+                                            {inputValues.isSuccess === true &&
                                                 <>
                                                     <div className="form-group">
                                                         <input type="password" value={inputValues.newPassword} name="newPassword" onChange={(event) => handleOnChange(event)} className="form-control form-control-lg" id="exampleInputPassword1" placeholder="Mật khẩu mới" />
-                                                    </div>    
+                                                        {inputValidates.newPassword && <p style={{ color: 'red' }}>{inputValidates.newPassword}</p>}
+                                                    </div>
                                                     <div className="form-group">
                                                         <input type="password" value={inputValues.confirmPassword} name="confirmPassword" onChange={(event) => handleOnChange(event)} className="form-control form-control-lg" id="exampleInputPassword1" placeholder="Xác nhận mật khẩu" />
+                                                        {inputValidates.confirmPassword && <p style={{ color: 'red' }}>{inputValidates.confirmPassword}</p>}
                                                     </div>
                                                     <div className="mt-3">
-                                                        <a onClick={() =>handleForgetPassword()} className="btn1 btn1-block btn1-primary1 btn1-lg font-weight-medium auth-form-btn1" >SIGN UP</a>
+                                                        <a onClick={() => handleForgetPassword()} className="btn1 btn1-block btn1-primary1 btn1-lg font-weight-medium auth-form-btn1" >Xác nhận</a>
                                                     </div>
                                                 </>
-                                            }   
-                                            {inputValues.isSuccess === false && 
-                                                <div className="mt-3">
-                                                    <a onClick={() => handleOpenVerifyOTP()} className="btn1 btn1-block btn1-primary1 btn1-lg font-weight-medium auth-form-btn1" >CONFIRM</a>
-                                                </div>                                          
-                                            }                        
+                                            }
+                                            {inputValues.isSuccess === false &&
+                                                <>
+                                                    <div className="form-group">
+                                                        <input type="number" value={inputValues.phonenumber} name="phonenumber" onChange={(event) => handleOnChange(event)} className="form-control form-control-lg" id="exampleInputEmail1" placeholder="Số điện thoại" />
+                                                        {inputValidates.phonenumber && <p style={{ color: 'red' }}>{inputValidates.phonenumber}</p>}
+                                                    </div>
+                                                    <div className="mt-3">
+                                                        <a onClick={() => handleOpenVerifyOTP()} className="btn1 btn1-block btn1-primary1 btn1-lg font-weight-medium auth-form-btn1" >Xác nhận</a>
+                                                    </div>
+                                                </>
+                                            }
                                             <div className="text-center mt-4 font-weight-light">
-                                                Already have an account? <a href="login.html" className="text-primary">Login</a>
+                                                Chưa có tài khoản? <Link to="/register" className="text-primary">Đăng ký</Link>
+                                                <br></br>
+                                                <br></br>
+                                                Đã có tài khoản? <Link to="/login" className="text-primary">Đăng nhập</Link>
                                             </div>
                                         </form>
                                     </div>
@@ -117,7 +150,7 @@ const ForgetPassword = () => {
                     {/* page-body-wrapper ends */}
                 </div>
             }
-             {inputValues.isOpen === true &&
+            {inputValues.isOpen === true &&
                 <OtpForgetPassword dataUser={inputValues.phonenumber} recieveVerify={recieveVerify} />
             }
         </>

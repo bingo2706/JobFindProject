@@ -47,16 +47,16 @@ const Login = () => {
                             <div className="col-lg-4 mx-auto">
                                 <div className="auth-form-light text-left py-5 px-4 px-sm-5">
                                     <div className="brand-logo">
-                                        <img src='/assetsAdmin/images/logo.svg' alt="logo" />
+                                        <img src='/assets/img/logo/logo.png' alt="logo" />
                                     </div>
-                                    <h4>Hello! let's get started</h4>
-                                    <h6 className="font-weight-light">Sign in to continue.</h6>
+                                    <h4>Chào bạn! Tham gia ứng tuyển ngay</h4>
+                                    <h6 className="font-weight-light">Đăng nhập để tiếp tục.</h6>
                                     <form className="pt-3">
                                         <div className="form-group">
-                                            <input type="number" value={inputValues.phonenumber} name="phonenumber" onChange={(event) => handleOnChange(event)} className="form-control form-control-lg" id="exampleInputEmail1" placeholder="Phonenumber" />
+                                            <input type="number" value={inputValues.phonenumber} name="phonenumber" onChange={(event) => handleOnChange(event)} className="form-control form-control-lg" id="exampleInputEmail1" placeholder="Số điện thoại" />
                                         </div>
                                         <div className="form-group">
-                                            <input type="password" value={inputValues.password} name="password" onChange={(event) => handleOnChange(event)} className="form-control form-control-lg" id="exampleInputPassword1" placeholder="Password" />
+                                            <input type="password" value={inputValues.password} name="password" onChange={(event) => handleOnChange(event)} className="form-control form-control-lg" id="exampleInputPassword1" placeholder="Mật khẩu" />
                                         </div>
                                         <div className="mt-3">
                                             <a onClick={() => handleLogin()} className="btn1 btn1-block btn1-primary1 btn1-lg font-weight-medium auth-form-btn1" >SIGN IN</a>
@@ -65,19 +65,15 @@ const Login = () => {
                                             <div className="form-check">
                                                 <label className="form-check-label text-muted">
                                                     <input type="checkbox" className="form-check-input" />
-                                                    Keep me signed in
+                                                    Ghi nhớ số điện thoại
                                                 </label>
                                             </div>
                                             {/* <a href="#" className="auth-link text-black">Forgot password?</a> */}
-                                            <Link to="/forget-password" className="auth-link text-black">Forgot password?</Link>
+                                            <Link to="/forget-password" className="auth-link text-black" style={{color: 'blue'}}>Quên mật khẩu?</Link>
                                         </div>
-                                        <div className="mb-2">
-                                            <button type="button" className="btn1 btn1-block btn1-facebook auth-form-btn1">
-                                                <i className="ti-facebook mr-2" />Connect using facebook
-                                            </button>
-                                        </div>
+                                       
                                         <div className="text-center mt-4 font-weight-light">
-                                            Don't have an account? <a href="register.html" className="text-primary">Create</a>
+                                            Không có tài khoản? <Link to="/register" className="text-primary">Tạo ngay</Link>
                                         </div>
                                     </form>
                                 </div>

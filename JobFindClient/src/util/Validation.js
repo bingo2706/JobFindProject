@@ -1,38 +1,37 @@
 // type
-// 1. name
-// 2. password
-// 3. email
-// 4. phonenumber
+// isEmpty. check empty
+// password. check password
+// email.check email
+// phone. check phonenumber
 
 // return 
-// 0. is null
-// 1. ok
-// 2. wrong type 
+// true. ok 
+// 2. type is wrong
 
 
-const passwordRegex = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])([a-zA-Z0-9]{8})$/  // min is 8 and without special char
+const passwordRegex = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])([a-zA-Z0-9]{6})$/  // min is 6 and without special char
 const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/  // format abc@abc
 const phoneRegex = /^\d{10}$/   // min 10 number
 const handleValidate = (data, type) => {
-    if (data === '' || data === null)
-        return 0
     var kq = ''
+    if (data === '' || data === null)
+        return kq = 'Không được để trống'
     switch (type) {
-        case 1:
-            return 1
-        case 2:
+        case "isEmpty":
+            return true
+        case "password":
             if (passwordRegex.test(data))
-                return 1
+                return true
             kq = 'Mật khẩu không có ký tự đặt biệt và 8 ký tự trở lên'
             return kq
-        case 3:
+        case "email":
             if (emailRegex.test(data))
-                return 1
+                return true
             kq = 'Email sai định dạng'
             return kq
-        case 4:
+        case "phone":
             if (phoneRegex.test(data))
-                return 1
+                return true
             kq = 'Số điện thoại cần 10 số'
             return kq
         default:

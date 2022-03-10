@@ -4,7 +4,12 @@ import { toast } from 'react-toastify';
 import { checkUserPhoneService } from '../../service/userService';
 import { useFetchAllcode } from '../../util/fetch';
 import Otp from './Otp';
+import handleValidate from '../../util/Validation';
+import {Link} from 'react-router-dom'
 const Register = () => {
+    const [inputValidates, setValidates] = useState({
+        phonenumber: true, password: true, firstName: true, lastName: true
+    })
     const [inputValues, setInputValues] = useState({
         phonenumber: '', firstName: '', lastName: '', password: '', isOpen: false, dataUser: {}, roleId: ''
     });
@@ -25,6 +30,16 @@ const Register = () => {
     };
 
     let handleOpenVerifyOTP = async () => {
+        let checkPhonenumber = handleValidate(inputValues.phonenumber, "phone")
+        let checkPassword = handleValidate(inputValues.password, "password")
+        let checkFirstName = handleValidate(inputValues.firstName, "isEmpty")
+        let checkLastName = handleValidate(inputValues.lastName, "isEmpty")
+        if (!(checkPhonenumber === true && checkPassword === true && checkFirstName === true && checkLastName === true)) {
+            setValidates({
+                phonenumber: checkPhonenumber, password: checkPassword, firstName: checkFirstName, lastName: checkLastName
+            })
+            return
+        }
         let res = await checkUserPhoneService(inputValues.phonenumber)
         if (res === true) {
             toast.error("Số điện thoại đã tồn tại !")
@@ -59,15 +74,19 @@ const Register = () => {
                                         <form className="pt-3">
                                             <div className="form-group">
                                                 <input type="text" value={inputValues.firstName} name="firstName" onChange={(event) => handleOnChange(event)} className="form-control form-control-lg" id="exampleInputUsername1" placeholder="Họ" />
+                                                {inputValidates.firstName && <p style={{color: 'red'}}>{inputValidates.firstName}</p>}
                                             </div>
                                             <div className="form-group">
                                                 <input type="text" value={inputValues.lastName} name="lastName" onChange={(event) => handleOnChange(event)} className="form-control form-control-lg" id="exampleInputUsername1" placeholder="Tên" />
+                                                {inputValidates.lastName && <p style={{color: 'red'}}>{inputValidates.lastName}</p>}
                                             </div>
                                             <div className="form-group">
                                                 <input type="number" value={inputValues.phonenumber} name="phonenumber" onChange={(event) => handleOnChange(event)} className="form-control form-control-lg" id="exampleInputEmail1" placeholder="Số điện thoại" />
+                                                {inputValidates.phonenumber && <p style={{color: 'red'}}>{inputValidates.phonenumber}</p>}
                                             </div>
                                             <div className="form-group">
                                                 <input type="password" value={inputValues.password} name="password" onChange={(event) => handleOnChange(event)} className="form-control form-control-lg" id="exampleInputPassword1" placeholder="Password" />
+                                                {inputValidates.password && <p style={{color: 'red'}}>{inputValidates.password}</p>}
                                             </div>
                                             <div className="form-group">
                                                 <select className="form-control" value={inputValues.roleId} name="roleId" onChange={(event) => handleOnChange(event)}>
@@ -87,7 +106,7 @@ const Register = () => {
                                                 <a onClick={() => handleOpenVerifyOTP()} className="btn1 btn1-block btn1-primary1 btn1-lg font-weight-medium auth-form-btn1" >SIGN UP</a>
                                             </div>
                                             <div className="text-center mt-4 font-weight-light">
-                                                Already have an account? <a href="login.html" className="text-primary">Login</a>
+                                                Already have an account? <Link to="/login" className="text-primary">Login</Link>
                                             </div>
                                         </form>
                                     </div>
