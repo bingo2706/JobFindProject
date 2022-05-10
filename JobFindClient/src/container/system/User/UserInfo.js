@@ -76,7 +76,7 @@ const UserInfo = () => {
         if (file) {
             let base64 = await CommonUtils.getBase64(file);
             let objectUrl = URL.createObjectURL(file)
-
+            console.log("base64 " + base64);
             setInputValues({ ...inputValues, ["image"]: base64, ["imageReview"]: objectUrl })
 
         }

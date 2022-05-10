@@ -144,6 +144,7 @@ let updateUserData = (data) => {
                     user.dob = data.dob
                     if (data.image) {
                         let imageUrl = ""
+                        console.log("base64 " + data.image);
                         const uploadedResponse = await cloudinary.uploader.upload(data.image, {
                             upload_preset: 'dev_setups'
                         })
@@ -169,22 +170,22 @@ let updateUserData = (data) => {
     })
 }
 let changePaswordByPhone = (data) => {
-    return new Promise(async(resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         try {
-                
-                let user = await db.User.findOne({
-                    where: { phonenumber: data.phonenumber},
-                    raw: false
-                })
-                if (user) {
-                    user.password = await hashUserPasswordFromBcrypt(data.password);
-                    await user.save();
-                }
-                resolve({
-                    errCode: 0,
-                    errMessage: 'ok'
-                })
-        }catch (error) {
+
+            let user = await db.User.findOne({
+                where: { phonenumber: data.phonenumber },
+                raw: false
+            })
+            if (user) {
+                user.password = await hashUserPasswordFromBcrypt(data.password);
+                await user.save();
+            }
+            resolve({
+                errCode: 0,
+                errMessage: 'ok'
+            })
+        } catch (error) {
             reject(error)
         }
     })
@@ -353,5 +354,5 @@ module.exports = {
     handleChangePassword: handleChangePassword,
     getAllUser: getAllUser,
     getDetailUserById: getDetailUserById,
-    checkUserPhone: checkUserPhone,changePaswordByPhone
+    checkUserPhone: checkUserPhone, changePaswordByPhone
 }
