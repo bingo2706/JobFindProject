@@ -231,6 +231,7 @@ let getDetailPostById = (id) => {
 let getFilterPost = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
+            console.log(typeof data.experience_job_id)
             let objectFilter = ''
             if (data.salary_job_id !== '' || data.category_worktype_id !== '' || data.experience_job_id !== '' || data.category_joblevel_id !== '') {
                 let querySalaryJob = ''
@@ -328,9 +329,44 @@ let getFilterPost = (data) => {
             reject(error)
         }
     })
-
-
 }
+
+let getStatisticalTypePost = (data) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let res = await db.Post.findAll({
+                where: {
+                    statusId: 'S1'
+                },
+                include: [
+                    { model: db.Allcode, as: 'jobTypeData', attributes: ['value'] },
+                ],
+                attributes: [[db.sequelize.fn('COUNT', db.sequelize.col('category_job_id')), 'amount']],
+                group: ['category_job_id'],
+                order: [["amount", "DESC"]],
+                limit: +data.limit,
+                raw: true,
+                nest: true
+            })
+
+            let totalPost = await db.Post.findAndCountAll({
+                where: {
+                    statusId: 'S1'
+                },
+            })
+            resolve({
+                errCode: 0,
+                data: res,
+                totalPost: totalPost.count
+            })
+        }
+        catch (error) {
+            reject(error)
+        }
+    })
+}
+
+
 module.exports = {
     handleCreateNewPost: handleCreateNewPost,
     handleUpdatePost: handleUpdatePost,
@@ -338,5 +374,6 @@ module.exports = {
     getListPostByAdmin: getListPostByAdmin,
     getDetailPostById: getDetailPostById,
     handleActivePost: handleActivePost,
-    getFilterPost: getFilterPost
+    getFilterPost: getFilterPost,
+    getStatisticalTypePost: getStatisticalTypePost,
 }
