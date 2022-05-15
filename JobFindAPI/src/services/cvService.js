@@ -40,11 +40,17 @@ let getAllListCvByPost = (data) => {
                     limit: +data.limit,
                     offset: +data.offset,
                     raw: true,
+                    attributes: {
+                        exclude: ['file']
+                    },
                 })
                 for (let i = 0; i < cv.rows.length; i++) {
                     cv.rows[i].userData = await db.User.findOne({
                         where: { id: cv.rows[i].user_id }
                     })
+                    if (cv.rows[i].isChecked == 1) {
+                        cv.rows[i].isChecked == true
+                    } else cv.rows[i].isChecked == false
                 }
                 resolve({
                     errCode: 0,

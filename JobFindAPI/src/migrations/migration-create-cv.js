@@ -19,7 +19,7 @@ module.exports = {
                 type: Sequelize.INTEGER
             },
             isChecked: {
-                type: Sequelize.BOOLEAN
+                type: Sequelize.INTEGER
             },
             description: {
                 type: Sequelize.STRING

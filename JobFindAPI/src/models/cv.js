@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
         user_id: DataTypes.INTEGER,
         file: DataTypes.BLOB('long'),
         post_id: DataTypes.INTEGER,
-        isChecked: DataTypes.BOOLEAN,
+        isChecked: DataTypes.INTEGER,
         description: DataTypes.STRING
     }, {
         sequelize,
