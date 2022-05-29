@@ -343,7 +343,7 @@ let getStatisticalTypePost = (data) => {
                 ],
                 attributes: [[db.sequelize.fn('COUNT', db.sequelize.col('category_job_id')), 'amount']],
                 group: ['category_job_id'],
-                order: [["amount", "DESC"]],
+                order: [["amount", "ASC"]],
                 limit: +data.limit,
                 raw: true,
                 nest: true

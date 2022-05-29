@@ -145,10 +145,14 @@ const getDetailPostByIdService = (id) => {
 const getListPostService = (data) => {
     return axios.get(`/api/get-filter-post?limit=${data.limit}&offset=${data.offset}&category_job_id=${data.category_job_id}&address_id=${data.address_id}&salary_job_id=${data.salary_job_id}&category_joblevel_id=${data.category_joblevel_id}&category_worktype_id=${data.category_worktype_id}&experience_job_id=${data.experience_job_id}&sortName=${data.sortName}`)
 }
+
+const getStatisticalTypePost = (limit) => {
+    return axios.get(`/api/get-statistical-post?limit=${limit}`)
+}
 export {
     DeleteAllcodeService, UpdateAllcodeService, getDetailAllcodeById, createAllCodeService, getListAllCodeService, getAllCodeService,
     getAllUsers, createNewUser, UpdateUserService, DeleteUserService, getDetailUserById, handleChangePassword, handleLoginService,
     createCompanyService, getDetailCompanyByUserId, updateCompanyService, RecruitmentService, getAllUserByCompanyIdService, QuitCompanyService,
     createPostService, updatePostService, banPostService, getAllPostByAdminService, getDetailPostByIdService, activePostService, checkUserPhoneService, getListPostService,
-    getListJobTypeAndCountPost, getListCompany, getDetailCompanyById,changePasswordByphone
+    getListJobTypeAndCountPost, getListCompany, getDetailCompanyById,changePasswordByphone,getStatisticalTypePost
 }
