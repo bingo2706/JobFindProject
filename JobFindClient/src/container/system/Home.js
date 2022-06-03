@@ -42,7 +42,7 @@ const Home = () => {
                     <div className="row">
                         <div className="col-12 col-xl-8 mb-4 mb-xl-0">
                             <h3 className="font-weight-bold">Xin chào {user.firstName + " " + user.lastName}</h3>
-                            <h3 style={{ textTransform: "uppercase" }} className="font-weight-normal mb-0">Biểu đồ thống kê top 4 lĩnh vực</h3>
+                            <h3 style={{ textTransform: "uppercase" }} className="font-weight-normal mb-0">Biểu đồ thống kê top lĩnh vực</h3>
                         </div>
 
                     </div>
@@ -57,7 +57,7 @@ const Home = () => {
 
                                 <div style={{ marginBottom: "10px" }}>
                                     <div style={{ width: "50px", backgroundColor: item.color, height: "20px" }}></div>
-                                    <span>{item.title} với số lượng bài viết : {item.amount}</span>
+                                    <span>{item.title}: {item.amount} bài</span>
                                 </div>
 
                             )
