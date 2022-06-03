@@ -36,7 +36,7 @@ const Otp = (props) => {
     }
     let onSignInSubmit = async (isResend) => {
         if (!isResend)
-        configureCaptcha()
+            configureCaptcha()
         let phoneNumber = props.dataUser.phonenumber
         if (phoneNumber) {
             phoneNumber = "+84" + phoneNumber.slice(1);
@@ -126,9 +126,9 @@ const Otp = (props) => {
                 <div className="card text-center">
                     <div className="card-header p-5">
                         <img src="https://raw.githubusercontent.com/Rustcodeweb/OTP-Verification-Card-Design/main/mobile.png" />
-                        <h5 style={{ color: '#fff' }} className="mb-2">OTP VERIFICATION</h5>
+                        <h5 style={{ color: '#fff' }} className="mb-2">XÁC THỰC OTP</h5>
                         <div>
-                            <small>code has been send to {props.dataUser && props.dataUser.phonenumber}</small>
+                            <small>mã đã được gửi tới sdt {props.dataUser && props.dataUser.phonenumber}</small>
                         </div>
                     </div>
                     <div className="input-container d-flex flex-row justify-content-center mt-2">
@@ -141,13 +141,13 @@ const Otp = (props) => {
                     </div>
                     <div>
                         <small>
-                            didn't get the otp
-                            <a onClick={() => resendOTP()} style={{ color: '#3366FF' }} className="text-decoration-none ml-2">Resend</a>
+                            bạn không nhận được Otp ?
+                            <a onClick={() => resendOTP()} style={{ color: '#3366FF' }} className="text-decoration-none ml-2">Gửi lại</a>
                         </small>
                     </div>
                     <div className="mt-3 mb-5">
                         <div id="sign-in-button"></div>
-                        <button onClick={() => submitOTP()} className="btn btn-success px-4 verify-btn">verify</button>
+                        <button onClick={() => submitOTP()} className="btn btn-success px-4 verify-btn">Xác thực</button>
                     </div>
                 </div>
             </div>

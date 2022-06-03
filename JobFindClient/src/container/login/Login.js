@@ -1,7 +1,7 @@
 import React from 'react'
 import { useEffect, useState } from 'react';
 import { useHistory } from "react-router";
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { handleLoginService } from '../../service/userService';
 import { toast } from 'react-toastify';
 const Login = () => {
@@ -59,7 +59,7 @@ const Login = () => {
                                             <input type="password" value={inputValues.password} name="password" onChange={(event) => handleOnChange(event)} className="form-control form-control-lg" id="exampleInputPassword1" placeholder="Mật khẩu" />
                                         </div>
                                         <div className="mt-3">
-                                            <a onClick={() => handleLogin()} className="btn1 btn1-block btn1-primary1 btn1-lg font-weight-medium auth-form-btn1" >SIGN IN</a>
+                                            <a onClick={() => handleLogin()} className="btn1 btn1-block btn1-primary1 btn1-lg font-weight-medium auth-form-btn1" >Đăng nhập</a>
                                         </div>
                                         <div className="my-2 d-flex justify-content-between align-items-center">
                                             <div className="form-check">
@@ -69,9 +69,9 @@ const Login = () => {
                                                 </label>
                                             </div>
                                             {/* <a href="#" className="auth-link text-black">Forgot password?</a> */}
-                                            <Link to="/forget-password" className="auth-link text-black" style={{color: 'blue'}}>Quên mật khẩu?</Link>
+                                            <Link to="/forget-password" className="auth-link text-black" style={{ color: 'blue' }}>Quên mật khẩu?</Link>
                                         </div>
-                                       
+
                                         <div className="text-center mt-4 font-weight-light">
                                             Không có tài khoản? <Link to="/register" className="text-primary">Tạo ngay</Link>
                                         </div>

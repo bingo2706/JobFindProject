@@ -39,11 +39,11 @@ const JobPage = () => {
     }
 
     useEffect(() => {
-        let fetchPost = async() =>{
-            await loadPost(limit,offset,false)
+        let fetchPost = async () => {
+            await loadPost(limit, offset, false)
         }
         fetchPost();
-    },[])
+    }, [])
 
     const recieveWorkType = (data) => {
         setWorkType(prev => {
@@ -126,7 +126,7 @@ const JobPage = () => {
                             <div class="row">
                                 <div class="col-xl-12">
                                     <div class="hero-cap text-center">
-                                        <h2>Get your job</h2>
+                                        <h2>Tìm việc</h2>
                                     </div>
                                 </div>
                             </div>
@@ -151,7 +151,7 @@ const JobPage = () => {
                                                     d="M7.778,12.000 L12.222,12.000 L12.222,10.000 L7.778,10.000 L7.778,12.000 ZM-0.000,-0.000 L-0.000,2.000 L20.000,2.000 L20.000,-0.000 L-0.000,-0.000 ZM3.333,7.000 L16.667,7.000 L16.667,5.000 L3.333,5.000 L3.333,7.000 Z" />
                                             </svg>
                                             </div>
-                                            <h4>Filter Jobs</h4>
+                                            <h4>Lọc công việc</h4>
                                         </div>
                                     </div>
                                 </div>

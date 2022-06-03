@@ -44,7 +44,7 @@ const Header = () => {
                                                     <li ><NavLink to="/" isActive={() => window.scrollTo(0, 0)}>Trang chủ</NavLink></li>
                                                     <li ><NavLink to="/job" isActive={() => window.scrollTo(0, 0)}>Việc làm </NavLink></li>
                                                     <li ><NavLink to="/company" isActive={() => window.scrollTo(0, 0)}>Công ty </NavLink></li>
-                                                    <li ><NavLink to="/about" isActive={() => window.scrollTo(0, 0)}>Giới thiệu</NavLink></li>
+                                                    <li ><NavLink to="#" isActive={() => window.scrollTo(0, 0)}>Giới thiệu</NavLink></li>
                                                     {/* <li><NavLink to="/contact" >Contact</NavLink></li> */}
                                                 </ul>
                                             </nav>
@@ -85,8 +85,8 @@ const Header = () => {
                                                 </ul>
                                                 :
                                                 <>
-                                                    <Link to={'/register'} class="btn head-btn1">Register</Link>
-                                                    <Link to={'/login'} class="btn head-btn2">Login</Link>
+                                                    <Link to={'/register'} class="btn head-btn1">Đăng kí</Link>
+                                                    <Link to={'/login'} class="btn head-btn2">Đăng nhập</Link>
                                                 </>
                                             }
 

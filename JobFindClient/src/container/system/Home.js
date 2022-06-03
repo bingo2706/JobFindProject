@@ -5,20 +5,27 @@ import { getStatisticalTypePost } from '../../service/userService';
 import { PieChart } from 'react-minimal-pie-chart';
 const Home = () => {
     const [user, setUser] = useState({})
+
     const [dataStatisticalTypePost, setDataStatisticalTypePost] = useState([])
     const getData = async (limit) => {
         let res = await getStatisticalTypePost(limit)
-        console.log(res)
-        let color = ['red', 'yellow', 'green', 'blue']
+        let other = res.totalPost
+        let otherPercent = 100
+        let color = ['red', 'yellow', 'green', 'blue', 'orange']
         if (res.errCode === 0) {
             let newdata = res.data.map((item, index) => {
+                other -= item.amount
+                otherPercent -= Math.round((item.amount / res.totalPost * 100) * 100) / 100
                 return {
                     title: item.jobTypeData.value,
-                    value: item.amount / res.totalPost * 100,
+                    value: Math.round((item.amount / res.totalPost * 100) * 100) / 100,
                     color: color[index],
                     amount: item.amount
                 }
             })
+            if (other > 0) {
+                newdata.push({ title: "Lĩnh vực khác", value: Math.round(otherPercent * 100) / 100, color: color[4], amount: other })
+            }
             setDataStatisticalTypePost(newdata)
         }
         else toast.error(res.message)
@@ -67,7 +74,7 @@ const Home = () => {
                                 dy={dy}
                                 dominant-baseline="central"
                                 text-anchor="center"
-                                style={{fontSize:'10px'}}
+                                style={{ fontSize: '6px' }}
                             >
                                 {`${dataEntry.value}%`}
 
