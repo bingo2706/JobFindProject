@@ -68,13 +68,13 @@ const Home = () => {
                     <PieChart
                         label={({ x, y, dx, dy, dataEntry }) => (
                             <text
-                                x={x}
+                                x={x-5}
                                 y={y}
                                 dx={dx}
                                 dy={dy}
                                 dominant-baseline="central"
                                 text-anchor="center"
-                                style={{ fontSize: '6px' }}
+                                style={{ fontSize: '4px' }}
                             >
                                 {`${dataEntry.value}%`}
 
