@@ -7,11 +7,14 @@ import ReactPaginate from 'react-paginate';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 const ManageUser = () => {
-
+    const [user, setUser] = useState({})
     const [dataUser, setdataUser] = useState([]);
     const [count, setCount] = useState('')
     const [numberPage, setnumberPage] = useState('')
     let fetchAllUser = async () => {
+        const userData = JSON.parse(localStorage.getItem('userData'));
+        setUser(userData)
+
         let res = await getAllUsers({
             limit: PAGINATION.pagerow,
             offset: 0
@@ -111,7 +114,7 @@ const ManageUser = () => {
                                                     <td>
                                                         <Link style={{ color: '#4B49AC' }} to={`/admin/edit-user/${item.id}/`}>Edit</Link>
                                                         &nbsp; &nbsp;
-                                                        <a style={{ color: '#4B49AC' }} href="#" onClick={(event) => handleDeleteUser(event, item.id)} >Delete</a>
+                                                       {user.id != item.id &&  <a style={{ color: '#4B49AC' }} href="#" onClick={(event) => handleDeleteUser(event, item.id)} >Delete</a>}
                                                     </td>
                                                 </tr>
                                             )

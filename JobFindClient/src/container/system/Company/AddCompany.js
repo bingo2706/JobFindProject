@@ -61,10 +61,11 @@ const AddCompany = () => {
         if (file) {
             let base64 = await CommonUtils.getBase64(file);
             let objectUrl = URL.createObjectURL(file)
-
+            console.log(base64)
             setInputValues({ ...inputValues, [name]: base64, [`${name}Review`]: objectUrl })
 
         }
+
     }
     let openPreviewImage = () => {
         if (!inputValues.imageReview) return;

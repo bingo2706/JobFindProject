@@ -120,7 +120,7 @@ const ManageEmployer = () => {
                                                     <td>{item.roleData.value}</td>
                                                     <td><label className={item.statusId === 'S1' ? 'badge badge-success' : 'badge badge-danger'}>{item.statusData.value}</label></td>
                                                     <td>
-                                                        <a onClick={() => handleQuitCompany(item.id)} style={{ color: '#4B49AC', cursor: 'pointer' }} >Thôi việc</a>
+                                                       {user.id != item.id &&  <a onClick={() => handleQuitCompany(item.id)} style={{ color: '#4B49AC', cursor: 'pointer' }} >Thôi việc</a>}
                                                         &nbsp; &nbsp;
 
                                                     </td>

@@ -176,14 +176,26 @@ let handleAddUserCompany = (data) => {
                         },
                         raw: false
                     })
-                    if (user) {
+                    if(user.roleId != 'EMPLOYER'){
+                        resolve({
+                            errCode: 1,
+                            errMessage: 'Tài khoản không có quyền là nhà tuyển dụng'
+                        })
+                    }else if(user.company_id >0){
+                        resolve({
+                            errCode: 3,
+                            errMessage: 'Nhân viên đã có công ty'
+                        })  
+                    }
+                    else {
                         user.company_id = data.companyId
                         await user.save()
+                        resolve({
+                            errCode: 0,
+                            errMessage: 'ok'
+                        })
                     }
-                    resolve({
-                        errCode: 0,
-                        errMessage: 'ok'
-                    })
+                    
                 } else {
                     resolve({
                         errCode: 2,
